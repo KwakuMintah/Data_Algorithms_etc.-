@@ -1,0 +1,49 @@
+// ComplexMultiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//Complex library found using geeksforgeeks.org
+//Sin and Cos functions found using Programiz.com
+
+#include <iostream>
+#include <string>
+#include <complex>
+#include <cmath>
+using namespace std;
+
+std::complex<double> compOne(10.0, 2.0);
+std::complex<double> compTwo(5.0, 1.0);
+
+/*
+void multiplyFunction() {
+	float productA = real(complexOne) * real(complexTwo);
+	float productB = imag(complexOne) * imag(complexTwo);
+	float productC = imag(complexOne) * real(complexTwo);
+	float productD = imag(complexTwo) * real(complexOne);
+	float realProduct = productA - productB;
+	float imagProduct = productC + productD;
+	std::complex<double> complexProduct(realProduct, imagProduct);
+	std::cout << real(complexProduct) << "\n";
+	std::cout << imag(complexProduct) << "\n";
+};
+*/
+
+void multiplyPolar() {
+	float modOne = abs(compOne);
+	float modTwo = abs(compTwo);
+	float thetaOne = arg(compOne);
+	float thetaTwo = arg(compTwo);
+	float modProd = modOne * modTwo;
+	//float threst = (cos(thetaOne + thetaTwo) + sin(thetaOne + thetaTwo));
+	//float threstTan = atan(threst);
+	float theCos = cos(thetaOne + thetaTwo);
+	float theSin = sin(thetaOne + thetaTwo);
+	float prodReal = modProd * theCos;
+	float prodImag = modProd * theSin;
+	std::complex<double> compProd(prodReal, prodImag);
+	std::cout << real(compProd) << "\n";
+	std::cout << imag(compProd) << "\n";
+};
+
+
+int main() {
+	multiplyPolar();
+}
+
