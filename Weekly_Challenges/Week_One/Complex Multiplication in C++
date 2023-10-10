@@ -1,29 +1,29 @@
 // ComplexMultiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //Complex library found using geeksforgeeks.org
 //Sin and Cos functions found using Programiz.com
+//Time library found using geeksforgeeks.org
 
 #include <iostream>
 #include <string>
 #include <complex>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 std::complex<double> compOne(10.0, 2.0);
 std::complex<double> compTwo(5.0, 1.0);
 
-/*
 void multiplyFunction() {
-	float productA = real(complexOne) * real(complexTwo);
-	float productB = imag(complexOne) * imag(complexTwo);
-	float productC = imag(complexOne) * real(complexTwo);
-	float productD = imag(complexTwo) * real(complexOne);
+	float productA = real(compOne) * real(compTwo);
+	float productB = imag(compOne) * imag(compTwo);
+	float productC = imag(compOne) * real(compTwo);
+	float productD = imag(compTwo) * real(compOne);
 	float realProduct = productA - productB;
 	float imagProduct = productC + productD;
 	std::complex<double> complexProduct(realProduct, imagProduct);
 	std::cout << real(complexProduct) << "\n";
 	std::cout << imag(complexProduct) << "\n";
 };
-*/
 
 void multiplyPolar() {
 	float modOne = abs(compOne);
@@ -42,8 +42,14 @@ void multiplyPolar() {
 	std::cout << imag(compProd) << "\n";
 };
 
-
 int main() {
+	//The time function seems to keep outputting zero, even with a for loop introduced.
+	time_t start, end;
+	time(&start);
+	ios_base::sync_with_stdio(false);
 	multiplyPolar();
+	time(&end);
+	float timeElapsed = end - start;
+	std::cout << fixed << timeElapsed << std::setprecision(10) << "\n";
 }
 
