@@ -1,1 +1,78 @@
+// Matrix Multiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//Matrix initialization from digitalocean.com
+
+#include <iostream>
+using namespace std;
+
+int matOne[2][2] = {
+    {1,2},
+    {3,4}
+};
+
+int matTwo[2][2] = {
+    {5,6},
+    {7,8}
+};
+
+void naiveMethod() {
+    float C11 = (matOne[0][0] * matTwo[0][0]) + (matOne[0][1] * matTwo[1][0]);
+    float C12 = (matOne[0][0] * matTwo[0][1]) + (matOne[0][1] * matTwo[1][1]);
+    float C21 = (matOne[1][0] * matTwo[0][0]) + (matOne[1][1] * matTwo[1][0]);
+    float C22 = (matOne[1][0] * matTwo[0][1]) + (matOne[1][1] * matTwo[1][1]);
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+void strassenAlgorithm() {
+    float multOne = (matOne[0][0] + matOne[1][1]) * (matTwo[0][0] + matTwo[1][1]);
+    float multTwo = (matOne[1][0] + matOne[1][1]) * matTwo[0][0];
+    float multThree = (matTwo[0][1] - matTwo[1][1]) * matOne[0][0];
+    float multFour = (matTwo[1][0] - matTwo[0][0]) * matOne[1][1];
+    float multFive = (matOne[0][0] + matOne[0][1]) * matTwo[1][1];
+    float multSix = (matOne[1][0] - matOne[0][0]) * (matTwo[0][0] + matTwo[0][1]);
+    float multSev = (matOne[0][1] - matOne[1][1]) * (matTwo[1][0] + matTwo[1][1]);
+
+    float C11 = multOne + multFour - multFive + multSev;
+    float C12 = multThree + multFive;
+    float C21 = multTwo + multFour;
+    float C22 = multOne - multTwo + multThree + multSix;
+
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    /*
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matOne[i][j] << "\n";
+        }; 
+    };
+    */
+
+    //naiveMethod();
+    strassenAlgorithm();
+
+}
+
 
