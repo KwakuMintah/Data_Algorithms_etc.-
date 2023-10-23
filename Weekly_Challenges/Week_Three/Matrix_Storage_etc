@@ -1,0 +1,28 @@
+// Matrix_Storage_&_1D.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello World!\n";
+}
+
+class DoubleMatrix {
+public:
+    float matOne;
+    float matTwo;
+        void matrixAddition()
+};
+
+DoubleMatrix.matOne = { 1.0, 2.0, 3.0, 4.0 };
+DoubleMatrix.matTwo = { 5.0, 6.0, 7.0, 8.0 };
+
+void DoubleMatrix::matrixAddition() {
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            matThree[i][j] = matOne[i][j] + matTwo[i][j];
+        };
+    };
+};
