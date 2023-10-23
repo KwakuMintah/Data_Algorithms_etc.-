@@ -1,20 +1,40 @@
 // Matrix Multiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //Matrix initialization from digitalocean.com
+//Time method from levelup.gitconnected.com
 
 #include <iostream>
-using namespace std;
+#include <iomanip>
+#include <stdlib.h>
+#include <windows.h>
+#include <vector>
+
 
 int matOne[2][2] = {
     {1,2},
     {3,4}
-};
+    };
+
 
 int matTwo[2][2] = {
     {5,6},
     {7,8}
 };
 
+double cpuTime() {
+    FILETIME a, b, c, d;
+    if (GetProcessTimes(GetCurrentProcess(), &a, &b, &c, &d) != 0) {
+        return
+            (double)(d.dwLowDateTime);
+                ((unsigned long long)d.dwHighDateTime << 32) * 0.0000001;
+    }
+    else {
+        return 0;
+    };
+};
+
 void naiveMethod() {
+    double begin = cpuTime();
+
     float C11 = (matOne[0][0] * matTwo[0][0]) + (matOne[0][1] * matTwo[1][0]);
     float C12 = (matOne[0][0] * matTwo[0][1]) + (matOne[0][1] * matTwo[1][1]);
     float C21 = (matOne[1][0] * matTwo[0][0]) + (matOne[1][1] * matTwo[1][0]);
@@ -23,6 +43,11 @@ void naiveMethod() {
         {C11, C12},
         {C21, C22}
     };
+
+    double end = cpuTime();
+    double elapsed = (end - begin);
+    std::cout << std::setprecision(10) << elapsed << "\n";
+
     int i, j;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
@@ -31,7 +56,25 @@ void naiveMethod() {
     };
 };
 
+//There is an error on the last line of the loop which hinders the whole function.
+void naiveLoop() {
+    int matThree[2][2] = {
+        {0, 0},
+        {0, 0}
+    };
+
+    int i,j, k ;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            for (k = 0; k < 2; k++) {
+                int matThree[i][j] += matOne[i][k] * matTwo[k][j];
+            };
+        };
+    };
+};
+
 void strassenAlgorithm() {
+    double beginStras = cpuTime();
     float multOne = (matOne[0][0] + matOne[1][1]) * (matTwo[0][0] + matTwo[1][1]);
     float multTwo = (matOne[1][0] + matOne[1][1]) * matTwo[0][0];
     float multThree = (matTwo[0][1] - matTwo[1][1]) * matOne[0][0];
@@ -44,6 +87,11 @@ void strassenAlgorithm() {
     float C12 = multThree + multFive;
     float C21 = multTwo + multFour;
     float C22 = multOne - multTwo + multThree + multSix;
+
+
+    double endStras = cpuTime();
+    double elapsedStras = (endStras - beginStras);
+    std::cout << std::setprecision(10) << elapsedStras << "\n";
 
     int matThree[2][2] = {
         {C11, C12},
@@ -66,13 +114,14 @@ int main()
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             std::cout << matOne[i][j] << "\n";
+            std::cout << matTwo[i][j] << "\n";
         }; 
     };
     */
 
-    //naiveMethod();
+    naiveMethod();
+
     strassenAlgorithm();
 
 }
-
 
