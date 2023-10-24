@@ -19,7 +19,6 @@ int matTwo[2][2] = {
     {7,8}
 };
 
-// Currently only outputs zero
 double cpuTime() {
     FILETIME a, b, c, d;
     if (GetProcessTimes(GetCurrentProcess(), &a, &b, &c, &d) != 0) {
@@ -58,38 +57,30 @@ void naiveMethod() {
 
 void naiveLoop() {
     
-    float C11 = 0;
-    float C12 = 0;
-    float C21 = 0;
-    float C22 = 0;
     int matThree[2][2] = {
-        {C11, C12},
-        {C21, C22}
+        {0, 0},
+        {0, 0}
     };
-
-
 
     int i,j, k ;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-// The algorithm as intended did not seem to work within the loop so I had to alter it.
             for (k = 0; k < 1; k++) {
                 int Ca = matOne[i][k] * matTwo[k][j];
                 int Cb = matOne[i][k+1] * matTwo[k+1][j];
                 int Cij = Ca + Cb;
-                std::cout << Cij << "\n";
+                matThree[i][j] = Cij;
             };
         };
     };
 
-    /*
+    
     int a, b;
     for (a = 0; a < 2; a++) {
         for (b = 0; b < 2; b++) {
             std::cout << matThree[a][b] << "\n";
         };
     };
-    */
 
 };
 
