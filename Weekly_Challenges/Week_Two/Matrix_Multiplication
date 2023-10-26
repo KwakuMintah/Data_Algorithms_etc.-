@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
+const int size = 4;
 
 int matOne[2][2] = {
     {1,2},
@@ -17,6 +18,25 @@ int matOne[2][2] = {
 int matTwo[2][2] = {
     {5,6},
     {7,8}
+};
+
+int matThree[size][size] = {
+        {0, 0},
+        {0, 0}
+};
+
+int matA[4][4] = {
+    {1,2,3,4},
+    {3,4,1,2},
+    {2,1,4,3},
+    {4,3,2,1}
+};
+
+int matB[4][4] = {
+    {5,6,7,8},
+    {7,8,5,6},
+    {6,5,8,7},
+    {8,7,6,5}
 };
 
 double cpuTime() {
@@ -56,33 +76,58 @@ void naiveMethod() {
 };
 
 void naiveLoop() {
-    
-    int matThree[2][2] = {
-        {0, 0},
-        {0, 0}
-    };
 
-    int i,j, k ;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            for (k = 0; k < 1; k++) {
-                int Ca = matOne[i][k] * matTwo[k][j];
-                int Cb = matOne[i][k+1] * matTwo[k+1][j];
-                int Cij = Ca + Cb;
-                matThree[i][j] = Cij;
+    int i, j, k ;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
+                matThree[i][j] += matA[i][k] * matB[k][j];
             };
         };
     };
 
-    
     int a, b;
-    for (a = 0; a < 2; a++) {
-        for (b = 0; b < 2; b++) {
+    for (a = 0; a < size; a++) {
+        for (b = 0; b < size; b++) {
             std::cout << matThree[a][b] << "\n";
         };
     };
 
 };
+
+/*
+void naiveLoopPower() {
+    
+    const int size = 4;
+    const int sma = size - 1;
+    int Cij = 0;
+
+    int matThree[size][size] = {
+        {0, 0},
+        {0, 0}
+    };
+    
+
+    int i, j, k, l;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
+                Cij += matA[i][k] * matB[k][j];
+                matThree[i][j] = Cij;
+            };
+        };
+    };
+
+
+    int a, b;
+    for (a = 0; a < size; a++) {
+        for (b = 0; b < size; b++) {
+            std::cout << matThree[a][b] << "\n";
+        };
+    };
+
+};
+*/
 
 void strassenAlgorithm() {
     double beginStras = cpuTime();
@@ -135,6 +180,9 @@ int main()
     //strassenAlgorithm();
 
     naiveLoop();
+
+    //naiveLoopPower(); --> This was an old function that I merged into the
+    //naiveloop function when I realised it wasn't needed anymore.
 
 }
 
