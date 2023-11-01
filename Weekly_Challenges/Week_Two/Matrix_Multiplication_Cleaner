@@ -1,0 +1,121 @@
+// Matrix Multiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Matrix initialization from digitalocean.com
+// Time method from levelup.gitconnected.com
+
+#include <iostream>
+#include <iomanip>
+#include <stdlib.h>
+#include <windows.h>
+
+const int size = 4;
+
+int matThree[size][size] = {
+    {0, 0},
+    {0, 0}
+};
+
+int matOne[2][2] = {
+    {1,2},
+    {3,4}
+};
+
+int matTwo[2][2] = {
+    {5,6},
+    {7,8}
+};
+
+int matA[4][4] = {
+    {1,2,3,4},
+    {3,4,1,2},
+    {2,1,4,3},
+    {4,3,2,1}
+};
+
+int matB[4][4] = {
+    {5,6,7,8},
+    {7,8,5,6},
+    {6,5,8,7},
+    {8,7,6,5}
+};
+
+void naiveMethod() {
+
+    float C11 = (matOne[0][0] * matTwo[0][0]) + (matOne[0][1] * matTwo[1][0]);
+    float C12 = (matOne[0][0] * matTwo[0][1]) + (matOne[0][1] * matTwo[1][1]);
+    float C21 = (matOne[1][0] * matTwo[0][0]) + (matOne[1][1] * matTwo[1][0]);
+    float C22 = (matOne[1][0] * matTwo[0][1]) + (matOne[1][1] * matTwo[1][1]);
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+void strassenAlgorithm() {
+
+    float multOne = (matOne[0][0] + matOne[1][1]) * (matTwo[0][0] + matTwo[1][1]);
+    float multTwo = (matOne[1][0] + matOne[1][1]) * matTwo[0][0];
+    float multThree = (matTwo[0][1] - matTwo[1][1]) * matOne[0][0];
+    float multFour = (matTwo[1][0] - matTwo[0][0]) * matOne[1][1];
+    float multFive = (matOne[0][0] + matOne[0][1]) * matTwo[1][1];
+    float multSix = (matOne[1][0] - matOne[0][0]) * (matTwo[0][0] + matTwo[0][1]);
+    float multSev = (matOne[0][1] - matOne[1][1]) * (matTwo[1][0] + matTwo[1][1]);
+
+    float C11 = multOne + multFour - multFive + multSev;
+    float C12 = multThree + multFive;
+    float C21 = multTwo + multFour;
+    float C22 = multOne - multTwo + multThree + multSix;
+
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+void naiveLoop() {
+
+    int i, j, k ;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
+                matThree[i][j] += matA[i][k] * matB[k][j];
+            };
+        };
+    };
+
+    int a, b;
+    for (a = 0; a < size; a++) {
+        for (b = 0; b < size; b++) {
+            std::cout << matThree[a][b] << "\n";
+        };
+    };
+
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    //naiveMethod();
+
+    //strassenAlgorithm();
+
+    naiveLoop();
+
+    //naiveLoopPower(); --> This was an old function that I merged into the
+    //naiveloop function when I realised it wasn't needed anymore.
+
+}
+
