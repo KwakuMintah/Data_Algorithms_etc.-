@@ -3,26 +3,55 @@
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello World!\n";
-}
 
 class DoubleMatrix {
 public:
-    float matOne;
-    float matTwo;
-        void matrixAddition()
+    int size;
+    int onedMatrix[1];
+    void initialisation();
+    void multiplyMatrix();
+
 };
 
-DoubleMatrix.matOne = { 1.0, 2.0, 3.0, 4.0 };
-DoubleMatrix.matTwo = { 5.0, 6.0, 7.0, 8.0 };
+void DoubleMatrix::initialisation() {
+    DoubleMatrix matOne;
+    matOne.onedMatrix[dimensions * dimensions];
+    DoubleMatrix matThree;
+    matThree.onedMatrix[dimensions * dimensions];
 
-void DoubleMatrix::matrixAddition() {
-    int i, j;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            matThree[i][j] = matOne[i][j] + matTwo[i][j];
+};
+
+void DoubleMatrix::multiplyMatrix() {
+
+    DoubleMatrix dimensions;
+    dimensions.size = 2;
+    DoubleMatrix matOne;
+    matOne.onedMatrix[4] = { 1.0, 2.0, 3.0, 4.0 }
+    DoubleMatrix matTwo;
+    matTwo.onedMatrix[4] = { 1, 2, 3, 4 };
+    DoubleMatrix matThree;
+    matThree.onedMatrix[4] = {};
+
+    int i, j, k;
+    for (i = 0; i < dimensions; i++) {
+        for (j = 0; j < dimensions; j++) {
+            for (k = 0; k < dimensions; k++) {
+                matThree[i][j] += matOne[i][k] * matTwo[k][j];
+            };
+        };
+    };
+
+    int a, b;
+    for (a = 0; a < dimensions; a++) {
+        for (b = 0; b < dimensions; b++) {
+            std::cout << matThree[a][b] << "\n";
         };
     };
 };
+
+int main()
+{
+
+    std::cout << "Hello World!\n";
+
+}
