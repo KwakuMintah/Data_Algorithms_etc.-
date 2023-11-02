@@ -1,23 +1,28 @@
 // Matrix_Storage_&_1D.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Operator Overloading from geeksforgeeks.com
 
 #include <iostream>
 
 
 class DoubleMatrix {
-public:
+private:
     int size;
+    int values;
+public:
     int onedMatrix[1];
     void initialisation();
     void multiplyMatrix();
-
+    DoubleMatrix(int s = 0, int v = 0) {
+        size = s;
+        values = v;
+    };
+    DoubleMatrix operator-(DoubleMatrix const& obj) {
+        DoubleMatrix
+    };
 };
 
 void DoubleMatrix::initialisation() {
-    DoubleMatrix matOne;
-    matOne.onedMatrix[dimensions * dimensions];
-    DoubleMatrix matThree;
-    matThree.onedMatrix[dimensions * dimensions];
+
 
 };
 
@@ -26,16 +31,16 @@ void DoubleMatrix::multiplyMatrix() {
     DoubleMatrix dimensions;
     dimensions.size = 2;
     DoubleMatrix matOne;
-    matOne.onedMatrix[4] = { 1.0, 2.0, 3.0, 4.0 }
+    matOne.onedMatrix[4] = {};
     DoubleMatrix matTwo;
-    matTwo.onedMatrix[4] = { 1, 2, 3, 4 };
+    matTwo.onedMatrix[4] = {};
     DoubleMatrix matThree;
     matThree.onedMatrix[4] = {};
 
     int i, j, k;
-    for (i = 0; i < dimensions; i++) {
-        for (j = 0; j < dimensions; j++) {
-            for (k = 0; k < dimensions; k++) {
+    for (i = 0; i = (dimensions - 1); i++) {
+        for (j = 0; j = (dimensions - 1); j++) {
+            for (k = 0; k = (dimensions - 1); k++) {
                 matThree[i][j] += matOne[i][k] * matTwo[k][j];
             };
         };
