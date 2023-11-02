@@ -104,6 +104,35 @@ void naiveLoop() {
 
 };
 
+void strassenLoop() {
+
+    int multOne = 0, multTwo = 0, multThree = 0, multFour = 0, multFive = 0, multSix = 0, multSev = 0;
+
+    int i, j, l;
+    for (i = 0; i < size; i++) {
+        int in = i + 1;
+        for (j = 0; j < size; j++) {
+            int jn = j + 1;
+            for (l = 0; l < size; l++) {
+                int k = l * 2;
+                int kn = k + 1;
+                multOne += (matA[i][k] + matA[in][kn]) * (matB[k][j] + matB[kn][jn]);
+                multTwo += (matA[in][k] + matA[in][kn]) * matB[k][j];
+                multThree += (matB[k][jn] - matB[kn][jn]) * matA[i][k];
+                multFour += (matB[kn][j] - matB[k][j]) * matA[in][kn];
+                multFive += (matA[i][k] + matA[i][kn]) * matB[kn][jn];
+                multSix += (matA[in][k] - matA[i][k]) * (matB[k][j] + matB[k][jn]);
+                multSev += (matA[i][kn] - matA[in][kn]) * (matB[kn][j] + matB[kn][jn]);
+
+                
+
+            };
+        };
+    };
+
+
+};
+
 int main()
 {
     std::cout << "Hello World!\n";
@@ -113,6 +142,7 @@ int main()
     //strassenAlgorithm();
 
     naiveLoop();
+    strassenLoop();
 
     //naiveLoopPower(); --> This was an old function that I merged into the
     //naiveloop function when I realised it wasn't needed anymore.
