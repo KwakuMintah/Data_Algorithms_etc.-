@@ -3,25 +3,66 @@
 
 #include <iostream>
 
+int matOne[2][2] = {
+    {1,2},
+    {3,4}
+};
+
+
+int matTwo[2][2] = {
+    {5,6},
+    {7,8}
+};
+
+int matA[4][4] = {
+    {1,2,3,4},
+    {3,4,1,2},
+    {2,1,4,3},
+    {4,3,2,1}
+};
+
+int matB[4][4] = {
+    {5,6,7,8},
+    {7,8,5,6},
+    {6,5,8,7},
+    {8,7,6,5}
+};
+
+int A = {};
+int B = {};
+int C = {};
 
 class DoubleMatrix {
 private:
     int size;
-    int values;
+    int dimensions;
 public:
-    int onedMatrix[1];
+    int onedMatrix{};
     void initialisation();
     void multiplyMatrix();
-    DoubleMatrix(int s = 0, int v = 0) {
+    DoubleMatrix(int s = 0, int d = 0) {
         size = s;
-        values = v;
+        dimensions = size * size;
+        dimensions = d;
     };
-    DoubleMatrix operator-(DoubleMatrix const& obj) {
-        DoubleMatrix
+    DoubleMatrix operator+(DoubleMatrix const& obj) {
+        DoubleMatrix sum;
+
     };
 };
 
+//This stores the matrix as a 1D array
 void DoubleMatrix::initialisation() {
+    const int size = 2;
+    int i, j;   
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            int co = j * size;
+            int coord = i + co;
+            A[coord] = matOne[i][j];
+        };
+    };
+        
 
 
 };
