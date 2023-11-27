@@ -1,0 +1,66 @@
+// 1D.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <stdlib.h>
+
+class oneDMat {
+public:
+    int i, j;
+    int rows = 4;
+    int cols = 4;
+    int size = rows * cols;
+    
+    double* arr;
+    double* A;
+    double** mat;
+
+    void oneDArray();
+    void twoD();
+
+    void oneDStorage();
+};
+
+void oneDMat::oneDArray() {
+    arr = new double[10];
+    for (i = 0; i < 10; i++) {
+        arr[i] = i + 3;
+        std::cout << arr[i];
+    };
+};
+
+void oneDMat::twoD() {
+    mat = new double* [rows];
+
+    for (i = 0; i < rows; i++) {
+        mat[i] = new double[cols];
+    };
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            mat[i][j] = i + j;
+            std::cout << mat[i][j];
+        };
+    };
+};
+
+void oneDMat::oneDStorage() {
+    A = new double[size];
+    int co = j * rows;
+    int coord = i + co;
+
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            A[coord] = mat[i][j];
+            std::cout << A[coord];
+        };
+    };
+};
+
+int main()
+{
+    oneDMat MatOne;
+    std::cout << "Hello World!\n";
+    MatOne.oneDArray();
+    MatOne.twoD();
+    MatOne.oneDStorage();
+}
