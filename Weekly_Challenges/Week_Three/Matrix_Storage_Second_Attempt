@@ -14,11 +14,13 @@ public:
     double* arr;
     double* A;
     double** mat;
+    double** matProd;
 
     void oneDArray();
     void twoD();
 
     void oneDStorage();
+    void naiveLoop();
 };
 
 void oneDMat::oneDArray() {
@@ -46,7 +48,7 @@ void oneDMat::twoD() {
 void oneDMat::oneDStorage() {
     A = new double[size];
     int co = j * rows;
-    int coord = i + co;
+    int coord = i + co; 
 
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
@@ -54,6 +56,31 @@ void oneDMat::oneDStorage() {
             std::cout << A[coord];
         };
     };
+};
+
+void oneDMat::naiveLoop() {
+    matProd = new double* [rows];
+
+    for (i = 0; i < rows; i++) {
+        matProd[i] = new double[cols];
+    };
+
+    int i, j, k;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
+                matProd[i][j] += matA[i][k] * matB[k][j];
+            };
+        };
+    };
+
+    int a, b;
+    for (a = 0; a < size; a++) {
+        for (b = 0; b < size; b++) {
+            std::cout << matProd[a][b] << "\n";
+        };
+    };
+
 };
 
 int main()
