@@ -1,0 +1,141 @@
+// oneD_3.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+class oneDMat {
+private:
+    double* matData;
+    int rows, cols;
+    int size = rows * cols;
+public:
+    oneDMat(const oneDMat& otheroneDMat);
+    oneDMat(int size);
+    ~oneDMat();
+    int getSize() const;
+    double& operator[](int i);
+    double read(int i) const;
+    double& operator() (int i);
+    oneDMat& operator= (const oneDMat& otheroneDMat);
+    oneDMat operator+ () const;
+    oneDMat operator- () const;
+    oneDMat operator+ (const oneDMat& m1) const;
+    oneDMat operator- (const oneDMat& m1) const;
+    oneDMat operator* (double a) const;
+    double calculateNorm(int p = 2) const;
+    friend int length(const oneDMat& m);
+};
+
+oneDMat::oneDMat(const oneDMat& otheroneDMat) {
+    size = otheroneDMat.getSize();
+    matData = new double[size];
+    for (int i = 0; i < size; i++) {
+        matData[i] = otheroneDMat.matData[i];
+    };
+};
+
+oneDMat::oneDMat(int size) {
+    assert(size > 0);
+    size = size;
+    matData = new double[size];
+    for (int i = 0; i < size; i++) {
+        matData[i] = 0.0;
+    };
+};
+
+oneDMat::~oneDMat() {
+    delete[] matData;
+};
+
+int oneDMat::getSize() const {
+    return size;
+};
+
+double& oneDMat::operator[](int i) {
+    assert(i > -1);
+    assert(i < size);
+    return matData[i];
+};
+
+double oneDMat::read(int i) const {
+    assert(i > -1);
+    assert(i < size);
+    return matData[i];
+};
+
+double& oneDMat::operator() (int i) {
+    assert(i > 0);
+    assert(i < size + 1);
+    return matData[i - 1];
+};
+
+oneDMat& oneDMat::operator= (const oneDMat& otheroneDMat) {
+    assert(size == otheroneDMat.size);
+    for (int i = 0; i < size; i++) {
+        matData[i] = otheroneDMat.matData[i];
+    };
+    return *this;
+};
+
+oneDMat oneDMat::operator+ () const {
+    oneDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i];
+    };
+    return m;
+};
+
+oneDMat oneDMat::operator- () const {
+    oneDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = -matData[i];
+    };
+    return m;
+};
+
+oneDMat oneDMat::operator+ (const oneDMat& m1) const {
+    assert(size == m1.size);
+    oneDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i] + m1.matData[i];
+    };
+    return m;
+};
+
+oneDMat oneDMat::operator- (const oneDMat& m1) const {
+    assert(size == m1.size);
+    oneDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i] - m1.matData[i];
+    };
+    return m;
+};
+
+oneDMat oneDMat::operator* (double a) const {
+    oneDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = a * matData[i];
+    };
+    return m;
+};
+
+double oneDMat::calculateNorm(int p) const {
+    double norm_val, sum = 0.0;
+    for (int i = 0; i < size; i++) {
+        sum += pow(fabs(matData[i]), p);
+    };
+    norm_val = pow(sum, 1.0 / ((double)(p)));
+    return norm_val;
+};
+
+int length(const oneDMat& m)
+{
+    return m.size;
+};
+
+int main()
+{
+    cout << "Hello World!\n";
+}
