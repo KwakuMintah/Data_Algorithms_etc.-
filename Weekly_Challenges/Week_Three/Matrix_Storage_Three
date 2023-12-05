@@ -1,5 +1,5 @@
 // oneD_3.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Class adapted from C++ book
 
 #include <iostream>
 #include <cassert>
@@ -26,6 +26,29 @@ public:
     oneDMat operator* (double a) const;
     double calculateNorm(int p = 2) const;
     friend int length(const oneDMat& m);
+};
+
+class twoDMat {
+private:
+    double* matData;
+    int rows, cols;
+    int size = rows * cols;
+public:
+    twoDMat(const twoDMat& othertwoDMat);
+    twoDMat(int size);
+    ~twoDMat();
+    int getRows() const, getCols() const;
+    int getSize() const;
+    double& operator[](int i);
+    double read(int i) const;
+    double& operator() (int i);
+    twoDMat& operator= (const twoDMat& othertwoDMat);
+    twoDMat operator+ () const;
+    twoDMat operator- () const;
+    twoDMat operator+ (const twoDMat& m1) const;
+    twoDMat operator- (const twoDMat& m1) const;
+    twoDMat operator* (double a) const;
+    double calculateDet(int p = 2) const;
 };
 
 oneDMat::oneDMat(const oneDMat& otheroneDMat) {
@@ -133,6 +156,78 @@ double oneDMat::calculateNorm(int p) const {
 int length(const oneDMat& m)
 {
     return m.size;
+};
+
+twoDMat::twoDMat(const twoDMat& othertwoDMat) {
+    size = othertwoDMat.getSize();
+    matData = new double[size];
+    for (int i = 0; i < size; i++) {
+        matData[i] = othertwoDMat.matData[i];
+    };
+};
+
+twoDMat::twoDMat(int size) {
+    assert(size > 0);
+    size = size;
+    matData = new double[size];
+    for (int i = 0; i < size; i++) {
+        matData[i] = 0.0;
+    };
+};
+
+twoDMat::~twoDMat() {
+};
+
+int twoDMat::getRows() const {
+    return 0;
+};
+
+int twoDMat::getCols() const {
+    return 0;
+};
+
+int twoDMat::getSize() const {
+    return 0;
+};
+
+double& twoDMat::operator[](int i) {
+    // TODO: insert return statement here
+};
+
+double twoDMat::read(int i) const {
+    return 0.0;
+};
+
+double& twoDMat::operator()(int i) {
+    // TODO: insert return statement here
+};
+
+twoDMat& twoDMat::operator=(const twoDMat& othertwoDMat) {
+    // TODO: insert return statement here
+};
+
+twoDMat twoDMat::operator+() const {
+    return twoDMat();
+};
+
+twoDMat twoDMat::operator-() const {
+    return twoDMat();
+};
+
+twoDMat twoDMat::operator+(const twoDMat& m1) const {
+    return twoDMat();
+};
+
+twoDMat twoDMat::operator-(const twoDMat& m1) const {
+    return twoDMat();
+};
+
+twoDMat twoDMat::operator*(double a) const {
+    return twoDMat();
+};
+
+double twoDMat::calculateDet(int p) const {
+    return 0.0;
 };
 
 int main()
