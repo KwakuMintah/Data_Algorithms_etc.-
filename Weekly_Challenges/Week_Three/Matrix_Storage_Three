@@ -40,7 +40,7 @@ public:
     int getRows() const, getCols() const;
     int getSize() const;
     double& operator[](int i);
-    double read(int i) const;
+    //double read(int i) const;
     double& operator() (int i);
     twoDMat& operator= (const twoDMat& othertwoDMat);
     twoDMat operator+ () const;
@@ -48,7 +48,6 @@ public:
     twoDMat operator+ (const twoDMat& m1) const;
     twoDMat operator- (const twoDMat& m1) const;
     twoDMat operator* (double a) const;
-    double calculateDet(int p = 2) const;
 };
 
 oneDMat::oneDMat(const oneDMat& otheroneDMat) {
@@ -176,61 +175,91 @@ twoDMat::twoDMat(int size) {
 };
 
 twoDMat::~twoDMat() {
+    delete[] matData;
 };
 
 int twoDMat::getRows() const {
-    return 0;
+    return rows;
 };
 
 int twoDMat::getCols() const {
-    return 0;
+    return cols;
 };
 
 int twoDMat::getSize() const {
-    return 0;
+    return size;
 };
+
 
 double& twoDMat::operator[](int i) {
-    // TODO: insert return statement here
+    assert(i > -1);
+    assert(i < size);
+    return matData[i];
 };
 
+/*
 double twoDMat::read(int i) const {
     return 0.0;
 };
+*/
 
 double& twoDMat::operator()(int i) {
-    // TODO: insert return statement here
+    assert(i > 0);
+    assert(i < size + 1);
+    return matData[i - 1];
 };
 
-twoDMat& twoDMat::operator=(const twoDMat& othertwoDMat) {
-    // TODO: insert return statement here
+twoDMat& twoDMat::operator= (const twoDMat& othertwoDMat) {
+    assert(size == othertwoDMat.size);
+    for (int i = 0; i < size; i++) {
+        matData[i] = othertwoDMat.matData[i];
+    };
+    return *this;
 };
 
-twoDMat twoDMat::operator+() const {
-    return twoDMat();
+twoDMat twoDMat::operator+ () const {
+    twoDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i];
+    };
+    return m;
 };
 
-twoDMat twoDMat::operator-() const {
-    return twoDMat();
+twoDMat twoDMat::operator- () const {
+    twoDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = -matData[i];
+    };
+    return m;
 };
 
-twoDMat twoDMat::operator+(const twoDMat& m1) const {
-    return twoDMat();
+twoDMat twoDMat::operator+ (const twoDMat& m1) const {
+    assert(size == m1.size);
+    twoDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i] + m1.matData[i];
+    };
+    return m;
 };
 
-twoDMat twoDMat::operator-(const twoDMat& m1) const {
-    return twoDMat();
+twoDMat twoDMat::operator- (const twoDMat& m1) const {
+    assert(size == m1.size);
+    twoDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = matData[i] - m1.matData[i];
+    };
+    return m;
 };
 
-twoDMat twoDMat::operator*(double a) const {
-    return twoDMat();
-};
-
-double twoDMat::calculateDet(int p) const {
-    return 0.0;
+twoDMat twoDMat::operator* (double a) const {
+    twoDMat m(size);
+    for (int i = 0; i < size; i++) {
+        m[i] = a * matData[i];
+    };
+    return m;
 };
 
 int main()
 {
-    cout << "Hello World!\n";
+    cout << "Fart Time";
 }
