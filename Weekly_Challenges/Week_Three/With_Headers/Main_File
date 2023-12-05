@@ -1,0 +1,15 @@
+// oneD_3.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Class adapted from C++ book
+
+#include <iostream>
+#include <cassert>
+#include "oneDMat.hpp"
+#include "twoDMat.hpp"
+using namespace std;
+
+int main()
+{
+    cout << "Fart Time";
+    oneDMat MatOne(4);
+    oneDMat MatTwo(4);
+}
