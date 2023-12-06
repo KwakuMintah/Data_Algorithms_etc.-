@@ -1,0 +1,8 @@
+#ifndef LINKED_LISTHEADERDEF
+#define LINKED_LISTHEADERDEF
+
+class linkedList {
+
+};
+
+#endif
