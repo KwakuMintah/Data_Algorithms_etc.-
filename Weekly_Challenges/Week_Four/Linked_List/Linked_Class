@@ -1,8 +1,157 @@
+#include <iostream>
+using namespace std;
 #ifndef LINKED_LISTHEADERDEF
 #define LINKED_LISTHEADERDEF
 
-class linkedList {
+//Geeksforgeeks again
 
+class node {
+public:
+    double matData;
+    node* next;
+    node* prev;
+
+    void push(node** head_ref, double matData);
+    void after(node* prev_node, double matData);
+    void before(node* next_node, double new_data);
+    void end(node** head_ref, double new_data);
+    void deletion(node** head_ref, node* del);
+    void deleteNode(node** head_ref, int n);
+    void listOutput(class node* head);
+};
+
+void node::push(node** head_ref, double new_data) {
+    cout << "Pushing node...";
+
+    node* new_node = new node();
+
+    new_node->matData = new_data;
+    new_node->next = (*head_ref);
+    new_node->prev = NULL;
+
+    if ((*head_ref) != NULL) {
+        (*head_ref)->prev = new_node;
+        (*head_ref) = new_node;
+    };
+};
+
+void node::after(node* prev_node, double new_data) {
+    cout << "Inserting node...";
+
+    if (prev_node == NULL) {
+        cout << "Error: No previous node.";
+    };
+
+    node* new_node = new node();
+
+    new_node->matData = new_data;
+    new_node->next = prev_node->next;
+    prev_node->next = new_node;
+    new_node->prev = prev_node;
+
+    if (new_node->next != NULL) {
+        new_node->next->prev = new_node;
+    };
+};
+
+void node::before(node* next_node, double new_data) {
+    node** head_ref{};
+
+    cout << "Inserting node...";
+
+    if (next_node == NULL) {
+        cout << "Error: No following node.";
+    };
+
+    node* new_node = new node();
+
+    new_node->matData = new_data;
+    new_node->prev = next_node->prev;
+    next_node->prev = new_node;
+    new_node->next = next_node;
+
+
+    if (new_node->prev != NULL) {
+        new_node->prev->next = new_node;
+    }
+    else {
+        (*head_ref) = new_node;
+    };
+}
+
+void node::end(node** head_ref, double new_data) {
+    cout << "Appending node...";
+
+    node* new_node = new node();
+
+    node* last = *head_ref;
+
+    new_node->matData = new_data;
+    new_node->next = NULL;
+
+    if (*head_ref == NULL) {
+        new_node->prev = NULL;
+        *head_ref = new_node;
+    };
+
+    while (last->next != NULL) {
+        last = last->next;
+        last->next = new_node;
+        new_node->prev = last;
+    };
+
+
+};
+
+void node::deletion(node** head_ref, node* del) {
+    cout << "Deleting node...";
+
+    if (*head_ref == NULL || del == NULL) {
+        return;
+    };
+    
+    if (*head_ref == del) {
+        *head_ref = del->next;
+    };
+
+    if (del->next != NULL) {
+        del->next->prev = del->prev;
+    };
+
+    if (del->prev != NULL) {
+        del->prev->next = del->next;
+    };
+
+    free(del);
+};
+
+void node::deleteNode(node** head_ref, int n) {
+    int i;
+
+    cout << "Finding node...";
+
+    if (*head_ref == NULL || n <= 0) {
+        return;
+    };
+
+    class node* current = *head_ref;
+
+    for (int i = 1; current != NULL && i < n; i++) {
+        current = current->next;
+    };
+
+    if (current == NULL) {
+        return;
+    };
+
+    deletion(head_ref, current);
+};
+
+void node::listOutput(class node* head) {
+    while (head != NULL) {
+        cout << head->matData << " ";
+        head = head->next;
+    };
 };
 
 #endif
