@@ -3,8 +3,23 @@
 
 #include <iostream>
 #include "Linked_List.hpp"
+using namespace std;
 
 int main()
 {
     std::cout << "Hello World!\n";
+    
+    class node* head = NULL;
+    node nodeOne;
+    node nodeTwo;
+    node nodeThree;
+    node nodeFour;
+
+    nodeOne.push(&head, 2.0);
+    nodeTwo.push(&head, 4.0);
+    nodeThree.push(&head, 8.0);
+    nodeFour.push(&head, 10.0);
+
+    nodeFour.listOutput(head);
+
 }
