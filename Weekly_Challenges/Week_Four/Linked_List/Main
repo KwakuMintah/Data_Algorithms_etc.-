@@ -1,25 +1,26 @@
-// Week_Four_Linked_List_Time.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Week_Four.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
-#include "Linked_List.hpp"
-using namespace std;
+#include "Node.hpp"
+#include "List.hpp"
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "Hello World!\n";
+
+    list listOne;
+
+    listOne.head = NULL;
     
-    class node* head = NULL;
-    node nodeOne;
-    node nodeTwo;
-    node nodeThree;
-    node nodeFour;
-
-    nodeOne.push(&head, 2.0);
-    nodeTwo.push(&head, 4.0);
-    nodeThree.push(&head, 8.0);
-    nodeFour.push(&head, 10.0);
-
-    nodeFour.listOutput(head);
-
+    listOne.push(1.0);
+    listOne.push(4.0);
+    listOne.push(5.0);
+    listOne.push(1.0);
+    listOne.push(3.5);
+    listOne.printlist(listOne.head);
+    
+    
 }
+
