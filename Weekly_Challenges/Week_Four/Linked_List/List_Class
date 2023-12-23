@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+#ifndef LINKED_LISTHEADERDEF
+#define LINKED_LISTHEADERDEF
+
+class list {
+public:
+  node matCoord;
+  int length;
+}
+
+#endif
