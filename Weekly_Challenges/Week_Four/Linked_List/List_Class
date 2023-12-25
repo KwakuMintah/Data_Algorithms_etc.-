@@ -7,29 +7,99 @@ using namespace std;
 class list {
 public:
     node* head;
+    node* sorted;
+    node* next;
+    node* prev;
     int length;
+    list(int size) {
+        length = size;
+    };
 
-    void push(double matData);
+    void push(node* new_node, double matData);
+    void sort(node* head_ref);
+    void insert(node* new_node);
+    void count(node* head, double search);
+    void measure(node* head);
     void after(node* prev_node, double matData);
+    
     void before(node* next_node, double matData);
-    void end(node** head_ref, double matData);
-    void deletion(node** head_ref, node* del);
-    void deleteNode(node** head_ref, int n);
-    void printlist(node* head);
+    void end(node* head, double matData);
+    void deletion(node* head, node* del);
+    void deleteNode(node* head, int n);
+
+    void print(node* head);
 };
 
-void list::push(double matData) {
-    cout << "Push";
-    node* newnode = new node(matData);
-    newnode->next = head;
-    head = newnode;
+void list::push(node* new_node, double matData) {
+    cout << "\n" << "Pushing...";
+    if (new_node == NULL) {
+        node* new_node = new node(matData);
+        new_node->next = head;
+        head = new_node;
+    }
+    else if (matData == NULL) {
+        new_node->next = head;
+        head = new_node;
+    };
 };
+
+void list::sort(node* head) {
+    cout << "\n" << "Sorting...";
+    sorted = NULL;
+    node* current = head;
+    while (current != NULL) {
+        node* next = current->next;
+        insert(current);
+        current = next;
+    };
+    head = sorted;
+};
+
+void list::insert(node* new_node) {
+    if (sorted == NULL || sorted->matData >= new_node->matData) {
+        new_node->next = sorted;
+        sorted = new_node;
+    }
+    else {
+        node* current = sorted;
+        while (current->next != NULL && current->next->matData < new_node->matData) {
+            current = current->next;
+        }
+        new_node->next = current->next;
+        current->next = new_node;
+    };
+};
+
+void list::count(node* head, double search) {
+    cout << "\n" << "Counting..." << "\n";
+    node* current = head;
+    int count = 0;
+    while (current != NULL) {
+        if (current->matData == search) {
+            count++;
+        };
+        current = current->next;
+    };
+    cout << count;
+}
+
+void list::measure(node* head) {
+    cout << "\n" << "Measuring..." << "\n";
+    int count = 0;
+    node* current = head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    };
+    cout << count;
+}
 
 void list::after(node* prev_node, double matData) {
-    cout << "Inserting node...";
+    cout << "\n" << "Inserting node..." << "\n";
 
     if (prev_node == NULL) {
         cout << "Error: No previous node.";
+        return;
     };
 
     node* new_node = new node(matData);
@@ -45,12 +115,13 @@ void list::after(node* prev_node, double matData) {
 };
 
 void list::before(node* next_node, double matData) {
-    node** head_ref{};
+    node* head;
 
-    cout << "Inserting node...";
+    cout << "\n" << "Inserting node..." << "\n";
 
     if (next_node == NULL) {
         cout << "Error: No following node.";
+        return;
     };
 
     node* new_node = new node(matData);
@@ -59,49 +130,44 @@ void list::before(node* next_node, double matData) {
     new_node->prev = next_node->prev;
     next_node->prev = new_node;
     new_node->next = next_node;
-
-
+    
+    
     if (new_node->prev != NULL) {
-        new_node->prev->next = new_node;
-    }
-    else {
-        (*head_ref) = new_node;
+        head = new_node;
     };
+
 }
 
-void list::end(node** head_ref, double matData) {
-    cout << "Appending node...";
+void list::end(node* head, double matData) {
+    cout << "\n" << "Appending node..." << "\n";
 
     node* new_node = new node(matData);
-
-    node* last = *head_ref;
+    node* tail = head;
 
     new_node->matData = matData;
     new_node->next = NULL;
 
-    if (*head_ref == NULL) {
+    if (head == NULL) {
         new_node->prev = NULL;
-        *head_ref = new_node;
+        head = new_node;
+    }
+    else if (tail->next != NULL) {
+        tail = tail->next;
     };
-
-    while (last->next != NULL) {
-        last = last->next;
-        last->next = new_node;
-        new_node->prev = last;
-    };
-
-
+    
+    tail->next = new_node;
+    new_node->prev = tail;
 };
 
-void list::deletion(node** head_ref, node* del) {
-    cout << "Deleting node...";
+void list::deletion(node* head, node* del) {
+    cout << "\n" << "Deleting node...";
 
-    if (*head_ref == NULL || del == NULL) {
+    if (head == NULL || del == NULL) {
         return;
     };
 
-    if (*head_ref == del) {
-        *head_ref = del->next;
+    if (head == del) {
+        head = del->next;
     };
 
     if (del->next != NULL) {
@@ -115,16 +181,16 @@ void list::deletion(node** head_ref, node* del) {
     free(del);
 };
 
-void list::deleteNode(node** head_ref, int n) {
+void list::deleteNode(node* head, int n) {
     int i;
 
-    cout << "Finding node...";
+    cout << "\n" << "Finding node..." << "\n";
 
-    if (*head_ref == NULL || n <= 0) {
+    if (head == NULL || n <= 0) {
         return;
     };
 
-    class node* current = *head_ref;
+    class node* current = head;
 
     for (int i = 1; current != NULL && i < n; i++) {
         current = current->next;
@@ -134,10 +200,10 @@ void list::deleteNode(node** head_ref, int n) {
         return;
     };
 
-    deletion(head_ref, current);
+    deletion(head, current);
 };
 
-void list::printlist(node* head)
+void list::print(node* head)
 {
     while (head != NULL) {
         cout << "\n" << head->matData << " ";
