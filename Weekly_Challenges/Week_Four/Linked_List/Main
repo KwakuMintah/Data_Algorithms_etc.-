@@ -10,17 +10,28 @@ int main()
 {
     cout << "Hello World!\n";
 
-    list listOne;
+    list listOne(5);
+
+    node nodeOne(1.0);
+    node nodeTwo(2.0);
+    node nodeThree(3.0);
+    
+    node* one = &nodeOne;
+    node* two = &nodeTwo;
+    node* three = &nodeThree;
 
     listOne.head = NULL;
     
-    listOne.push(1.0);
-    listOne.push(4.0);
-    listOne.push(5.0);
-    listOne.push(1.0);
-    listOne.push(3.5);
-    listOne.printlist(listOne.head);
-    
-    
+    listOne.push(one, NULL);
+    listOne.push(two, NULL);
+    listOne.push(three, NULL);
+    listOne.after(one, 5.4);
+    listOne.before(one, 2.3);
+    //listOne.deleteNode(listOne.head, 2);
+    //listOne.measure(listOne.head);
+    listOne.print(listOne.head);
+    //listOne.sort(listOne.head);
+    //listOne.count(listOne.head, 2.1);
+    //listOne.print(listOne.head);
 }
 
