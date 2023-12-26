@@ -1,0 +1,52 @@
+// Sparse_Matrices.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
+#include <iostream>
+#include "Matrix.hpp"
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    node nodeOne(1, 1, 1.0);
+    node* one = &nodeOne;
+    node nodeTwo(1, 2, 2.0);
+    node* two = &nodeTwo;
+    node nodeThree(2, 1, 3.0);
+    node* three = &nodeThree;
+    node nodeFour(2, 2, 4.0);
+    node* four = &nodeFour;
+
+    node nodeEmptyOne(1, 1, 0.0);
+    node* emptyOne = &nodeEmptyOne;
+    node nodeEmptyTwo(1, 2, 0.0);
+    node* emptyTwo = &nodeEmptyTwo;
+    node nodeEmptyThree(2, 1, 0.0);
+    node* emptyThree = &nodeEmptyThree;
+    node nodeEmptyFour(2, 2, 0.0);
+    node* emptyFour = &nodeEmptyFour;
+
+    matrix matOne(2, 2);
+    matrix matTwo(2, 2);
+    matrix matThree(2, 2);
+
+    matOne.push(one);
+    matOne.after(one, two);
+    matOne.after(two, three);
+    matOne.after(three, four);
+
+    matTwo.push(one);
+    matTwo.after(one, two);
+    matTwo.after(two, three);
+    matTwo.after(three, four);
+
+    matThree.push(emptyOne);
+    matThree.after(emptyOne, emptyTwo);
+    matThree.after(emptyTwo, emptyThree);
+    matThree.after(emptyThree, emptyFour);
+
+    matOne.print(matOne.head);
+    matTwo.print(matTwo.head);
+
+    matThree.addition(matOne.head, matTwo.head, matThree.head);
+    matOne.print(matThree.head);
+}
