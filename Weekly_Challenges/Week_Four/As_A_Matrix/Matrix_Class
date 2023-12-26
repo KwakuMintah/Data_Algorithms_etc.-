@@ -1,0 +1,187 @@
+#include <iostream>
+using namespace std;
+#include "Node.hpp"
+#ifndef MATRIXHEADERDEF
+#define MATRIXHEADERDEF
+
+class matrix {
+public:
+	node* head;
+	node* sorted;
+	node* next;
+	node* prev;
+	int max_rows, max_cols;
+	int size;
+	matrix(int width, int height);
+
+	void push(node* new_node);
+	void after(node* prev_node, node* new_node);
+	void before(node* next_node, node* new_node);
+	void deletion(node* head, node* del);
+	void deleteNode(node* head, int n);
+	void print(node* head);
+	void find(node* head, int i, int j);
+
+	void diagonal(node* head);
+	void addition(node* matOne, node* matTwo, node* matThree);
+};
+
+matrix::matrix(int width, int height) {
+	head = NULL;
+	sorted = NULL;
+	next = NULL;
+	prev = NULL;
+	max_rows = width;
+	max_cols = height;
+	size = max_rows * max_cols;
+	cout << "\n" << "You have made a matrix of " << size << " elements.";
+}
+
+void matrix::push(node* new_node) {
+	new_node->next = head;
+	head = new_node;
+}
+
+void matrix::after(node* prev_node, node* new_node) {
+	if (prev_node == NULL) {
+		cout << "\n" << "Error: No previous node.";
+		return;
+	};
+
+	new_node->next = prev_node->next;
+	prev_node->next = new_node;
+	new_node->prev = prev_node;
+
+	if (new_node->next != NULL) {
+		new_node->next->prev = new_node;
+	};
+}
+
+void matrix::before(node* next_node, node* new_node) {
+	node* head;
+	if (next_node == NULL) {
+		cout << "\n" << "Error: No following node.";
+		return;
+	};
+
+	new_node->prev = next_node->prev;
+	next_node->prev = new_node;
+	new_node->next = next_node;
+
+	if (new_node->prev != NULL) {
+		new_node->prev->next = new_node;
+	}
+	else {
+		head = new_node;
+	};
+
+}
+
+void matrix::deletion(node* head, node* del) {
+	cout << "\n" << "Deleting node...";
+
+	if (head == NULL || del == NULL) {
+		return;
+	};
+
+	if (head == del) {
+		head = del->next;
+	};
+
+	if (del->next != NULL) {
+		del->next->prev = del->prev;
+	};
+
+	if (del->prev != NULL) {
+		del->prev->next = del->next;
+	};
+};
+
+void matrix::deleteNode(node* head, int n) {
+	int i;
+
+	cout << "\n" << "Finding element..." << "\n";
+
+	if (head == NULL || n <= 0) {
+		return;
+	};
+
+	class node* current = head;
+
+	for (int i = 1; current != NULL && i < n; i++) {
+		current = current->next;
+	};
+
+	if (current == NULL) {
+		return;
+	};
+
+	deletion(head, current);
+};
+
+void matrix::print(node* head) {
+	if (head == NULL) {
+		cout << "\n" << "Linked List is Empty.";
+		return;
+	}
+	else {
+		cout << "\n" << "Printing...";
+
+		while (head != NULL) {
+			cout << "\n" << head->matData << " ";
+			head = head->next;
+		}
+	};
+
+}
+
+void matrix::find(node* head, int i, int j) {
+	node* current = head;
+	while (current != NULL) {
+		if ((current->row == i) && (current->col == j)) {
+			cout << "\n" << "The element at point " << i << ", " << j << " is " << current->matData;
+			return;
+		}
+		else {
+			current = current->next;
+		}
+	}
+}
+
+void matrix::diagonal(node* head) {
+	node* current = head;
+	while (current != NULL) {
+		if (current->row != current->col) {
+			deletion(head, current);
+			current = current->next;
+		}
+		else {
+			current = current->next;
+		}
+	}
+	
+}
+
+void matrix::addition(node* head_one, node* head_two, node* head_sum) {
+	node* temp_one = head_one;
+	node* temp_two = head_two;
+	node* sum = head_sum;
+
+	//Still in progress. Doesn't seem to add together but still runs.
+	while ((temp_one != NULL) && (temp_two != NULL) && (sum == NULL)) {
+		if ((temp_one->row == temp_two->row) && (temp_one->col == temp_one->row)) {
+			sum->matData = temp_one->matData + temp_two->matData;
+			sum->row = temp_one->row;
+			sum->col = temp_one->col;
+			temp_one = temp_one->next;
+			temp_two = temp_two->next;
+			sum = sum->next;
+		}
+		else {
+			temp_one = temp_one->next;
+			temp_two = temp_two->next;
+			sum = sum->next;
+		}
+	}
+}
+#endif
