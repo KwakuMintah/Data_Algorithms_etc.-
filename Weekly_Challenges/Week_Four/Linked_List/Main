@@ -10,7 +10,7 @@ int main()
 {
     cout << "Hello World!\n";
 
-    list listOne(4);
+    list listOne(10);
 
     node nodeOne(1.0);
     node nodeTwo(2.0);
@@ -26,20 +26,24 @@ int main()
     listOne.push(two, NULL);
     listOne.push(three, NULL);
     listOne.print(listOne.head);
+
     listOne.after(one, 5.4);
     listOne.after(two, 9.6);
     listOne.after(three, 6.7);
     listOne.before(two, 9.6);
     listOne.end(listOne.head, 9.8);
-    //listOne.print(listOne.head);
-    //listOne.replaceTail(listOne.head, 8.3);
-    //listOne.deleteNode(listOne.head, 2);
-    //listOne.measure(listOne.head);
+    listOne.measure(listOne.head);
     listOne.print(listOne.head);
-    /*
+
+    listOne.deleteNode(listOne.head, 4);
+    listOne.measure(listOne.head);
+    listOne.print(listOne.head);
+    
     listOne.sort(listOne.head);
     listOne.count(listOne.head, 2.1);
     listOne.print(listOne.head);
-    */
+    
+    //listOne.deleteList(&listOne.head);
+    listOne.print(listOne.head);
 }
 
