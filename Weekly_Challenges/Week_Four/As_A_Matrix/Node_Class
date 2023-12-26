@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+#ifndef NODEHEADERDEF
+#define NODEHEADERDEF
+
+//Geeksforgeeks again
+
+struct node {
+    int row;
+    int col;
+    double matData;
+    struct node* next;
+    struct node* prev;
+    node(int i, int j, double val);
+};
+
+node::node(int i, int j, double val) {
+    row = i;
+    col = j;
+    matData = val;
+    next = NULL;
+    prev = NULL;
+};
+
+
+#endif
