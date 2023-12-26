@@ -26,12 +26,15 @@ int main()
     listOne.push(two, NULL);
     listOne.push(three, NULL);
     listOne.after(one, 5.4);
-    listOne.before(one, 2.3);
+    listOne.after(two, 9.6);
+    listOne.after(three, 6.7);
     //listOne.deleteNode(listOne.head, 2);
-    //listOne.measure(listOne.head);
+    listOne.measure(listOne.head);
     listOne.print(listOne.head);
-    //listOne.sort(listOne.head);
-    //listOne.count(listOne.head, 2.1);
-    //listOne.print(listOne.head);
+    /*
+    listOne.sort(listOne.head);
+    listOne.count(listOne.head, 2.1);
+    listOne.print(listOne.head);
+    */
 }
 
