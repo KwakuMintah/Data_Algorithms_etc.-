@@ -26,11 +26,18 @@ public:
     
     void deletion(node* head, node* del);
     void deleteNode(node* head, int n);
+    //Can't seem to delete the whole list because free doesn't seem to work.
+    void deleteList(node** head);
+
     void print(node* head);
 };
 
 list::list(int size) {
     length = size;
+    head = NULL;
+    sorted = NULL;
+    next = NULL;
+    prev = NULL;
 };
 
 void list::push(node* new_node, double matData) {
@@ -83,7 +90,7 @@ void list::count(node* head, double search) {
         };
         current = current->next;
     };
-    cout << count;
+    cout << count << " counts of " << search;
 }
 
 void list::measure(node* head) {
@@ -108,10 +115,10 @@ void list::measure(node* head) {
     else if (count < length) {
         gap = length - count;
         cout << "There's space for " << gap << " more." << "\n";
-        cout << count;
+        cout << count << " nodes.";
     }
     else {
-        cout << count;
+        cout << count << " nodes.";
     };
     
 }
@@ -225,7 +232,7 @@ void list::deletion(node* head, node* del) {
         del->prev->next = del->next;
     };
 
-    free(del);
+    //free(del);
 };
 
 void list::deleteNode(node* head, int n) {
@@ -249,13 +256,32 @@ void list::deleteNode(node* head, int n) {
 
     deletion(head, current);
 };
+void list::deleteList(node** head) {
+    cout << "\n" << "Deleting list...";
+    node* current = *head;
+    node* next = NULL;
 
-void list::print(node* head)
-{
-    while (head != NULL) {
-        cout << "\n" << head->matData << " ";
-        head = head->next;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    };
+
+    *head = NULL;
+}
+
+void list::print(node* head) {
+    if (head == NULL) {
+        cout << "Linked List is Empty.";
+        return;
     }
+    else {
+        while (head != NULL) {
+            cout << "\n" << head->matData << " ";
+            head = head->next;
+        }
+    };
+    
 }
 
 #endif
