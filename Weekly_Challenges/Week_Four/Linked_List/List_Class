@@ -20,11 +20,12 @@ public:
     void measure(node* head);
     void after(node* prev_node, double matData);
     
-    //void before(node* next_node, double matData);
-    //void end(node* head, double matData);
+    void replaceTail(node* head, double matData);
+    void before(node* next_node, double matData);
+    void end(node* head, double matData);
+    
     void deletion(node* head, node* del);
     void deleteNode(node* head, int n);
-
     void print(node* head);
 };
 
@@ -88,17 +89,25 @@ void list::count(node* head, double search) {
 void list::measure(node* head) {
     cout << "\n" << "Measuring..." << "\n";
     int count = 0;
+    int gap;
     node* current = head;
     while (current != NULL) {
         count++;
         current = current->next;
     };
     if (count > length) {
-        cout << "This Linked List is too big.";
+        gap = count - length;
+        if (gap != 1) {
+            cout << "This Linked List is too big. Remove " << gap << " nodes." << "\n";
+        }
+        else {
+            cout << "This Linked List is too big. Remove " << gap << " node." << "\n";
+        };
         return;
     }
     else if (count < length) {
-        cout << "There's space for more." << "\n";
+        gap = length - count;
+        cout << "There's space for " << gap << " more." << "\n";
         cout << count;
     }
     else {
@@ -125,10 +134,8 @@ void list::after(node* prev_node, double matData) {
     if (new_node->next != NULL) {
         new_node->next->prev = new_node;
     };
-};
+}
 
-/*
-* //This function doesn't work. The node is never added.
 void list::before(node* next_node, double matData) {
     node* head;
 
@@ -148,16 +155,16 @@ void list::before(node* next_node, double matData) {
     
     
     if (new_node->prev != NULL) {
+        new_node->prev->next = new_node;
+    }
+    else {
         head = new_node;
     };
 
 }
-*/
 
-/*
-* // This function doesn't seem to work. It replaces the tail node rather than appending.
-void list::end(node* head, double matData) {
-    cout << "\n" << "Appending node..." << "\n";
+void list::replaceTail(node* head, double matData) {
+    cout << "\n" << "Replacing the Tail Node..." << "\n";
 
     node* new_node = new node(matData);
     node* tail = head;
@@ -171,12 +178,33 @@ void list::end(node* head, double matData) {
     }
     else if (tail->next != NULL) {
         tail = tail->next;
+        tail->next = new_node;
+        new_node->prev = tail;
     };
-    
-    tail->next = new_node;
-    new_node->prev = tail;
 };
-*/
+
+void list::end(node* head, double matData) {
+    cout << "\n" << "Appending node..." << "\n";
+
+    node* new_node = new node(matData);
+    
+
+    new_node->matData = matData;
+    new_node->next = NULL;
+
+    if (head == NULL) {
+        new_node->prev = NULL;
+        head = new_node;
+    }
+    else {
+        node* tail = head;
+        while (tail->next != NULL) {
+            tail = tail->next;
+        };
+        tail->next = new_node;
+        new_node->prev = tail;
+    };
+};
 
 void list::deletion(node* head, node* del) {
     cout << "\n" << "Deleting node...";
