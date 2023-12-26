@@ -11,9 +11,7 @@ public:
     node* next;
     node* prev;
     int length;
-    list(int size) {
-        length = size;
-    };
+    list(int size); 
 
     void push(node* new_node, double matData);
     void sort(node* head_ref);
@@ -22,12 +20,16 @@ public:
     void measure(node* head);
     void after(node* prev_node, double matData);
     
-    void before(node* next_node, double matData);
-    void end(node* head, double matData);
+    //void before(node* next_node, double matData);
+    //void end(node* head, double matData);
     void deletion(node* head, node* del);
     void deleteNode(node* head, int n);
 
     void print(node* head);
+};
+
+list::list(int size) {
+    length = size;
 };
 
 void list::push(node* new_node, double matData) {
@@ -91,7 +93,18 @@ void list::measure(node* head) {
         count++;
         current = current->next;
     };
-    cout << count;
+    if (count > length) {
+        cout << "This Linked List is too big.";
+        return;
+    }
+    else if (count < length) {
+        cout << "There's space for more." << "\n";
+        cout << count;
+    }
+    else {
+        cout << count;
+    };
+    
 }
 
 void list::after(node* prev_node, double matData) {
@@ -114,6 +127,8 @@ void list::after(node* prev_node, double matData) {
     };
 };
 
+/*
+* //This function doesn't work. The node is never added.
 void list::before(node* next_node, double matData) {
     node* head;
 
@@ -137,7 +152,10 @@ void list::before(node* next_node, double matData) {
     };
 
 }
+*/
 
+/*
+* // This function doesn't seem to work. It replaces the tail node rather than appending.
 void list::end(node* head, double matData) {
     cout << "\n" << "Appending node..." << "\n";
 
@@ -158,6 +176,7 @@ void list::end(node* head, double matData) {
     tail->next = new_node;
     new_node->prev = tail;
 };
+*/
 
 void list::deletion(node* head, node* del) {
     cout << "\n" << "Deleting node...";
