@@ -1,0 +1,11 @@
+void matrix::plus(node* node_one, node* node_two, node* node_sum) {
+    node_sum->matData = node_one->matData + node_two->matData;
+    node_sum->row = node_one->row;
+    node_sum->col = node_two->col; //This takes the i and j from both to make sure find operated correctly
+}
+
+void matrix::minus(node* node_one, node* node_two, node* node_sum) {
+    node_sum->matData = node_one->matData - node_two->matData;
+    node_sum->row = node_one->row;
+    node_sum->col = node_two->col; //This takes the i and j from both to make sure find operated correctly
+}
