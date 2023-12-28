@@ -14,4 +14,19 @@ struct node {
     };
 };
 
+struct quadnode {
+    double matData;
+    struct quadnode* north;
+    struct quadnode* south;
+    struct quadnode* east;
+    struct quadnode* west;
+    quadnode(double val) {
+        matData = val;
+        north = NULL;
+        south = NULL;
+        east = NULL;
+        west = NULL;
+    };
+};
+
 #endif
