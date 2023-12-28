@@ -1,0 +1,27 @@
+// Binary_Tree.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include "Tree.hpp"
+#include "Node.hpp"
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    node nodeRoot(5.0);
+    node* seed = &nodeRoot;
+
+    node nodeOne(1.0);
+    node nodeTwo(2.0);
+    node nodeThree(3.0);
+
+    node* one = &nodeOne;
+    node* two = &nodeTwo;
+    node* three = &nodeThree;
+
+    tree treeOne(seed);
+    treeOne.grow(seed, one, two);
+    treeOne.grow(two, three, NULL);
+    treeOne.print(seed);
+}
