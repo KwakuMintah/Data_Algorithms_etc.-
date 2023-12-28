@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+#ifndef NODEHEADERDEF
+#define NODEHEADERDEF
+
+struct node {
+    double matData;
+    struct node* left;
+    struct node* right;
+};
+
+#define
