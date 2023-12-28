@@ -1,9 +1,30 @@
 #include <iostream>
 using namespace std;
+#include "Node.hpp"
 #ifndef TREEHEADERDEF
 #define TREEHEADERDEF
 
 class tree {
-}
+    node* root;
+    node* left;
+    node* right;
+    node* leaf;
+    tree(node* start) {
+    node* root = start;
+    node* leaf = NULL;
+    };
+    grow(node* branch, node* twig_one, node* twig_two) {
+        branch->left = twig_one;
+        branch->right = twig_two;
+    }
+    print(node* node) {
+        if (node == NULL) {
+          return;
+        };
+        cout << "\n" << node->matData;
+        print(node->left);
+        print(node->right);
+    }
+
 
 #endif
