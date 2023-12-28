@@ -9,4 +9,4 @@ struct node {
     struct node* right;
 };
 
-#define
+#endif
