@@ -7,35 +7,39 @@
 #include "Node.hpp"
 
 void testTree() {
-    node nodeRoot(5.0);
+    node nodeRoot(0, 0.0);
     node* seed = &nodeRoot;
 
-    node nodeOne(1.0);
-    node nodeTwo(2.0);
-    node nodeThree(3.0);
+    node nodeOne(1, 1.0);
+    node nodeTwo(2, 2.0);
+    node nodeThree(3, 3.0);
+    node nodeFour(4, 4.0);
+    node nodeFive(5, 5.0);
 
     node* one = &nodeOne;
     node* two = &nodeTwo;
     node* three = &nodeThree;
+    node* four = &nodeFour;
+    node* five = &nodeFive;
 
-    tree treeOne(seed);
-    treeOne.grow(seed, one, two);
-    treeOne.grow(two, three, NULL);
-    treeOne.print(seed);
+    tree treeOne(two);
+    treeOne.grow(two, one, three);
+    treeOne.grow(one, seed, NULL);
+    treeOne.printmat(two);
 };
 
 void testQuad() {
-    quadnode nodeRoot(0.0);
+    quadnode nodeRoot(0, 0.0);
     quadnode* seed = &nodeRoot;
 
-    quadnode nodeOne(1.0);
-    quadnode nodeTwo(2.0);
-    quadnode nodeThree(3.0);
-    quadnode nodeFour(4.0);
-    quadnode nodeFive(5.0);
-    quadnode nodeSix(6.0);
-    quadnode nodeSeven(7.0);
-    quadnode nodeEight(8.0);
+    quadnode nodeOne(1, 1.0);
+    quadnode nodeTwo(2, 2.0);
+    quadnode nodeThree(3, 3.0);
+    quadnode nodeFour(4, 4.0);
+    quadnode nodeFive(5, 5.0);
+    quadnode nodeSix(6, 6.0);
+    quadnode nodeSeven(7, 7.0);
+    quadnode nodeEight(8, 8.0);
 
     quadnode* one = &nodeOne;
     quadnode* two = &nodeTwo;
@@ -63,5 +67,5 @@ int main()
 
     cout << "\n" << "QuadTree" << "\n";
 
-    testQuad();
+    //testQuad();
 }
