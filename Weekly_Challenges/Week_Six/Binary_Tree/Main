@@ -3,12 +3,10 @@
 
 #include <iostream>
 #include "Tree.hpp"
+#include "QuadTree.hpp"
 #include "Node.hpp"
 
-int main()
-{
-    std::cout << "Hello World!\n";
-
+void testTree() {
     node nodeRoot(5.0);
     node* seed = &nodeRoot;
 
@@ -24,4 +22,46 @@ int main()
     treeOne.grow(seed, one, two);
     treeOne.grow(two, three, NULL);
     treeOne.print(seed);
+};
+
+void testQuad() {
+    quadnode nodeRoot(0.0);
+    quadnode* seed = &nodeRoot;
+
+    quadnode nodeOne(1.0);
+    quadnode nodeTwo(2.0);
+    quadnode nodeThree(3.0);
+    quadnode nodeFour(4.0);
+    quadnode nodeFive(5.0);
+    quadnode nodeSix(6.0);
+    quadnode nodeSeven(7.0);
+    quadnode nodeEight(8.0);
+
+    quadnode* one = &nodeOne;
+    quadnode* two = &nodeTwo;
+    quadnode* three = &nodeThree;
+    quadnode* four = &nodeFour;
+    quadnode* five = &nodeFive;
+    quadnode* six = &nodeSix;
+    quadnode* seven = &nodeSeven;
+    quadnode* eight = &nodeEight;
+
+    quadtree treeOne(seed);
+    treeOne.grow(seed, one, two, three, four);
+    treeOne.grow(one, five, six, NULL, NULL);
+    treeOne.grow(five, NULL, NULL, seven, eight);
+    treeOne.print(seed);
+    cout << "\n" << "Looky here" << "\n";
+    treeOne.print(five);
+};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    testTree();
+
+    cout << "\n" << "QuadTree" << "\n";
+
+    testQuad();
 }
