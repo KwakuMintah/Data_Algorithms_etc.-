@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+#include "Node.hpp"
+#ifndef QUADTREEHEADERDEF
+#define QUADTREEHEADERDEF
+
+class quadtree {
+public:
+	quadnode* root;
+	quadnode leaf;
+	quadtree(quadnode* start);
+	void grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, quadnode* w);
+	void print(quadnode* node);
+};
+
+quadtree::quadtree(quadnode* start) {
+	quadnode* root = start;
+	quadnode* leaf = NULL;
+}
+
+void quadtree::grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, quadnode* w) {
+	branch->north = n;
+	branch->east = e;
+	branch->south = s;
+	branch->west = w;
+};
+
+void quadtree::print(quadnode* node) {
+	if (node == NULL) {
+		return;
+	};
+	cout << "\n" << node->matData;
+	print(node->north);
+	print(node->east);
+	print(node->south);
+	print(node->west);
+};
+
+#endif
