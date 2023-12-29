@@ -12,6 +12,7 @@ public:
 
     void grow(node* branch, node* twig_one, node* twig_two);
     void print(node* node);
+    void printmat(node* node);
 };
 
 tree::tree(node* start) {
@@ -28,9 +29,22 @@ void tree::print(node* node) {
     if (node == NULL) {
         return;
     };
-    cout << "\n" << node->matData;
+    
+    
     print(node->left);
     print(node->right);
+    cout << "\n" << node->matData;
+}
+
+void tree::printmat(node* node) {
+    if (node == NULL) {
+        return;
+    };
+
+    
+    printmat(node->left);
+    cout << "\n" << node->matData;
+    printmat(node->right); 
 }
 
 
