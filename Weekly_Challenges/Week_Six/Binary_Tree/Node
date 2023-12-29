@@ -4,10 +4,12 @@ using namespace std;
 #define NODEHEADERDEF
 
 struct node {
+    int index;
     double matData;
     struct node* left;
     struct node* right;
-    node(double val) {
+    node(int location, double val) {
+        index = location;
         matData = val;
         left = NULL;
         right = NULL;
@@ -15,18 +17,22 @@ struct node {
 };
 
 struct quadnode {
+    int index;
     double matData;
     struct quadnode* north;
     struct quadnode* south;
     struct quadnode* east;
     struct quadnode* west;
-    quadnode(double val) {
-        matData = val;
+    quadnode(int location, double num) {
+        index = location;
+        matData = num;
         north = NULL;
         south = NULL;
         east = NULL;
         west = NULL;
     };
+
+    quadnode() = default;
 };
 
 #endif
