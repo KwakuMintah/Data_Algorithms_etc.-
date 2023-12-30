@@ -13,6 +13,7 @@ public:
     void grow(node* branch, node* twig_one, node* twig_two);
     void print(node* node);
     void printmat(node* node);
+    void search(node* root, int index);
 };
 
 tree::tree(node* start) {
@@ -47,5 +48,17 @@ void tree::printmat(node* node) {
     printmat(node->right); 
 }
 
-
+void tree::search(node* root, int index) {
+    if ((root == NULL) || (root->index == index)) {
+        cout << "Found it: " << root->matData;
+    }
+    else if (root->index < index) {
+        search(root->right, index);
+    }
+    else if (root->index > index) {
+        search(root->left, index);
+    }
+    else {
+        return;
+    }
 #endif
