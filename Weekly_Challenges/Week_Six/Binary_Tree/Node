@@ -1,39 +1,20 @@
+// FFT.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
 #include <iostream>
+#include <cmath>
+#include <complex>
+#include "Discrete.hpp"
 using namespace std;
-#ifndef NODEHEADERDEF
-#define NODEHEADERDEF
 
-struct node {
-    int index;
-    double matData;
-    struct node* left;
-    struct node* right;
-    node(int location, double val) {
-        index = location;
-        matData = val;
-        left = NULL;
-        right = NULL;
-    };
-};
 
-struct quadnode {
-    int i, j;
-    double matData;
-    struct quadnode* north;
-    struct quadnode* south;
-    struct quadnode* east;
-    struct quadnode* west;
-    quadnode(int row, int col, double num) {
-        i = row;
-        j = col;
-        matData = num;
-        north = NULL;
-        south = NULL;
-        east = NULL;
-        west = NULL;
-    };
 
-    quadnode() = default;
-};
 
-#endif
+
+int main() {
+    std::cout << "Hello World!\n";
+
+    initArrayTwo(50);
+    printArray(50);
+}
+
