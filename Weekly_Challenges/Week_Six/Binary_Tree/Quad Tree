@@ -10,7 +10,8 @@ public:
 	quadnode leaf;
 	quadtree(quadnode* start);
 	void grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, quadnode* w);
-	void print(quadnode* node);
+	void printbysub(quadnode* node);
+	void printval(quadnode* node);
 };
 
 quadtree::quadtree(quadnode* start) {
@@ -25,15 +26,43 @@ void quadtree::grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, qua
 	branch->west = w;
 };
 
-void quadtree::print(quadnode* node) {
+void quadtree::printbysub(quadnode* node) {
 	if (node == NULL) {
 		return;
 	};
 	cout << "\n" << node->matData;
-	print(node->north);
-	print(node->east);
-	print(node->south);
-	print(node->west);
+	printbysub(node->north);
+	printbysub(node->east);
+	printbysub(node->south);
+	printbysub(node->west);
 };
 
+void quadtree::printval(quadnode* node) {
+	if (node == NULL) {
+		return;
+	};
+	
+	printbysub(node->north);
+	printbysub(node->east);
+	printbysub(node->south);
+	printbysub(node->west);
+	cout << "\n" << node->matData;
+	
+};
+
+/*
+void quadtree::search(quadnode* root, int i, int j) {
+	if ((root == NULL) || ((root->i == i) && (root->j == j))) {
+		cout << "Found it: " << root->matData;
+	}
+	else if (root->index < index) {
+		search(root->right, index);
+	}
+	else if (root->index > index) {
+		search(root->left, index);
+	}
+	else {
+		return;
+	}
+*/
 #endif
