@@ -4,60 +4,12 @@
 #include <iostream>
 #include <cmath>
 #include <complex>
+#include "Discrete.hpp"
 using namespace std;
 
-double pi = 3.14159265359;
 
-double sample[1] = {};
-double x_k[1] = {};
-double fourier[1] = {};
 
-void initArray(int size) {
-    int i;
-    double t;
-    double interval;
-    t = 0.1;
-    for (i = 0; i < size; i++) {
-        interval = i * t;
-        sample[i] = interval;
-    }
-}
 
-void initArrayTwo(int size) {
-    int i;
-    double t;
-    
-    for (i = 0; i < size; i++) {
-        t = double(i);
-        double coefOne = (size + 0.5) * t;
-        double coefTwo = t * 0.5;
-        double num = sin(coefOne);
-        double den = sin(coefTwo);
-        double frac = num / den;
-        sample[i] = frac - 1.0;
-    }
-}
-
-void printArray(int size) {
-    int i;
-    for (i = 0; i < size; i++) {
-        cout << "\n" << fourier[i];
-    }
-}
-
-void discreteFourier(int size) {
-    int i = 0, j = 0;
-    double num = 2 * pi;
-    double frac = num/size;
-    double kn = i * j;
-    double coef = frac * kn;
-    double theEx = exp(coef);
-    for (i = 0; i < size; i++) {
-        for (j = 0; j < size; j++) {
-            fourier[i] += sample[i] * theEx;
-        }
-    }
-}
 
 int main() {
     std::cout << "Hello World!\n";
