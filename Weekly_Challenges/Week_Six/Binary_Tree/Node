@@ -17,14 +17,15 @@ struct node {
 };
 
 struct quadnode {
-    int index;
+    int i, j;
     double matData;
     struct quadnode* north;
     struct quadnode* south;
     struct quadnode* east;
     struct quadnode* west;
-    quadnode(int location, double num) {
-        index = location;
+    quadnode(int row, int col, double num) {
+        i = row;
+        j = col;
         matData = num;
         north = NULL;
         south = NULL;
