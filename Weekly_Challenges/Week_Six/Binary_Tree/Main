@@ -29,17 +29,36 @@ void testTree() {
 };
 
 void testQuad() {
-    quadnode nodeRoot(0, 0.0);
+    //Currently working on a more efficient way to do this.
+    quadnode nodeRoot(0, 0, 0.0);
     quadnode* seed = &nodeRoot;
 
-    quadnode nodeOne(1, 1.0);
-    quadnode nodeTwo(2, 2.0);
-    quadnode nodeThree(3, 3.0);
-    quadnode nodeFour(4, 4.0);
-    quadnode nodeFive(5, 5.0);
-    quadnode nodeSix(6, 6.0);
-    quadnode nodeSeven(7, 7.0);
-    quadnode nodeEight(8, 8.0);
+    quadnode subMatOne(0, 0, 1000.0);
+    quadnode subMatTwo(0, 0, 2000.0);
+    quadnode subMatThree(0, 0, 3000.0);
+    quadnode subMatFour(0, 0, 4000.0);
+
+    quadnode nodeOne(1, 1, 1.0);
+    quadnode nodeTwo(1, 2, 2.0);
+    quadnode nodeThree(1, 3, 3.0);
+    quadnode nodeFour(1, 4, 4.0);
+    quadnode nodeFive(2, 1, 5.0);
+    quadnode nodeSix(2, 2, 6.0);
+    quadnode nodeSeven(2, 3, 7.0);
+    quadnode nodeEight(2, 4, 8.0);
+    quadnode nodeNine(3, 1, 9.0);
+    quadnode nodeTen(3, 2, 10.0);
+    quadnode nodeEleven(3, 3, 11.0);
+    quadnode nodeTwelve(3, 4, 12.0);
+    quadnode nodeThirteen(4, 1, 13.0);
+    quadnode nodeFourteen(4, 2, 14.0);
+    quadnode nodeFifteen(4, 3, 15.0);
+    quadnode nodeSixteen(4, 4, 16.0);
+
+    quadnode* nw = &subMatOne;
+    quadnode* ne = &subMatTwo;
+    quadnode* sw = &subMatThree;
+    quadnode* se = &subMatFour;
 
     quadnode* one = &nodeOne;
     quadnode* two = &nodeTwo;
@@ -49,23 +68,33 @@ void testQuad() {
     quadnode* six = &nodeSix;
     quadnode* seven = &nodeSeven;
     quadnode* eight = &nodeEight;
+    quadnode* nine = &nodeNine;
+    quadnode* ten = &nodeTen;
+    quadnode* eleven = &nodeEleven;
+    quadnode* twelve = &nodeTwelve;
+    quadnode* thirteen = &nodeThirteen;
+    quadnode* fourteen = &nodeFourteen;
+    quadnode* fifteen = &nodeFifteen;
+    quadnode* sixteen = &nodeSixteen;
 
     quadtree treeOne(seed);
-    treeOne.grow(seed, one, two, three, four);
-    treeOne.grow(one, five, six, NULL, NULL);
-    treeOne.grow(five, NULL, NULL, seven, eight);
-    treeOne.print(seed);
+    treeOne.grow(seed, nw, ne, sw, se);
+    treeOne.grow(nw, one, two, five, six);
+    treeOne.grow(ne, three, four, seven, eight);
+    treeOne.grow(sw, nine, ten, thirteen, fourteen);
+    treeOne.grow(se, eleven, twelve, fifteen, sixteen);
+    treeOne.printval(seed);
     cout << "\n" << "Looky here" << "\n";
-    treeOne.print(five);
+    //treeOne.printbysub(seed);
 };
 
 int main()
 {
     std::cout << "Hello World!\n";
 
-    testTree();
+    //testTree();
 
     cout << "\n" << "QuadTree" << "\n";
 
-    //testQuad();
+    testQuad();
 }
