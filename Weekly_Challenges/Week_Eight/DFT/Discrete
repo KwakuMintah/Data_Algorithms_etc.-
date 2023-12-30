@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Complex.hpp"
 using namespace std;
 #ifndef DISCRETEHEADERDEF
 #define DISCRETEHEADERDEF
@@ -20,13 +21,15 @@ void initArray(int size) {
     }
 }
 
-void initArrayTwo(int size) {
-    int i;
+void initArrayTwo(int size, int N) {
+    int i = 0;
     double t;
+
+    
 
     for (i = 0; i < size; i++) {
         t = double(i);
-        double coefOne = (size + 0.5) * t;
+        double coefOne = (N + 0.5) * t;
         double coefTwo = t * 0.5;
         double num = sin(coefOne);
         double den = sin(coefTwo);
@@ -38,20 +41,23 @@ void initArrayTwo(int size) {
 void printArray(int size) {
     int i;
     for (i = 0; i < size; i++) {
-        cout << "\n" << fourier[i];
+        cout << "\n" << sample[i] << "    " << fourier[i];
     }
 }
 
 void discreteFourier(int size) {
+    
     int i = 0, j = 0;
-    double num = 2 * pi;
-    double frac = num / size;
-    double kn = i * j;
-    double coef = frac * kn;
-    double theEx = exp(coef);
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
-            fourier[i] += sample[i] * theEx;
+            double num = 2 * pi;
+            double frac = num / size;
+            double kn = i * j;
+            double coef = -1 * frac * kn;
+            double cosin = cos(coef);
+            double sine = sin(coef);
+            complexDouble theEx(cosin, sine);
+            fourier[i] += sample[i] * theEx(real);
         }
     }
 }
