@@ -24,6 +24,7 @@ void gaussian(int rows, int cols) {
     int i, j, l, m;
     double pivot;
     while ((h <= rows) && (k <= cols)) {
+        //Still trying to understand the line about i_max
         l = h + 1;
         m = k + 1;
         for (i = l; i < rows; i++) {
@@ -44,30 +45,37 @@ void backSub(int rows) {
     for (i = rows - 1; i > -1; i--) {
         int j = i + 1;
         fromA = 1 / A[i][i];
-        cout << "\n" << fromA;
         fromB = B[i];
-        cout << "\n" << fromB;
         useJ = A[i][j] * x[j];
-        cout << "\n" << useJ;
         x[i] = fromA * (fromB - useJ);
-        cout << "\n" << x[i];
     }
 }
 
 void printSol(int rows) {
     int i;
-    cout << "\n" << "Here's the solution: " << "\n";
-    for (i = 0; i < rows; i++) {
-        cout << "\n" << x[i];
+    cout << "\n";
+    if (rows <= 3) {
+        cout << "\n" << "X = " << x[0];
+        cout << "\n" << "Y = " << x[1];
+        cout << "\n" << "Z = " << x[2];
     }
+    else {
+        for (i = 0; i < rows; i++) {
+            cout << "\n" << "X" << i << " is: " << x[i];
+        }
+    }
+    
 }
+
+void gaussianElim(int rows, int cols) {
+    gaussian(rows, cols);
+    backSub(rows);
+    printSol(rows);
+};
 
 int main()
 {
     std::cout << "Hello World!\n";
     printmat(3, 3);
-    gaussian(3, 3);
-    backSub(3);
-    printmat(3, 3);
-    printSol(3);
+    gaussianElim(3, 3);
 }
