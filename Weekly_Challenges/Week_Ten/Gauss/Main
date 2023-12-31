@@ -1,0 +1,46 @@
+// Gauss.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+
+double A[3][3] = { { 1,1,1 }, { 1,2,4 }, { 1,3,9 } };
+double B[3][1] = { {1}, {-1}, {1} };
+double x[3][1] = {};
+
+void printmat(int rows, int cols) {
+    int i, j;
+    cout << "\n" << "This is the Matrix:" << "\n";
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            cout << "\n" << A[i][j];
+        };
+    };
+};
+
+void gaussian(int rows, int cols) {
+    int h = 0, k = 0;
+    int i, j, l, m;
+    double pivot;
+    while ((h < rows) && (k < cols)) {
+        l = h + 1;
+        m = k + 1;
+        for (i = l; i < rows; i++) {
+            pivot = A[i][k] / A[h][k];
+            A[i][k] = 0.0;
+            for (j = m; j < cols; j++) {
+                A[i][j] = A[i][j] - A[h][j] * pivot;
+            };
+        };
+        h = h + 1;
+        k = k + 1;
+    };
+}
+
+int main()
+{
+    std::cout << "Hello World!\n";
+    printmat(3, 3);
+    gaussian(3, 3);
+    printmat(3, 3);
+}
