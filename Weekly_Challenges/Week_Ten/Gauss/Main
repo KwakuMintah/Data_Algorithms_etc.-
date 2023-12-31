@@ -2,11 +2,12 @@
 //
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 double A[3][3] = { { 1,1,1 }, { 1,2,4 }, { 1,3,9 } };
-double B[3][1] = { {1}, {-1}, {1} };
-double x[3][1] = {};
+double B[3] = {1, -1, 1};
+double x[3] = {};
 
 void printmat(int rows, int cols) {
     int i, j;
@@ -22,14 +23,14 @@ void gaussian(int rows, int cols) {
     int h = 0, k = 0;
     int i, j, l, m;
     double pivot;
-    while ((h < rows) && (k < cols)) {
+    while ((h <= rows) && (k <= cols)) {
         l = h + 1;
         m = k + 1;
         for (i = l; i < rows; i++) {
             pivot = A[i][k] / A[h][k];
             A[i][k] = 0.0;
             for (j = m; j < cols; j++) {
-                A[i][j] = A[i][j] - A[h][j] * pivot;
+                A[i][j] = A[i][j] - (A[h][j] * pivot);
             };
         };
         h = h + 1;
@@ -37,10 +38,36 @@ void gaussian(int rows, int cols) {
     };
 }
 
+void backSub(int rows) {
+    int i, j;
+    double fromA, fromB, useJ;
+    for (i = rows - 1; i > -1; i--) {
+        int j = i + 1;
+        fromA = 1 / A[i][i];
+        cout << "\n" << fromA;
+        fromB = B[i];
+        cout << "\n" << fromB;
+        useJ = A[i][j] * x[j];
+        cout << "\n" << useJ;
+        x[i] = fromA * (fromB - useJ);
+        cout << "\n" << x[i];
+    }
+}
+
+void printSol(int rows) {
+    int i;
+    cout << "\n" << "Here's the solution: " << "\n";
+    for (i = 0; i < rows; i++) {
+        cout << "\n" << x[i];
+    }
+}
+
 int main()
 {
     std::cout << "Hello World!\n";
     printmat(3, 3);
     gaussian(3, 3);
+    backSub(3);
     printmat(3, 3);
+    printSol(3);
 }
