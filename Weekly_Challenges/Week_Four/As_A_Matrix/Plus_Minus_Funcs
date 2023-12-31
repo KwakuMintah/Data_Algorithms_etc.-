@@ -2,12 +2,12 @@ void matrix::plus(node* node_one, node* node_two) {
     sum = node_one->matData + node_two->matData;
     i_val = node_one->row;
     j_val = node_two->col;
-    node_sum = new node(sum, i_val, j_val);
+    node_sum = new node(i_val, j_val, sum);
 }
 
 void matrix::minus(node* node_one, node* node_two, node* node_sum) {
     sum = node_one->matData - node_two->matData;
     i_val = node_one->row;
     j_val = node_two->col;
-    node_sum = new node(sum, i_val, j_val);
+    node_sum = new node(i_val, j_val, sum);
 }
