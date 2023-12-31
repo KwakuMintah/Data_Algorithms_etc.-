@@ -1,13 +1,23 @@
-void matrix::plus(node* node_one, node* node_two) {
+void matrix::plus(node* node_one, node* node_two, node* head_sum) {
     sum = node_one->matData + node_two->matData;
     i_val = node_one->row;
     j_val = node_two->col;
     node_sum = new node(i_val, j_val, sum);
+    if (head_sum == NULL) {
+        push(node_sum)
+    } else {
+        after(node_sum)
+    }
 }
 
-void matrix::minus(node* node_one, node* node_two, node* node_sum) {
+void matrix::minus(node* node_one, node* node_two, node* node_sum, node* head_sum) {
     sum = node_one->matData - node_two->matData;
     i_val = node_one->row;
     j_val = node_two->col;
     node_sum = new node(i_val, j_val, sum);
+    if (head_sum == NULL) {
+        push(node_sum)
+    } else {
+        after(node_sum)
+    }
 }
