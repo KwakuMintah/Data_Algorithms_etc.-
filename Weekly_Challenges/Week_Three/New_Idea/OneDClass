@@ -1,1 +1,21 @@
 #include <iostream>
+#ifndef ONEDMATHEADERDEF
+#define ONEDMATHEADERDEF
+
+class oneDMat {
+public:
+		int rows;
+		int cols;
+		int size;
+		oneDMat(int r, int c);
+}
+
+oneDMat::oneDMat(int r, int c) {
+		rows = r;
+		cols = c;
+		size = rows * cols;
+};
+
+
+
+#endif
