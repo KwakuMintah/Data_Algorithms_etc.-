@@ -76,6 +76,7 @@ void gaussianElim(int rows, int cols) {
 int main()
 {
     std::cout << "Hello World!\n";
+    //Add pointers for the arrays.
     printmat(3, 3);
     gaussianElim(3, 3);
 }
