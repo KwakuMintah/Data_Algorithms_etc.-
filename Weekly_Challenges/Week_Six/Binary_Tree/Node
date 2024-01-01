@@ -16,6 +16,17 @@ struct node {
     };
 };
 
+node* init(double arr[], int start, int end) {
+    if (start > end) {
+        return NULL;
+    }
+    int mid = (start + end) / 2;
+    node* root = new node(mid, arr[mid]);
+    root->left = init(arr, start, mid - 1);
+    root->right = init(arr, mid + 1, end);
+    return root;
+};
+
 struct quadnode {
     int i, j;
     double matData;
