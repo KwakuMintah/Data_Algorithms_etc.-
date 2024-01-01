@@ -50,6 +50,8 @@ int main()
     matTwo.after(mTwo, mThree);
     matTwo.after(mThree, mFour);
 
+    matOne.diagonal(matOne.head);
+
     matThree.sum(0, matOne.head, matTwo.head, matThree.head);
 
     matOne.print(matOne.head);
