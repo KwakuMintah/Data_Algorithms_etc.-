@@ -1,10 +1,13 @@
 // Binary_Tree.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+//Time measuring func from Geek for Geeks.
 
 #include <iostream>
+#include <chrono>
 #include "Tree.hpp"
 #include "QuadTree.hpp"
 #include "Node.hpp"
+using namespace std;
+using namespace std::chrono;
 
 
 
@@ -28,6 +31,8 @@ void testTree() {
 
     treeOne.grow(two, one, three);
     treeOne.grow(one, seed, NULL);
+    treeOne.printMat(two);
+    treeOne.grow(one, five, NULL);
     treeOne.printMat(two);
     treeOne.search(two, 3);
     treeOne.iterativeSearch(two, 3);
@@ -94,19 +99,25 @@ void testQuad() {
     //treeOne.printbysub(seed);
 };
 
-
 int main() {
     std::cout << "Hello World!\n";
+    auto startTree = high_resolution_clock::now();
 
     testTree();
+    //This measures the Wall Time of the function.
+    //auto stopTree = high_resolution_clock::now();
+    //auto durationTree = duration_cast<microseconds>(stopTree - startTree);
 
-    cout << "\n" << "QuadTree" << "\n";
+    //cout << "\n" << "QuadTree" << "\n";
 
-    double* arr;
-    double mat[4] = {1, 2, 3, 4};
-    arr = &mat[0];
+    //double mat[4] = {1, 2, 3, 4};
 
-    cout << *(arr + 1);
+    //node* looky = init(mat, 0, 3);
+    //tree test(looky, 4);
+    //test.printMat(looky);
+
+
+    //cout << "\n" << "This took " << durationTree.count()  << " ms.";
 
     //testQuad();
 }
