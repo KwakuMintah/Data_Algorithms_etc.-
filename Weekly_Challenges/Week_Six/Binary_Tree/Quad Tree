@@ -7,7 +7,7 @@ using namespace std;
 class quadtree {
 public:
 	quadnode* root;
-	quadnode leaf;
+	quadnode* leaf;
 	quadtree(quadnode* start);
 	void grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, quadnode* w);
 	void printbysub(quadnode* node);
