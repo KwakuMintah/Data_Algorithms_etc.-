@@ -1,0 +1,11 @@
+#include <chrono>
+
+auto name_for_start;
+auto name_for_end;
+auto name_for_time;
+
+name_for_start = high_resolution_clock::now();
+call_func();
+name_for_end = high_resolution_clock::now();
+name_for_time = duration_cast<unit_of_measurement>(name_for_end - name_for_start);
+cout << name_for_time.count();
