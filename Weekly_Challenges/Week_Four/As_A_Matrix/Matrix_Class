@@ -17,13 +17,16 @@ public:
 	void push(node* new_node);
 	void after(node* prev_node, node* new_node);
 	void before(node* next_node, node* new_node);
+	void end(node* head, node* end);
 	void deletion(node* head, node* del);
 	void deleteNode(node* head, int n);
 	void print(node* head);
 	void find(node* head, int i, int j);
 
 	void diagonal(node* head);
-	void addition(node* matOne, node* matTwo, node* matThree);
+	void plus(node* node_one, node* node_two, node* head_sum);
+	void minus(node* node_one, node* node_two, node* head_sum);
+	void sum(int choice, node* head_one, node* head_two, node* head_sum);
 };
 
 matrix::matrix(int width, int height) {
@@ -75,6 +78,19 @@ void matrix::before(node* next_node, node* new_node) {
 		head = new_node;
 	};
 
+}
+
+void matrix::end(node* head, node* end) {
+	node* last = head;
+	end->next = NULL;
+	if (head == NULL) {
+		push(end);
+	}
+	while (last->next != NULL) {
+		last = last->next;
+	}
+	last->next = end;
+	end->prev = last;
 }
 
 void matrix::deletion(node* head, node* del) {
@@ -162,26 +178,46 @@ void matrix::diagonal(node* head) {
 	
 }
 
-void matrix::addition(node* head_one, node* head_two, node* head_sum) {
-	node* temp_one = head_one;
-	node* temp_two = head_two;
-	node* sum = head_sum;
-
-	//Still in progress. Doesn't seem to add together but still runs.
-	while ((temp_one != NULL) && (temp_two != NULL) && (sum == NULL)) {
-		if ((temp_one->row == temp_two->row) && (temp_one->col == temp_one->row)) {
-			sum->matData = temp_one->matData + temp_two->matData;
-			sum->row = temp_one->row;
-			sum->col = temp_one->col;
-			temp_one = temp_one->next;
-			temp_two = temp_two->next;
-			sum = sum->next;
-		}
-		else {
-			temp_one = temp_one->next;
-			temp_two = temp_two->next;
-			sum = sum->next;
-		}
+void matrix::plus(node* node_one, node* node_two, node* head_sum) {
+	double sum = node_one->matData + node_two->matData;
+	int i_val = node_one->row;
+	int j_val = node_two->col;
+	node* node_sum = new node(i_val, j_val, sum);
+	if (head_sum == NULL) {
+		push(node_sum);
+	} else {
+		end(head_sum, node_sum);
 	}
 }
+
+void matrix::minus(node* node_one, node* node_two, node* head_sum) {
+	double sum = node_one->matData - node_two->matData;
+	int i_val = node_one->row;
+	int j_val = node_two->col;
+	node* node_sum = new node(i_val, j_val, sum);
+	if (head_sum == NULL) {
+		push(node_sum);
+	}
+	else {
+		end(head_sum, node_sum);
+	}
+}
+
+//This works but prints it backwards for some reason.
+void matrix::sum(int choice, node* head_one, node* head_two, node* head_sum) {
+	int i;
+	node* temp_one = head_one;
+	node* temp_two = head_two;
+
+	for (i = 0; i < size; i++) {
+		if (choice == 0) {
+			plus(temp_one, temp_two, head_sum);
+		} else {
+			minus(temp_one, temp_two, head_sum);
+		}
+		temp_one = temp_one->next;
+		temp_two = temp_two->next;
+	}
+}
+
 #endif
