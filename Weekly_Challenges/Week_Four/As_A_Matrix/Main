@@ -16,6 +16,15 @@ int main()
     node nodeFour(2, 2, 4.0);
     node* four = &nodeFour;
 
+    node moreOne(1, 1, 2.0);
+    node* mOne = &moreOne;
+    node moreTwo(1, 2, 4.0);
+    node* mTwo = &moreTwo;
+    node moreThree(2, 1, 6.0);
+    node* mThree = &moreThree;
+    node moreFour(2, 2, 8.0);
+    node* mFour = &moreFour;
+
     node nodeEmptyOne(1, 1, 0.0);
     node* emptyOne = &nodeEmptyOne;
     node nodeEmptyTwo(1, 2, 0.0);
@@ -29,24 +38,22 @@ int main()
     matrix matTwo(2, 2);
     matrix matThree(2, 2);
 
+    matThree.head = NULL;
+
     matOne.push(one);
     matOne.after(one, two);
     matOne.after(two, three);
-    matOne.after(three, four);
+    matOne.end(matOne.head, four);
 
-    matTwo.push(one);
-    matTwo.after(one, two);
-    matTwo.after(two, three);
-    matTwo.after(three, four);
+    matTwo.push(mOne);
+    matTwo.after(mOne, mTwo);
+    matTwo.after(mTwo, mThree);
+    matTwo.after(mThree, mFour);
 
-    matThree.push(emptyOne);
-    matThree.after(emptyOne, emptyTwo);
-    matThree.after(emptyTwo, emptyThree);
-    matThree.after(emptyThree, emptyFour);
+    matThree.sum(0, matOne.head, matTwo.head, matThree.head);
 
     matOne.print(matOne.head);
     matTwo.print(matTwo.head);
 
-    matThree.addition(matOne.head, matTwo.head, matThree.head);
-    matOne.print(matThree.head);
+    matThree.print(matThree.head);
 }
