@@ -6,6 +6,8 @@
 #include "QuadTree.hpp"
 #include "Node.hpp"
 
+
+
 void testTree() {
     node nodeRoot(0, 0.0);
     node* seed = &nodeRoot;
@@ -22,11 +24,15 @@ void testTree() {
     node* four = &nodeFour;
     node* five = &nodeFive;
 
-    tree treeOne(two);
+    tree treeOne(two, 4);
+
     treeOne.grow(two, one, three);
     treeOne.grow(one, seed, NULL);
-    treeOne.printmat(two);
-};
+    treeOne.printMat(two);
+    treeOne.search(two, 3);
+    treeOne.iterativeSearch(two, 3);
+}
+
 
 void testQuad() {
     //Currently working on a more efficient way to do this.
@@ -88,13 +94,19 @@ void testQuad() {
     //treeOne.printbysub(seed);
 };
 
-int main()
-{
+
+int main() {
     std::cout << "Hello World!\n";
 
-    //testTree();
+    testTree();
 
     cout << "\n" << "QuadTree" << "\n";
 
-    testQuad();
+    double* arr;
+    double mat[4] = {1, 2, 3, 4};
+    arr = &mat[0];
+
+    cout << *(arr + 1);
+
+    //testQuad();
 }
