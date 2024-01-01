@@ -4,6 +4,8 @@ using namespace std;
 #ifndef QUADTREEHEADERDEF
 #define QUADTREEHEADERDEF
 
+//There is no God.
+
 class quadtree {
 public:
 	quadnode* root;
