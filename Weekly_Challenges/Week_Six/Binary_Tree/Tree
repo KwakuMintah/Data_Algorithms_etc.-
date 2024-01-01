@@ -8,17 +8,21 @@ class tree {
 public:
     node* root;
     node* leaf;
-    tree(node* start);
+    int size;
+    tree(node* start, int len);
 
     void grow(node* branch, node* twig_one, node* twig_two);
     void print(node* node);
-    void printmat(node* node);
+    void printMat(node* node);
     void search(node* root, int index);
+    void iterativeSearch(node* root, int index);
+    void init(tree* seed, double* mat, int length);
 };
 
-tree::tree(node* start) {
+tree::tree(node* start, int len) {
     node* root = start;
     node* leaf = NULL;
+    int size = len;
 };
 
 void tree::grow(node* branch, node* twig_one, node* twig_two) {
@@ -37,20 +41,20 @@ void tree::print(node* node) {
     cout << "\n" << node->matData;
 }
 
-void tree::printmat(node* node) {
+void tree::printMat(node* node) {
     if (node == NULL) {
         return;
     };
 
     
-    printmat(node->left);
+    printMat(node->left);
     cout << "\n" << node->matData;
-    printmat(node->right); 
+    printMat(node->right); 
 }
 
 void tree::search(node* root, int index) {
-    if ((root == NULL) || (root->index == index)) {
-        cout << "Found it: " << root->matData;
+    if (root->index == index) {
+        cout << "\n" << "Found it: " << root->matData;
     }
     else if (root->index < index) {
         search(root->right, index);
@@ -58,7 +62,28 @@ void tree::search(node* root, int index) {
     else if (root->index > index) {
         search(root->left, index);
     }
+    else if (root == NULL) {
+        cout << "Empty Tree.";
+    }
     else {
         return;
     }
+}
+
+void tree::iterativeSearch(node* root, int index) {
+    while ((root != NULL) && (index != root->index)) {
+        if (index < root->index) {
+            iterativeSearch(root->left, index);
+        }
+        else if (index > root->index) {
+            iterativeSearch(root->right, index);
+        }
+        return;
+    }
+    cout << "\n" << "This is the value: " << root->matData;
+}
+
+void tree::init(tree* seed, double* mat, int length) {
+    
+}
 #endif
