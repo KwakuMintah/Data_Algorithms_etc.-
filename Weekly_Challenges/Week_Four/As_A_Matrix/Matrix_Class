@@ -24,6 +24,7 @@ public:
 	void find(node* head, int i, int j);
 
 	void diagonal(node* head);
+	void reverseDiagonal(node* head);
 	void plus(node* node_one, node* node_two, node* head_sum);
 	void minus(node* node_one, node* node_two, node* head_sum);
 	void sum(int choice, node* head_one, node* head_two, node* head_sum);
@@ -132,7 +133,7 @@ void matrix::deleteNode(node* head, int n) {
 		return;
 	};
 
-	deletion(head, current);
+deletion(head, current);
 };
 
 void matrix::print(node* head) {
@@ -144,7 +145,7 @@ void matrix::print(node* head) {
 		cout << "\n" << "Printing...";
 
 		while (head != NULL) {
-			cout << "\n" << head->matData << " ";
+			cout << "\n" << head->matData << " " << head->row << head->col;
 			head = head->next;
 		}
 	};
@@ -175,17 +176,50 @@ void matrix::diagonal(node* head) {
 			current = current->next;
 		}
 	}
-	
+
+}
+
+void matrix::reverseDiagonal(node* head) {
+	node* current = head;
+	while (current != NULL) {
+		if (current->row == current->col) {
+			deletion(head, current);
+			current = current->next;
+		}
+		else {
+			current = current->next;
+		}
+	}
+
 }
 
 void matrix::plus(node* node_one, node* node_two, node* head_sum) {
-	double sum = node_one->matData + node_two->matData;
-	int i_val = node_one->row;
-	int j_val = node_two->col;
+	double sum;
+	int i_val, j_val;
+
+	if (node_one == NULL) {
+		sum = node_two->matData;
+		i_val = node_two->row;
+		j_val = node_two->col;
+
+	}
+	else if (node_two == NULL) {
+		sum = node_one->matData;
+		i_val = node_one->row;
+		j_val = node_one->col;
+	}
+	else {
+		sum = node_one->matData + node_two->matData;
+		i_val = node_one->row;
+		j_val = node_two->col;
+	}
+
 	node* node_sum = new node(i_val, j_val, sum);
+
 	if (head_sum == NULL) {
 		push(node_sum);
-	} else {
+	}
+	else {
 		end(head_sum, node_sum);
 	}
 }
@@ -203,20 +237,34 @@ void matrix::minus(node* node_one, node* node_two, node* head_sum) {
 	}
 }
 
-//This works but prints it backwards for some reason.
+//This works but prints it backwards for some reason. Also only allows one sparse matrix in.
 void matrix::sum(int choice, node* head_one, node* head_two, node* head_sum) {
 	int i;
 	node* temp_one = head_one;
 	node* temp_two = head_two;
 
 	for (i = 0; i < size; i++) {
-		if (choice == 0) {
-			plus(temp_one, temp_two, head_sum);
+		if ((temp_one->row == temp_two->row) && (temp_one->col == temp_two->col)) {
+			if (choice == 0) {
+				plus(temp_one, temp_two, head_sum);
+			}
+			else {
+				minus(temp_one, temp_two, head_sum);
+			}
+			temp_one = temp_one->next;
+			temp_two = temp_two->next;
+		} else if ((temp_one->row != temp_two->row) || (temp_one->col != temp_two->col)) {
+			if (choice == 0) {
+				plus(NULL, temp_two, head_sum);
+			}
+			else {
+				minus(NULL, temp_two, head_sum);
+			}
+			temp_one = temp_one;
+			temp_two = temp_two->next;
 		} else {
-			minus(temp_one, temp_two, head_sum);
+			return;
 		}
-		temp_one = temp_one->next;
-		temp_two = temp_two->next;
 	}
 }
 
