@@ -28,6 +28,7 @@ sum(node* root_one, node* root_two) {
     } else if (root_one->matData != NULL) && (root_one->matData != NULL) {
         if (root_one->i == root_two->i) && (root_two->j == root_two->j) {
             add them yk (make a node func for this)
+            quadnode* quad_sum = addQuad(root_one, root_two);
         } else {
             return;
         }
