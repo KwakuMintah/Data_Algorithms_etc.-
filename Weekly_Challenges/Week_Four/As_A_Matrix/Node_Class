@@ -22,5 +22,22 @@ node::node(int i, int j, double val) {
     prev = NULL;
 };
 
+//This turns the array into a Linked List but the Coordinates need some work
+node* init(double arr[], int index, int width) {
+    int max_size = width * width;
+    if (index > max_size - 1) {
+        return NULL;
+    }
+    int i, j = 0;
+    int i_num = j * width;
+    i = -1 * (i_num - index);
+    int j_num = index - i;
+    j = j_num / width;
+    node* node_arr = new node(i, j, arr[index]);
+    int next_index = index + 1;
+    node_arr->next = init(arr, next_index, width);
+    return node_arr;
+}
+
 
 #endif
