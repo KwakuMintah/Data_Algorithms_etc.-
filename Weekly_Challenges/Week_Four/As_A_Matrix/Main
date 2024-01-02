@@ -3,10 +3,7 @@
 #include <iostream>
 #include "Matrix.hpp"
 
-int main()
-{
-    std::cout << "Hello World!\n";
-
+void testList() {
     node nodeOne(1, 1, 1.0);
     node* one = &nodeOne;
     node nodeTwo(1, 2, 2.0);
@@ -58,4 +55,19 @@ int main()
     matTwo.print(matTwo.head);
 
     matThree.print(matThree.head);
+}
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    //testList();
+
+    double mat[4] = { 1,2,3,4 };
+    matrix matTest(2, 2);
+
+    node* testing = init(mat, 0, 2);
+    matTest.head = testing;
+    matTest.print(matTest.head);
+
 }
