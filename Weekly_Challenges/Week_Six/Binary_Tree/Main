@@ -103,18 +103,32 @@ int main() {
     std::cout << "Hello World!\n";
     auto startTree = high_resolution_clock::now();
 
-    testTree();
+    //testTree();
     //This measures the Wall Time of the function.
     //auto stopTree = high_resolution_clock::now();
     //auto durationTree = duration_cast<microseconds>(stopTree - startTree);
 
     //cout << "\n" << "QuadTree" << "\n";
 
-    //double mat[4] = {1, 2, 3, 4};
+    double matOne[4] = {1, 2, 3, 4};
+    double matTwo[4] = { 5, 6, 7, 8 };
+    double matSparse[4] = { 3, 4, 0, 0 };
 
-    //node* looky = init(mat, 0, 3);
-    //tree test(looky, 4);
-    //test.printMat(looky);
+    node* treeOne = init(matOne, 0, 3);
+    node* treeTwo = init(matTwo, 0, 3);
+    node* sparseTree = init(matSparse, 0, 3);
+    
+    tree testOne(treeOne, 4);
+    tree testTwo(treeTwo, 4);
+    
+
+    node* treeThree = addNodes(treeOne, sparseTree);
+    tree testThree(treeThree, 4);
+    
+    testOne.printMat(treeOne);
+    testTwo.printMat(treeTwo);
+    testThree.printMat(treeThree);
+
 
 
     //cout << "\n" << "This took " << durationTree.count()  << " ms.";
