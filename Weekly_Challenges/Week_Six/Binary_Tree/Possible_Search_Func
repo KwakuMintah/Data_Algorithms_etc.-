@@ -16,3 +16,22 @@ search(node* root, int i_que, int j_que) {
       return;
     }
 }
+
+//Could apply this to a sum func
+sum(node* root_one, node* root_two) {
+    if (root_one->matData == NULL) && (root_two->matData == NULL) {
+        sum(root_one->north,root_one->north) etc.
+    } else if (root_one->matData == NULL) && (root_one->matData != NULL) {
+        sum(root_one->north,root_two) etc.
+    } else if (root_one->matData != NULL) && (root_one->matData == NULL) {
+        sum(root_one,root_two->north) etc.
+    } else if (root_one->matData != NULL) && (root_one->matData != NULL) {
+        if (root_one->i == root_two->i) && (root_two->j == root_two->j) {
+            add them yk (make a node func for this)
+        } else {
+            return;
+        }
+    } else if (root_one == NULL) && (root_two == NULL) {
+        return;
+    }
+}
