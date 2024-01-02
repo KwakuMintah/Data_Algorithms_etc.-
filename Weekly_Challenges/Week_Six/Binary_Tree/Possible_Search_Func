@@ -1,0 +1,18 @@
+//First set the data in the submat and mainmat nodes to NULL
+
+search(node* root, int i_que, int j_que) {
+    if (root->matData == NULL) {
+        search(root->north, i_que, j_que);
+        search(root->east, i_que, j_que);
+        search(root->south, i_que, j_que);
+        search(root->west, i_que, j_que);
+    } else if (root->matData != NULL) {
+        if (root->i == i_que) && (root->j == j_que) {
+            cout << "This is found at " << i_que << j_que << " : " << root->matData;
+        } else {
+          return;
+        }
+    } else if (root == NULL) {
+      return;
+    }
+}
