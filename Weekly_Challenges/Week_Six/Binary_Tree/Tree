@@ -18,6 +18,7 @@ public:
     void iterativeSearch(node* root, int index);
     void plus(node* node_one, node* node_two, node* root_sum);
     void minus(node* node_one, node* node_two, node* root_sum);
+    void sum(int choice, node* root_one, node* root_two, tree new_tree);
 };
 
 tree::tree(node* start, int len) {
@@ -137,46 +138,6 @@ void tree::iterativeSearch(node* root, int index) {
         return;
     }
     cout << "\n" << "This is the value: " << root->matData;
-}
-
-//Need to finish the sum functions but all else is well in binary tree land.
-void tree::plus(node* node_one, node* node_two, node* root_sum) {
-    double sum;
-    int index;
-    if (node_one == NULL) {
-        sum = node_two->matData;
-        index = node_two->index;
-    }
-    else if (node_two == NULL) {
-        sum = node_one->matData;
-        index = node_one->matData;
-    }
-    else {
-        sum = node_one->matData + node_two->matData;
-        index = node_one->matData;
-    }
-
-    node* node_sum = new node(index, sum);
-
-}
-
-void tree::minus(node* node_one, node* node_two, node* root_sum) {
-    double sum;
-    int index;
-    if (node_one == NULL) {
-        sum = node_two->matData;
-        index = node_two->index;
-    }
-    else if (node_two == NULL) {
-        sum = node_one->matData;
-        index = node_one->matData;
-    }
-    else {
-        sum = node_one->matData - node_two->matData;
-        index = node_one->matData;
-    }
-
-    node* node_sum = new node(index, sum);
 }
 
 #endif
