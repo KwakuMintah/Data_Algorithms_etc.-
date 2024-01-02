@@ -16,6 +16,7 @@ struct node {
     };
 };
 
+//Potential Problem with this code. Only the root of the tree has an assigned name.
 node* init(double arr[], int start, int end) {
     if (start > end) {
         return NULL;
@@ -26,6 +27,52 @@ node* init(double arr[], int start, int end) {
     root->right = init(arr, mid + 1, end);
     return root;
 };
+
+node* addNodes(node* node_one, node* node_two) {
+    int loc, dat;
+    if ((node_one == NULL) || (node_two == NULL)) {
+        return NULL;
+    }
+    else if (node_one->matData == 0.0) {
+        loc = node_two->index;
+        dat = node_two->matData;
+    }
+    else if (node_two->matData == 0.0) {
+        loc = node_one->index;
+        dat = node_one->matData;
+    }
+    else {
+        loc = node_one->index;
+        dat = node_one->matData + node_two->matData;
+    }
+    node* node_sum = new node(loc, dat);
+    node_sum->left = addNodes(node_one->left, node_two->left);
+    node_sum->right = addNodes(node_one->right, node_two->right);
+    return node_sum;
+}
+
+node* subNodes(node* node_one, node* node_two) {
+    int loc, dat;
+    if ((node_one == NULL) || (node_two == NULL)) {
+        return NULL;
+    }
+    else if (node_one->matData == 0.0) {
+        loc = node_two->index;
+        dat = node_two->matData;
+    }
+    else if (node_two->matData == 0.0) {
+        loc = node_one->index;
+        dat = node_one->matData;
+    }
+    else {
+        loc = node_one->index;
+        dat = node_one->matData - node_two->matData;
+    }
+    node* node_sum = new node(loc, dat);
+    node_sum->left = addNodes(node_one->left, node_two->left);
+    node_sum->right = addNodes(node_one->right, node_two->right);
+    return node_sum;
+}
 
 struct quadnode {
     int i, j;
