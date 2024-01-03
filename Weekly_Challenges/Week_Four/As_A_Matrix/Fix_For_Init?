@@ -1,0 +1,39 @@
+node* init(double arr[], int width) {
+    int max_size = width * width;
+    
+    for loop of i and j {
+    int rowMaj = j * max_size
+    int index = i + rowMaj;
+    if (index > max_size - 1) {
+        return NULL;
+    }
+    //int i_num = j * width;
+    //i = -1 * (i_num - index);
+    //int j_num = index - i;
+    //j = j_num / width;
+    node* node_arr = new node(i, j, arr[index]);
+    //int next_index = index + 1;
+    node_arr->next = new node(i + 1, j + 1, arr[index + 1]);
+    return node_arr;
+    }
+}
+
+node* init(double arr[], int width, int height) {
+    int max_size = width * height;
+    if (index > max_size - 1) {
+        return NULL;
+    }
+    int i = 0, j = 0;
+    int i_num = j * width;
+    i = -1 * (i_num - index);
+    int j_num = index - i;
+    j = j_num / width;
+    while loop i and j (i < width, j < height) {
+    node* node_arr = new node(i, j, arr[index]);
+    i = i + 1;
+    j = j + 1;
+    }
+    node_arr->next = init(double arr[], int width, int height);
+    return node_arr;
+    }
+}
