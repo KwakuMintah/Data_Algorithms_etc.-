@@ -16,9 +16,7 @@ public:
     void printMat(node* node);
     void search(node* root, int index);
     void iterativeSearch(node* root, int index);
-    void plus(node* node_one, node* node_two, node* root_sum);
-    void minus(node* node_one, node* node_two, node* root_sum);
-    void sum(int choice, node* root_one, node* root_two, tree new_tree);
+    void diagonal(node* root, int i_init, int j_init);
 };
 
 tree::tree(node* start, int len) {
@@ -139,5 +137,4 @@ void tree::iterativeSearch(node* root, int index) {
     }
     cout << "\n" << "This is the value: " << root->matData;
 }
-
 #endif
