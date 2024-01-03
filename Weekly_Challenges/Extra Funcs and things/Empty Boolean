@@ -1,0 +1,15 @@
+bool isEmpty(node* check) {
+    if ((node->matData == NULL) || (node == NULL)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void check(node* subject) {
+    if (isEmpty(subject)) {
+        cout << "This node is empty.";
+    } else {
+        cout << "This node is full. It holds the value: " << subject->matData << " at " << subject->index;
+    }
+}
