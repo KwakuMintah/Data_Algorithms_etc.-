@@ -9,7 +9,7 @@ double A[3][3] = { { 1,1,1 }, { 1,2,4 }, { 1,3,9 } };
 double B[3] = {1, -1, 1};
 double x[3] = {};
 
-void printmat(int rows, int cols) {
+void printmat(int rows, int cols, arr[]) {
     int i, j;
     cout << "\n" << "This is the Matrix:" << "\n";
     for (i = 0; i < rows; i++) {
@@ -19,7 +19,7 @@ void printmat(int rows, int cols) {
     };
 };
 
-void gaussian(int rows, int cols) {
+void gaussian(int rows, int cols, arr[]) {
     int h = 0, k = 0;
     int i, j, l, m;
     double pivot;
@@ -39,7 +39,7 @@ void gaussian(int rows, int cols) {
     };
 }
 
-void backSub(int rows) {
+void backSub(int rows, A[], x[], B[]) {
     int i, j;
     double fromA, fromB, useJ;
     for (i = rows - 1; i > -1; i--) {
@@ -51,7 +51,7 @@ void backSub(int rows) {
     }
 }
 
-void printSol(int rows) {
+void printSol(int rows, x[]) {
     int i;
     cout << "\n";
     if (rows <= 3) {
@@ -76,7 +76,6 @@ void gaussianElim(int rows, int cols) {
 int main()
 {
     std::cout << "Hello World!\n";
-    //Add pointers for the arrays.
     printmat(3, 3);
     gaussianElim(3, 3);
 }
