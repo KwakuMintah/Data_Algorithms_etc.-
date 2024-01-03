@@ -14,6 +14,12 @@ public:
 	void grow(quadnode* branch, quadnode* n, quadnode* e, quadnode* s, quadnode* w);
 	void printbysub(quadnode* node);
 	void printval(quadnode* node);
+	void search(quadnode* root, int i_que, int j_que);
+	void replace(quadnode* root, quadnode* replacement);
+	void deleteNode(quadnode* root, int i_que, int j_que);
+	void diagonal(quadnode* root);
+	void reverseDiagonal(quadnode* root);
+	void sum(int choice, quadnode* root_one, quadnode* root_two);
 };
 
 quadtree::quadtree(quadnode* start) {
@@ -32,11 +38,20 @@ void quadtree::printbysub(quadnode* node) {
 	if (node == NULL) {
 		return;
 	};
-	cout << "\n" << node->matData;
-	printbysub(node->north);
-	printbysub(node->east);
-	printbysub(node->south);
-	printbysub(node->west);
+	if (node->matData == NULL) {
+		printbysub(node->north);
+		printbysub(node->east);
+		printbysub(node->south);
+		printbysub(node->west);
+	}
+	else {
+		cout << "\n" << node->matData;
+		printbysub(node->north);
+		printbysub(node->east);
+		printbysub(node->south);
+		printbysub(node->west);
+	}
+
 };
 
 void quadtree::printval(quadnode* node) {
@@ -44,27 +59,162 @@ void quadtree::printval(quadnode* node) {
 		return;
 	};
 	
-	printbysub(node->north);
-	printbysub(node->east);
-	printbysub(node->south);
-	printbysub(node->west);
-	cout << "\n" << node->matData;
-	
-};
-
-/*
-void quadtree::search(quadnode* root, int i, int j) {
-	if ((root == NULL) || ((root->i == i) && (root->j == j))) {
-		cout << "Found it: " << root->matData;
-	}
-	else if (root->index < index) {
-		search(root->right, index);
-	}
-	else if (root->index > index) {
-		search(root->left, index);
+	//For some reason, this code reads a value of 0.0 as NULL. All this means is that it doesn't print out their data.
+	if (node->matData == NULL) {
+		printbysub(node->north);
+		printbysub(node->east);
+		printbysub(node->south);
+		printbysub(node->west);
 	}
 	else {
+		printbysub(node->north);
+		printbysub(node->east);
+		printbysub(node->south);
+		printbysub(node->west);
+		cout << "\n" << node->matData;
+	}
+
+};
+
+//For this to work, the values of the submats must be set to NULL.
+void quadtree::search(quadnode* root, int i_que, int j_que) {
+	if (root->matData == NULL) {
+		search(root->north, i_que, j_que);
+		search(root->east, i_que, j_que);
+		search(root->south, i_que, j_que);
+		search(root->west, i_que, j_que);
+	} else if (root->matData != NULL) {
+		if ((root->i == i_que) && (root->j == j_que)) {
+			cout << "\n" << "This is found at " << i_que << j_que << " : " << root->matData;
+		} else {
+		  return;
+		}
+	} else if (root == NULL) {
+	  return;
+	}
+}
+
+//When it comes to deleting or replacing nodes I am able to clear the data stored within but never the node itself.
+void quadtree::replace(quadnode* root, quadnode* replacement) {
+	int i_que = replacement->i;
+	int j_que = replacement->j;
+	if (root->matData == NULL) {
+		replace(root->north, replacement);
+		replace(root->east, replacement);
+		replace(root->south, replacement);
+		replace(root->west, replacement);
+	}
+	else if (root->matData != NULL) {
+		if ((root->i == i_que) && (root->j == j_que)) {
+			root->matData = replacement->matData;
+		}
+		else {
+			return;
+		}
+	}
+	else if (root == NULL) {
 		return;
 	}
-*/
+}
+
+//This can't be put into an iterative loop either.
+void quadtree::deleteNode(quadnode* root, int i_que, int j_que) {
+	if (root->matData == NULL) {
+		deleteNode(root->north, i_que, j_que);
+		deleteNode(root->east, i_que, j_que);
+		deleteNode(root->south, i_que, j_que);
+		deleteNode(root->west, i_que, j_que);
+	}
+	else if (root->matData != NULL) {
+		if ((root->i == i_que) && (root->j == j_que)) {
+			root->matData = NULL;
+		}
+		else {
+			return;
+		}
+	}
+	else if (root == NULL) {
+		return;
+	}
+}
+
+void quadtree::diagonal(quadnode* root) {
+	if (root->matData == NULL) {
+		diagonal(root->north);
+		diagonal(root->east);
+		diagonal(root->south);
+		diagonal(root->west);
+	}
+	else if (root->matData != NULL) {
+		if (root->i != root->j) {
+			root->matData = 0.0;
+		}
+		else {
+			return;
+		}
+	}
+	else if (root == NULL) {
+		return;
+	}
+}
+
+void quadtree::reverseDiagonal(quadnode* root) {
+	if (root->matData == NULL) {
+		reverseDiagonal(root->north);
+		reverseDiagonal(root->east);
+		reverseDiagonal(root->south);
+		reverseDiagonal(root->west);
+	}
+	else if (root->matData != NULL) {
+		if (root->i == root->j) {
+			root->matData = 0.0;
+		}
+		else {
+			return;
+		}
+	}
+	else if (root == NULL) {
+		return;
+	}
+}
+
+//This function becomes redundant as it doesn't store the new tree anywhere.
+void quadtree::sum(int choice, quadnode* root_one, quadnode* root_two) {
+	if ((root_one->matData == NULL) && (root_two->matData == NULL)) {
+		sum(choice, root_one->north, root_one->north);
+		sum(choice, root_one->east, root_one->east);
+		sum(choice, root_one->south, root_one->south);
+		sum(choice, root_one->west, root_one->west);
+	}
+	else if ((root_one->matData == NULL) && (root_one->matData != NULL)) {
+		sum(choice, root_one->north, root_two);
+		sum(choice, root_one->east, root_two);
+		sum(choice, root_one->south, root_two);
+		sum(choice, root_one->west, root_two);
+	}
+	else if ((root_one->matData != NULL) && (root_one->matData == NULL)) {
+		sum(choice, root_one, root_two->north);
+		sum(choice, root_one, root_two->east);
+		sum(choice, root_one, root_two->south);
+		sum(choice, root_one, root_two->west);
+	}
+	else if ((root_one->matData != NULL) && (root_one->matData != NULL)) {
+		if ((root_one->i == root_two->i) && (root_two->j == root_two->j)) {
+			if (choice == 0) {
+				quadnode* quad_sum = addQuad(root_one, root_two);
+			}
+			else {
+				quadnode* quad_sum = subQuad(root_one, root_two);
+			}
+			
+		}
+		else {
+			return;
+		}
+	}
+	else if ((root_one == NULL) && (root_two == NULL)) {
+		return;
+	}
+}
+
 #endif
