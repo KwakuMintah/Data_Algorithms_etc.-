@@ -21,3 +21,7 @@ void revConversion(double arr[], double mat[][], int rows, int cols) {
         }
     }
 }
+
+void fillMat(oneDMat* oneD, double arr[]) {
+    oneDMAt->storage = arr;
+}
