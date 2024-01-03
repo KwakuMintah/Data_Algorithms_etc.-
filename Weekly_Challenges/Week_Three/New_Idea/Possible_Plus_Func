@@ -1,0 +1,24 @@
+addMats(matOne[], matTwo[], matSum[]) {
+    for (i = 0; i < size; i++) {
+        matSum[] = matOne[] + matTwo[];
+    }
+}
+
+subMats(matOne[], matTwo[], matSum[]) {
+    for (i = 0; i < size; i++) {
+        matSum[] = matOne[] - matTwo[];
+    }
+}
+
+searchMat(mat[], i_que, j_que) {
+    int rowMaj = j_que * size;
+    int index = i_que + rowMaj;
+    for (i = 0; i < size, i++) {
+        if (i = index) {
+            cout << mat[i] << " is what you're looking for.";
+            return;
+        } else {
+        int y = 0;
+        }
+    }
+}
