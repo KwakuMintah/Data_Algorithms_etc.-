@@ -38,16 +38,37 @@ void testTree() {
     treeOne.iterativeSearch(two, 3);
 }
 
+void testTreeTwo() {
+    double matOne[4] = { 1, 2, 3, 4 };
+    double matTwo[4] = { 5, 6, 7, 8 };
+    double matSparse[4] = { 3, 4, 0, 0 };
+
+    node* treeOne = init(matOne, 0, 3);
+    node* treeTwo = init(matTwo, 0, 3);
+    node* sparseTree = init(matSparse, 0, 3);
+
+    tree testOne(treeOne, 4);
+    tree testTwo(treeTwo, 4);
+
+
+    node* treeThree = addNodes(treeOne, sparseTree);
+    tree testThree(treeThree, 4);
+
+    testOne.printMat(treeOne);
+    testTwo.printMat(treeTwo);
+    testThree.printMat(treeThree);
+}
+
 
 void testQuad() {
     //Currently working on a more efficient way to do this.
-    quadnode nodeRoot(0, 0, 0.0);
+    quadnode nodeRoot(0, 0, NULL);
     quadnode* seed = &nodeRoot;
 
-    quadnode subMatOne(0, 0, 1000.0);
-    quadnode subMatTwo(0, 0, 2000.0);
-    quadnode subMatThree(0, 0, 3000.0);
-    quadnode subMatFour(0, 0, 4000.0);
+    quadnode subMatOne(0, 0, NULL);
+    quadnode subMatTwo(0, 0, NULL);
+    quadnode subMatThree(0, 0, NULL);
+    quadnode subMatFour(0, 0, NULL);
 
     quadnode nodeOne(1, 1, 1.0);
     quadnode nodeTwo(1, 2, 2.0);
@@ -66,10 +87,40 @@ void testQuad() {
     quadnode nodeFifteen(4, 3, 15.0);
     quadnode nodeSixteen(4, 4, 16.0);
 
+    quadnode quadRoot(0, 0, NULL);
+    quadnode* quadseed = &quadRoot;
+
+    quadnode quadMatOne(0, 0, NULL);
+    quadnode quadMatTwo(0, 0, NULL);
+    quadnode quadMatThree(0, 0, NULL);
+    quadnode quadMatFour(0, 0, NULL);
+
+    quadnode quadOne(1, 1, 1.0);
+    quadnode quadTwo(1, 2, 2.0);
+    quadnode quadThree(1, 3, 3.0);
+    quadnode quadFour(1, 4, 4.0);
+    quadnode quadFive(2, 1, 5.0);
+    quadnode quadSix(2, 2, 6.0);
+    quadnode quadSeven(2, 3, 7.0);
+    quadnode quadEight(2, 4, 8.0);
+    quadnode quadNine(3, 1, 9.0);
+    quadnode quadTen(3, 2, 10.0);
+    quadnode quadEleven(3, 3, 11.0);
+    quadnode quadTwelve(3, 4, 12.0);
+    quadnode quadThirteen(4, 1, 13.0);
+    quadnode quadFourteen(4, 2, 14.0);
+    quadnode quadFifteen(4, 3, 15.0);
+    quadnode quadSixteen(4, 4, 16.0);
+
     quadnode* nw = &subMatOne;
     quadnode* ne = &subMatTwo;
     quadnode* sw = &subMatThree;
     quadnode* se = &subMatFour;
+
+    quadnode* qnw = &quadMatOne;
+    quadnode* qne = &quadMatTwo;
+    quadnode* qsw = &quadMatThree;
+    quadnode* qse = &quadMatFour;
 
     quadnode* one = &nodeOne;
     quadnode* two = &nodeTwo;
@@ -88,15 +139,48 @@ void testQuad() {
     quadnode* fifteen = &nodeFifteen;
     quadnode* sixteen = &nodeSixteen;
 
+    quadnode* qone = &quadOne;
+    quadnode* qtwo = &quadTwo;
+    quadnode* qthree = &quadThree;
+    quadnode* qfour = &quadFour;
+    quadnode* qfive = &quadFive;
+    quadnode* qsix = &quadSix;
+    quadnode* qseven = &quadSeven;
+    quadnode* qeight = &quadEight;
+    quadnode* qnine = &quadNine;
+    quadnode* qten = &quadTen;
+    quadnode* qeleven = &quadEleven;
+    quadnode* qtwelve = &quadTwelve;
+    quadnode* qthirteen = &quadThirteen;
+    quadnode* qfourteen = &quadFourteen;
+    quadnode* qfifteen = &quadFifteen;
+    quadnode* qsixteen = &quadSixteen;
+
     quadtree treeOne(seed);
+    quadtree treeTwo(quadseed);
+    
+
     treeOne.grow(seed, nw, ne, sw, se);
     treeOne.grow(nw, one, two, five, six);
     treeOne.grow(ne, three, four, seven, eight);
     treeOne.grow(sw, nine, ten, thirteen, fourteen);
     treeOne.grow(se, eleven, twelve, fifteen, sixteen);
+
+    treeOne.grow(quadseed, qnw, qne, qsw, qse);
+    treeOne.grow(qnw, qone, qtwo, qfive, qsix);
+    treeOne.grow(qne, qthree, qfour, qseven, qeight);
+    treeOne.grow(qsw, qnine, qten, qthirteen, qfourteen);
+    treeOne.grow(qse, qeleven, qtwelve, qfifteen, qsixteen);
+
+    cout << "\n" << "Mat One: " << "\n";
     treeOne.printval(seed);
-    cout << "\n" << "Looky here" << "\n";
-    //treeOne.printbysub(seed);
+    cout << "\n" << "Mat Two: " << "\n";
+    treeTwo.diagonal(quadseed);
+    treeTwo.printval(quadseed);
+    cout << "\n" << "Add them together: " << "\n";
+    quadnode* newTree = addQuad(seed, quadseed);
+    quadtree treeThree(newTree);
+    treeThree.printval(newTree);
 };
 
 int main() {
@@ -110,28 +194,7 @@ int main() {
 
     //cout << "\n" << "QuadTree" << "\n";
 
-    double matOne[4] = {1, 2, 3, 4};
-    double matTwo[4] = { 5, 6, 7, 8 };
-    double matSparse[4] = { 3, 4, 0, 0 };
-
-    node* treeOne = init(matOne, 0, 3);
-    node* treeTwo = init(matTwo, 0, 3);
-    node* sparseTree = init(matSparse, 0, 3);
-    
-    tree testOne(treeOne, 4);
-    tree testTwo(treeTwo, 4);
-    
-
-    node* treeThree = addNodes(treeOne, sparseTree);
-    tree testThree(treeThree, 4);
-    
-    testOne.printMat(treeOne);
-    testTwo.printMat(treeTwo);
-    testThree.printMat(treeThree);
-
-
-
     //cout << "\n" << "This took " << durationTree.count()  << " ms.";
 
-    //testQuad();
+    testQuad();
 }
