@@ -29,7 +29,8 @@ node* init(double arr[], int start, int end) {
 };
 
 node* addNodes(node* node_one, node* node_two) {
-    int loc, dat;
+    int loc;
+    double dat;
     if ((node_one == NULL) || (node_two == NULL)) {
         return NULL;
     }
@@ -52,7 +53,8 @@ node* addNodes(node* node_one, node* node_two) {
 }
 
 node* subNodes(node* node_one, node* node_two) {
-    int loc, dat;
+    int loc;
+    double dat;
     if ((node_one == NULL) || (node_two == NULL)) {
         return NULL;
     }
@@ -95,16 +97,17 @@ struct quadnode {
 };
 
 quadnode* addQuad(quadnode* quad_one, quadnode* quad_two) {
-    int loc, dat;
-    if ((node_one == NULL) || (node_two == NULL)) {
+    int loc_i, loc_j;
+    double dat;
+    if ((quad_one == NULL) || (quad_two == NULL)) {
         return NULL;
     }
-    else if (node_one->matData == 0.0) {
+    else if (quad_one->matData == 0.0) {
         loc_i = quad_two->i;
         loc_j = quad_two->j;
         dat = quad_two->matData;
     }
-    else if (node_two->matData == 0.0) {
+    else if (quad_two->matData == 0.0) {
         loc_i = quad_one->i;
         loc_j = quad_one->j;
         dat = quad_one->matData;
@@ -115,24 +118,25 @@ quadnode* addQuad(quadnode* quad_one, quadnode* quad_two) {
         dat = quad_one->matData + quad_two->matData;
     }
     quadnode* quad_sum = new quadnode(loc_i, loc_j, dat);
-    quad_sum->north = addNodes(quad_one->north, quad_two->north);
-    quad_sum->east = addNodes(quad_one->east, quad_two->east);
-    quad_sum->south = addNodes(quad_one->south, quad_two->south);
-    quad_sum->west = addNodes(quad_one->west, quad_two->west);
+    quad_sum->north = addQuad(quad_one->north, quad_two->north);
+    quad_sum->east = addQuad(quad_one->east, quad_two->east);
+    quad_sum->south = addQuad(quad_one->south, quad_two->south);
+    quad_sum->west = addQuad(quad_one->west, quad_two->west);
     return quad_sum;
 }
 
 quadnode* subQuad(quadnode* quad_one, quadnode* quad_two) {
-    int loc, dat;
-    if ((node_one == NULL) || (node_two == NULL)) {
+    int loc_i, loc_j;
+    double dat;
+    if ((quad_one == NULL) || (quad_two == NULL)) {
         return NULL;
     }
-    else if (node_one->matData == 0.0) {
+    else if (quad_one->matData == 0.0) {
         loc_i = quad_two->i;
         loc_j = quad_two->j;
         dat = quad_two->matData;
     }
-    else if (node_two->matData == 0.0) {
+    else if (quad_two->matData == 0.0) {
         loc_i = quad_one->i;
         loc_j = quad_one->j;
         dat = quad_one->matData;
@@ -143,11 +147,12 @@ quadnode* subQuad(quadnode* quad_one, quadnode* quad_two) {
         dat = quad_one->matData - quad_two->matData;
     }
     quadnode* quad_sum = new quadnode(loc_i, loc_j, dat);
-    quad_sum->north = addNodes(quad_one->north, quad_two->north);
-    quad_sum->east = addNodes(quad_one->east, quad_two->east);
-    quad_sum->south = addNodes(quad_one->south, quad_two->south);
-    quad_sum->west = addNodes(quad_one->west, quad_two->west);
+    quad_sum->north = addQuad(quad_one->north, quad_two->north);
+    quad_sum->east = addQuad(quad_one->east, quad_two->east);
+    quad_sum->south = addQuad(quad_one->south, quad_two->south);
+    quad_sum->west = addQuad(quad_one->west, quad_two->west);
     return quad_sum;
 }
+
 
 #endif
