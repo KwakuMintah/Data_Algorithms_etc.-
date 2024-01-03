@@ -4,16 +4,18 @@
 
 class oneDMat {
 public:
-		int rows;
-		int cols;
-		int size;
-		oneDMat(int r, int c);
+	int rows;
+	int cols;
+	int size;
+	double* storage[];
+	oneDMat(int r, int c);
 }
 
-oneDMat::oneDMat(int r, int c) {
-		rows = r;
-		cols = c;
-		size = rows * cols;
+oneDMat::oneDMat(int r, int c, double arr[]) {
+	rows = r;
+	cols = c;
+	size = rows * cols;
+	storage[] = arr[];
 };
 
 
