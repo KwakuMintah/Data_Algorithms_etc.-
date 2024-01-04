@@ -1,0 +1,76 @@
+#include <iostream>
+using namespace std;
+#ifndef ONEDMATHEADERDEF
+#define ONEDMATHEADERDEF
+
+class oneDMat {
+public:
+	int rows;
+	int cols;
+	int size;
+	double* storage;
+	oneDMat(int r, int c, double arr[]);
+	//void conversion(double arr[], double mat[][]);
+	void addMats(double matone[], double matTwo[], double matSum[]);
+	void subMats(double matOne[], double matTwo[], double matSum[]);
+	void searchMat(double mat[], int i_que, int j_que);
+	void printMat(double mat[]);
+};
+
+oneDMat::oneDMat(int r, int c, double arr[]) {
+	rows = r;
+	cols = c;
+	size = rows * cols;
+	storage = arr;
+}
+
+void oneDMat::addMats(double matOne[], double matTwo[], double matSum[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		matSum[i] = matOne[i] + matTwo[i];
+	}
+}
+
+void oneDMat::subMats(double matOne[], double matTwo[], double matSum[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		matSum[i] = matOne[i] - matTwo[i];
+	}
+}
+
+//This seems to search but only find the first value.
+void oneDMat::searchMat(double mat[], int i_que, int j_que) {
+	int i_zer = i_que - 1;
+	int j_zer = j_que - 1;
+	int rowMaj = j_zer * size;
+	int index = i_zer + rowMaj;
+	int i;
+	for (i = 0; i < size; i++) {
+		if (index == i) {
+			cout << "\n" << "This is the value at " << i_que << j_que << " : " << mat[i];
+		}
+	}
+}
+
+void oneDMat::printMat(double mat[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		cout << mat[i];
+	}
+}
+
+/*
+void oneDMat::conversion(double arr[], double mat[][]) {
+	int i, j;
+	int index, rowMaj;
+	for (i = 0; i < size; i++) {
+		for (j = 0; j < size; j++) {
+			rowMaj = j * rows;
+			index = i + rowMaj;
+			arr[index] = mat[i][j];
+		}
+	}
+}
+*/
+
+#endif
