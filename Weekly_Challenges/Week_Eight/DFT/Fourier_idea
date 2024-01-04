@@ -1,0 +1,96 @@
+#include <iostream>
+#include "Complex.hpp"
+using namespace std;
+#ifndef DISCRETEHEADERDEF
+#define DISCRETEHEADERDEF
+
+struct complexDouble {
+double real, imag;
+complexDouble() {
+real = NULL;
+imag = NULL;
+}
+}
+
+double pi = 3.14159265359;
+
+double sample[1] = {};
+double x_k[1] = {};
+double fourier[1] = {};
+
+void initArray(int size, sample[]) {
+    int i;
+    double t;
+    double interval;
+    t = 0.1;
+    for (i = 0; i < size; i++) {
+        interval = i * t;
+        sample[i] = interval;
+    }
+}
+
+void genFunc(int N, func[]) {
+double a, b, c;
+for loop (i -> N) {
+func[i] = (a * i) + (b * i) + (c * i);
+}
+}
+
+void cosSin(cos[], sin[]) {
+for loop (i -> N) {
+cos[i] = cos((2 * i * k * pi) / N);
+sin[i] = sin((2 * i * k * pi) / N);
+}
+}
+
+void funcFour(int k) {
+complexDouble dftVal[k];
+for loop (j -> k) {
+for loop (i -> k) {
+dftVal[j].real += func[i] * cos[i];
+dftVal[j].img += func[i] * sin[i];
+}
+}
+}
+
+void initArrayTwo(int size, sample[]) {
+    int i = 0;
+    double t;
+    for (i = 0; i < size; i++) {
+        t = double(i);
+        double coefOne = (size + 0.5) * t;
+        double coefTwo = t * 0.5;
+        double num = sin(coefOne);
+        double den = sin(coefTwo);
+        double frac = num / den;
+        sample[i] = frac - 1.0;
+    }
+}
+
+void printArray(int size, double arr[]) {
+    int i;
+    for (i = 0; i < size; i++) {
+        cout << "\n" << sample[i] << "    " << fourier[i];
+    }
+}
+
+void discreteFourier(int size, sample[], fourierre[], fourierim[]) {
+    
+    int i = 0, j = 0;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            double num = 2 * pi;
+            double frac = num / size;
+            double kn = i * j;
+            double coef = -1 * frac * kn;
+            double cosin = cos(coef);
+            double sine = sin(coef);
+            complexDouble theEx(cosin, sine);
+            fourierre[i] += sample[i] * theEx(real);
+            fourierim[i] += sample[i] * theEx(imag);
+        }
+    }
+}
+
+
+#endif
