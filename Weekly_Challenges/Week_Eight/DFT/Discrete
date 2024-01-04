@@ -5,7 +5,7 @@ using namespace std;
 #define DISCRETEHEADERDEF
 
 double pi = 3.14159265359;
-
+const int iter = 500;
 
 
 void genFunc(int size, double func[], double a, double b, double c) {
@@ -67,9 +67,68 @@ void discreteFourier(int size, double sample[], complexDouble fourier[]) {
     }
 }
 
+
+
+int bitReversal(int size) {
+    int i, check = size/2;
+    int midpoint = size / 2;
+    for (i = 0; i < size; i++) {
+        if (i >= midpoint) {
+            swap(i, midpoint);
+        }
+        while (check == size / 2) {
+            if (check > midpoint) {
+                return 0;
+            }
+            midpoint -= check;
+            check /= 2;
+        }
+        midpoint += check;
+        return midpoint;
+    }
+}
+
+//The code runs but only prints zeros
+void fastFourier(int size, complexDouble xArr[]) {
+    int i, j, k, i_aug;
+    double cosine, sine, log_two, pow_two, pow_div;
+    complexDouble trace;
+    log_two = int_log(size, 2);
+    double zer = 0.0;
+    double one = 1.0;
+    j = bitReversal(size);
+    for (i = 1; i < log_two + 1; i++) {
+        pow_two = pow(2, i);
+        pow_div = pow_two / 2;
+        cosine = cos(pi / pow_div);
+        sine = -1 * sin(pi / pow_div);
+        for (j = 1; j < pow_div + 1; j++) {
+            for (k = j - 1; k < size - 1; k++) {
+                i_aug = i + pow_div;
+                trace.real = xArr[i_aug].real * one - xArr[i_aug].imag * zer;
+                trace.imag = xArr[i_aug].real * zer + xArr[i_aug].imag * one;
+                xArr[i_aug].real = xArr[i].real - trace.real;
+                xArr[i_aug].imag = xArr[i].imag - trace.imag;
+                xArr[i].real += trace.real;
+                xArr[i].imag += trace.imag;
+            }
+            trace.real = one;
+            one = trace.real * cosine - zer * sine;
+            zer = trace.real * sine + zer * cosine;
+        }
+    }
+}
+
 void fourierFunc(int size, double sample[], complexDouble output[]) {
     genFunc(size, sample, 1, 2, 3);
     discreteFourier(size, sample, output);
     printArray(size, sample, output);
 }
+
+void fastFourierFunc(int size, double sample[], complexDouble output[]) {
+    genFunc(size, sample, 1, 2, 3);
+    fastFourier(size, output);
+    printArray(size, sample, output);
+}
+
 #endif
