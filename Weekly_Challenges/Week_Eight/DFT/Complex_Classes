@@ -13,4 +13,14 @@ struct complexDouble {
 	double imag;
 };
 
+int int_log(int base, int val) {
+	int ans = log2(base) / log2(val);
+	return ans;
+}
+
+double double_base(double base, double val) {
+	double ans = log2(base) / log2(val);
+	return ans;
+}
+
 #endif
