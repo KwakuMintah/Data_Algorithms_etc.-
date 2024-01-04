@@ -6,26 +6,29 @@ using namespace std;
 
 double pi = 3.14159265359;
 
-double sample[1] = {};
-double x_k[1] = {};
-double fourier[1] = {};
 
-void initArray(int size, sample[]) {
+
+void genFunc(int size, double func[], double a, double b, double c) {
+    int i;
+    for (i = 0; i < size; i++) {
+        func[i] = (a * i) + (b * i) + (c * i);
+    }
+}
+
+void initArray(int size, double arr[]) {
     int i;
     double t;
     double interval;
     t = 0.1;
     for (i = 0; i < size; i++) {
         interval = i * t;
-        sample[i] = interval;
+        arr[i] = interval;
     }
 }
 
-void initArrayTwo(int size, int N, sample[]) {
+void initArrayTwo(int size, int N, double arr[]) {
     int i = 0;
     double t;
-
-    
 
     for (i = 0; i < size; i++) {
         t = double(i);
@@ -34,19 +37,18 @@ void initArrayTwo(int size, int N, sample[]) {
         double num = sin(coefOne);
         double den = sin(coefTwo);
         double frac = num / den;
-        sample[i] = frac - 1.0;
+        arr[i] = frac - 1.0;
     }
 }
 
-void printArray(int size, double arr[]) {
+void printArray(int size, double sample[], complexDouble fourier[]) {
     int i;
     for (i = 0; i < size; i++) {
-        cout << "\n" << sample[i] << "    " << fourier[i];
+        cout << "\n" << i << "    " << sample[i] << "    " << fourier[i].real << "    " << fourier[i].imag;
     }
 }
 
-void discreteFourier(int size, sample[], fourierre[], fourierim[]) {
-    
+void discreteFourier(int size, double sample[], complexDouble fourier[]) {
     int i = 0, j = 0;
     for (i = 0; i < size; i++) {
         for (j = 0; j < size; j++) {
@@ -56,12 +58,18 @@ void discreteFourier(int size, sample[], fourierre[], fourierim[]) {
             double coef = -1 * frac * kn;
             double cosin = cos(coef);
             double sine = sin(coef);
-            complexDouble theEx(cosin, sine);
-            fourierre[i] += sample[i] * theEx(real);
-            fourierim[i] += sample[i] * theEx(imag);
+            complexDouble theEx;
+            theEx.real = cosin;
+            theEx.imag = sine;
+            fourier[i].real += sample[i] * theEx.real;
+            fourier[i].imag += sample[i] * theEx.imag;
         }
     }
 }
 
-
+void fourierFunc(int size, double sample[], complexDouble output[]) {
+    genFunc(size, sample, 1, 2, 3);
+    discreteFourier(size, sample, output);
+    printArray(size, sample, output);
+}
 #endif
