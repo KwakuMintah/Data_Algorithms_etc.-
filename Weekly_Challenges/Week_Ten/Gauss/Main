@@ -5,11 +5,23 @@
 #include <vector>
 using namespace std;
 
-double A[3][3] = { { 1,1,1 }, { 1,2,4 }, { 1,3,9 } };
+//double A[3][3] = { { 1,1,1 }, { 1,2,4 }, { 1,3,9 } };
+double A[20][20] = {};
 double B[3] = {1, -1, 1};
 double x[3] = {};
 
-void printmat(int rows, int cols, arr[]) {
+void fillMat(int rows, int cols) {
+    int i, j;
+    double val;
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            val = rand() % 10 + i;
+            A[i][j] = val;
+        }
+    }
+}
+
+void printmat(int rows, int cols) {
     int i, j;
     cout << "\n" << "This is the Matrix:" << "\n";
     for (i = 0; i < rows; i++) {
@@ -19,7 +31,7 @@ void printmat(int rows, int cols, arr[]) {
     };
 };
 
-void gaussian(int rows, int cols, arr[]) {
+void gaussian(int rows, int cols) {
     int h = 0, k = 0;
     int i, j, l, m;
     double pivot;
@@ -39,7 +51,7 @@ void gaussian(int rows, int cols, arr[]) {
     };
 }
 
-void backSub(int rows, A[], x[], B[]) {
+void backSub(int rows) {
     int i, j;
     double fromA, fromB, useJ;
     for (i = rows - 1; i > -1; i--) {
@@ -51,7 +63,7 @@ void backSub(int rows, A[], x[], B[]) {
     }
 }
 
-void printSol(int rows, x[]) {
+void printSol(int rows) {
     int i;
     cout << "\n";
     if (rows <= 3) {
@@ -68,14 +80,26 @@ void printSol(int rows, x[]) {
 }
 
 void gaussianElim(int rows, int cols) {
+    printmat(rows, cols);
     gaussian(rows, cols);
     backSub(rows);
+    printmat(rows, cols);
     printSol(rows);
 };
+
+void funsies(int rows, int cols) {
+    fillMat(rows, cols);
+    printmat(rows, cols);
+    gaussian(rows, cols);
+    backSub(rows);
+    printmat(rows, cols);
+    printSol(rows);
+}
 
 int main()
 {
     std::cout << "Hello World!\n";
-    printmat(3, 3);
-    gaussianElim(3, 3);
+    //The next step is to include pointers in order to make the code more generalised.
+    //gaussianElim(3, 3);
+    funsies(20, 20);
 }
