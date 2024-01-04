@@ -1,0 +1,22 @@
+// arrayMat.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include "oneDMat.hpp"
+
+double arrayOne[4] = { 0,1,2,3 };
+double arrayTwo[4] = { 1,2,3,4 };
+double arrayThree[4] = {};
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    oneDMat MatOne(2, 2, arrayOne);
+    oneDMat MatTwo(2, 2, arrayTwo);
+    oneDMat MatThree(2, 2, arrayThree);
+
+    MatThree.addMats(MatOne.storage, MatTwo.storage, MatThree.storage);
+    MatThree.printMat(MatThree.storage);
+    MatThree.searchMat(arrayThree, 1, 2);
+}
