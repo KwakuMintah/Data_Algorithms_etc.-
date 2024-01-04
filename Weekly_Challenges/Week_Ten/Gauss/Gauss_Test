@@ -1,0 +1,19 @@
+void pivot(double mat[][], int n) {
+for loop (i -> n) {
+pivot = i
+j = i + 1
+for loop (j -> n) {
+//This is that zero thing
+if (abs(mat[j][i]) > abs(mat[pivot][i])) {
+pivot = j
+}
+if (pivot != i) {
+for loop (j = i -> n) {
+swap(mat[i][j], mat[pivot_row][j])
+}
+}
+for loop (j = i+1 -> n) {
+double factor = A[j][i] / A[i][i];
+for loop (k = i -> n) {
+A[j][k] -= factor * A[i][k];
+}
