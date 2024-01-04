@@ -7,14 +7,16 @@
 #include "Discrete.hpp"
 using namespace std;
 
+const int iter = 500;
 
-
+double arrOne[iter];
+double arrTwo[iter];
+complexDouble arrThree[iter];
 
 
 int main() {
     std::cout << "Hello World!\n";
 
-    initArrayTwo(50);
-    printArray(50);
+    fourierFunc(iter, arrOne, arrThree);
 }
 
