@@ -11,7 +11,12 @@ for loop l -> rows {
 j_alt = j + diff;
 k_alt = k + diff;
 l_alt = l + diff;
-C[j_alt][k_alt] += A[j_alt][l_alt] * B[l_alt][k_alt];
+rowMOne = k_alt * size;
+rowMTwo = l_alt * size;
+indOne = j_alt + rowMOne;
+indTwo = j_alt + rowMTwo;
+indThree = l_alt + rowMOne;
+C[indOne] += A[indTwo] * B[indThree];
 }
 }
 }
