@@ -2,7 +2,7 @@ void multpowTwo(double matOne[], double matTwo[], double matSum[]) {
 int n = log2(rows);
 int i, j, k, l, diff;
 int j_alt, k_alt, l_alt;
-
+int rowMOne, rowMTwo, indOne, indTwo, indThree;
 for loop i -> n {
 diff = i * 2;
 for loop j -> rows {
@@ -11,11 +11,11 @@ for loop l -> rows {
 j_alt = j + diff;
 k_alt = k + diff;
 l_alt = l + diff;
-rowMOne = k_alt * size;
+rowMOne = j_alt * size;
 rowMTwo = l_alt * size;
-indOne = j_alt + rowMOne;
-indTwo = j_alt + rowMTwo;
-indThree = l_alt + rowMOne;
+indOne = rowMOne + k_alt;
+indTwo = rowMOne + l_alt;
+indThree = rowMTwo + k_alt;
 C[indOne] += A[indTwo] * B[indThree];
 }
 }
