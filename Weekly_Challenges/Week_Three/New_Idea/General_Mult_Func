@@ -1,0 +1,17 @@
+void multpowTwo(double matOne[], double matTwo[], double matSum[]) {
+int n = log2(rows);
+int i, j, k, l, diff;
+int j_alt, k_alt, l_alt;
+for loop i -> n {
+diff = i * 2;
+for loop j -> rows {
+for loop k -> rows {
+for loop l -> rows {
+j_alt = j + diff;
+k_alt = k + diff;
+l_alt = l + diff;
+C[j_alt][k_alt] += A[j_alt][l_alt] * B[l_alt][k_alt];
+}
+}
+}
+}
