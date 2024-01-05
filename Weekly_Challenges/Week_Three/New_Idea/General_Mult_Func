@@ -1,9 +1,10 @@
-void multpowTwo(double matOne[], double matTwo[], double matSum[]) {
+void multpowTwo(double A[], double B[], double C[]) {
 int n = log2(rows);
 int i, j, k, l, diff;
 int j_alt, k_alt, l_alt;
 int rowMOne, rowMTwo, indOne, indTwo, indThree;
 for loop i -> n {
+for loop j -> n {
 diff = i * 2;
 for loop j -> rows {
 for loop k -> rows {
@@ -21,3 +22,12 @@ C[indOne] += A[indTwo] * B[indThree];
 }
 }
 }
+
+void strassenPow(double A[], double B[], double C[]) {
+int n = log2(rows);
+for loop i -> n {
+diff = i * 2;
+j_alt = j + diff;
+k_alt = k + diff;
+
+
