@@ -1,0 +1,6 @@
+#include <fstream>
+#include <string>
+
+ofstream filename(file_destination);
+filename << "Output;
+filename.close;
