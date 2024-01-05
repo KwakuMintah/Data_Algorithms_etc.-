@@ -1,0 +1,112 @@
+#include <iostream>
+#include <fstream>
+#include "Complex.hpp"
+using namespace std;
+#ifndef FASTHEADERDEF
+#define FASTHEADERDEF
+
+//Needs work. Maybe use FFTW?
+
+int bitReversal(int size, complexDouble xArr[]) {
+    int i, check = size / 2;
+    int midpoint = size / 2;
+    for (i = 1; i < size - 1; i++) {
+        if (i >= midpoint) {
+            swap(xArr[i].real,xArr[midpoint].real);
+            swap(xArr[i].imag, xArr[midpoint].imag);
+        }
+        while (check == size / 2) {
+            if (check > midpoint) {
+                return 0;
+            }
+            midpoint -= check;
+            check /= 2;
+        }
+        midpoint += check;
+        return midpoint;
+    }
+}
+
+//The code runs but only prints zeros
+
+void fastFourier(int size, complexDouble xArr[]) {
+    int i, j, k, i_aug;
+    double cosine, sine, log_two, pow_two, pow_div;
+    complexDouble trace;
+    log_two = int_log(size, 2);
+    double zer = 0.0;
+    double one = 1.0;
+    j = bitReversal(size, xArr);
+    for (i = 1; i < log_two + 1; i++) {
+        pow_two = pow(2, i);
+        pow_div = pow_two / 2;
+        cosine = cos(pi / pow_div);
+        sine = -1 * sin(pi / pow_div);
+        for (j = 1; j < pow_div + 1; j++) {
+            for (k = j - 1; k < size - 1; k++) {
+                i_aug = i + pow_div;
+                trace.real = xArr[i_aug].real * one - xArr[i_aug].imag * zer;
+                trace.imag = xArr[i_aug].real * zer + xArr[i_aug].imag * one;
+                xArr[i_aug].real = xArr[i].real - trace.real;
+                xArr[i_aug].imag = xArr[i].imag - trace.imag;
+                xArr[i].real += trace.real;
+                xArr[i].imag += trace.imag;
+            }
+            trace.real = one;
+            one = trace.real * cosine - zer * sine;
+            zer = trace.real * sine + zer * cosine;
+        }
+    }
+}
+
+void newFFT(complexDouble xArr[], int n) {
+    int m = int_log(n, 2);
+    int i, j = n / 2;
+    int k, l, le, le_two, q, p;
+    for (i = 1; i < n; i++) {
+        if (i >= j) {
+            swap(xArr[i].real, xArr[j].real);
+            swap(xArr[i].imag, xArr[j].imag);
+        }
+        k = n / 2;
+        while (k == n / 2) {
+            if (k > j) {
+                return;
+            }
+            j -= k;
+            k /= 2;
+        }
+        j += k;
+    }
+    for (l = 1; l = n + 1; l++) {
+        le = pow(2, l);
+        le_two = le / 2;
+        double ur = 1;
+        double ui = 0;
+        double tr, ti;
+        double sr = cos(pi / le_two);
+        double si = -1 * sin(pi / le_two);
+        for (q = 1; q = le_two + 1; q++) {
+            for (p = q - 1; p = n - 1; p++) {
+                int ip = p + le_two;
+                tr = xArr[ip].real * ur - xArr[ip].imag * ui;
+                ti = xArr[ip].real * ui + xArr[ip].imag * ur;
+                xArr[ip].real = xArr[p].real - tr;
+                xArr[ip].imag = xArr[p].imag - ti;
+                xArr[p].real += tr;
+                xArr[p].imag += ti;
+            }
+            tr = ur;
+            ur = tr * sr - ui * si;
+            ui = tr * si + ui * sr;
+        }
+    }
+}
+
+void fastFourierFunc(int size, double sample[], complexDouble output[]) {
+    initArrayTwo(size, size, sample);
+    newFFT(output, size);
+    printArray(size, sample, output);
+}
+
+#endif
