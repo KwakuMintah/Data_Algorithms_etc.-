@@ -1,0 +1,3 @@
+void arrayToQuad(quadnode* root, double arr[]) {
+for loop i -> rows {
+node n(
