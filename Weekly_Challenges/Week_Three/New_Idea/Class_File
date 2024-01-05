@@ -13,6 +13,7 @@ public:
 	//void conversion(double arr[], double mat[][]);
 	void addMats(double matone[], double matTwo[], double matSum[]);
 	void subMats(double matOne[], double matTwo[], double matSum[]);
+	void multMats(double matOne[], double matTwo[], double matThree[]);
 	void searchMat(double mat[], int i_que, int j_que);
 	void printMat(double mat[]);
 };
@@ -38,6 +39,24 @@ void oneDMat::subMats(double matOne[], double matTwo[], double matSum[]) {
 	}
 }
 
+//This multiplies using the naive approach.
+void oneDMat::multMats(double matOne[], double matTwo[], double matSum[]) {
+	int i, j, k;
+	int rowMOne, rowMTwo, indOne, indTwo, indThree;
+	for (i = 0; i < size; i++) {
+		for (j = 0; j < size; j++) {
+			for (k = 0; k < size; k++) {
+				rowMOne = j * size;
+				rowMTwo = k * size;
+				indOne = i + rowMOne;
+				indTwo = i + rowMTwo;
+				indThree = k + rowMOne;
+				matSum[indOne] += matOne[indTwo] * matTwo[indThree];
+			}
+		}
+	}
+}
+
 //This seems to search but only find the first value.
 void oneDMat::searchMat(double mat[], int i_que, int j_que) {
 	int i_zer = i_que - 1;
@@ -55,7 +74,7 @@ void oneDMat::searchMat(double mat[], int i_que, int j_que) {
 void oneDMat::printMat(double mat[]) {
 	int i;
 	for (i = 0; i < size; i++) {
-		cout << mat[i];
+		cout << "\n" << mat[i];
 	}
 }
 
