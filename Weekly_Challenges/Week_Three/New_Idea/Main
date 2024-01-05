@@ -2,11 +2,15 @@
 //
 
 #include <iostream>
+#include <ctime>
 #include "oneDMat.hpp"
+using namespace std;
 
 double arrayOne[4] = { 0,1,2,3 };
 double arrayTwo[4] = { 1,2,3,4 };
 double arrayThree[4] = {};
+double duration;
+clock_t start;
 
 int main()
 {
@@ -16,8 +20,13 @@ int main()
     oneDMat MatTwo(2, 2, arrayTwo);
     oneDMat MatThree(2, 2, arrayThree);
 
+    start = clock();
+
     //MatThree.addMats(MatOne.storage, MatTwo.storage, MatThree.storage);
     MatThree.multMats(MatOne.storage, MatTwo.storage, MatThree.storage);
     MatThree.printMat(MatThree.storage);
     MatThree.searchMat(arrayThree, 1, 2);
+
+    duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+    cout << duration;
 }
