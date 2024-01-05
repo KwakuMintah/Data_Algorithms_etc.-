@@ -16,7 +16,8 @@ int main()
     oneDMat MatTwo(2, 2, arrayTwo);
     oneDMat MatThree(2, 2, arrayThree);
 
-    MatThree.addMats(MatOne.storage, MatTwo.storage, MatThree.storage);
+    //MatThree.addMats(MatOne.storage, MatTwo.storage, MatThree.storage);
+    MatThree.multMats(MatOne.storage, MatTwo.storage, MatThree.storage);
     MatThree.printMat(MatThree.storage);
     MatThree.searchMat(arrayThree, 1, 2);
 }
