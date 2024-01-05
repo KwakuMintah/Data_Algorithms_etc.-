@@ -3,6 +3,9 @@ using namespace std;
 #ifndef COMPLEXHEADERDEF
 #define COMPLEXHEADERDEF
 
+double pi = 3.14159265359;
+const int iter = 1000;
+
 struct complexInt {
 	int real;
 	int imag;
@@ -21,6 +24,54 @@ int int_log(int base, int val) {
 double double_base(double base, double val) {
 	double ans = log2(base) / log2(val);
 	return ans;
+}
+
+void genFunc(int size, double func[], double a, double b, double c) {
+    int i;
+    for (i = 0; i < size; i++) {
+        func[i] = (a * i) + (b * i) + (c * i);
+    }
+}
+
+void initArray(int size, double arr[]) {
+    int i;
+    double t;
+    double interval;
+    t = 0.1;
+    for (i = 0; i < size; i++) {
+        interval = i * t;
+        arr[i] = interval;
+    }
+}
+
+void initArrayTwo(int size, int N, double arr[]) {
+    int i = 0;
+    double t;
+
+    for (i = 0; i < size; i++) {
+        t = double(i);
+        double coefOne = (N + 0.5) * t;
+        double coefTwo = t * 0.5;
+        double num = sin(coefOne);
+        double den = sin(coefTwo);
+        double frac = num / den;
+        arr[i] = frac - 1.0;
+    }
+}
+
+void printArray(int size, double sample[], complexDouble fourier[]) {
+    int i;
+    for (i = 0; i < size; i++) {
+        cout << "\n" << i << "\t" << sample[i] << "\t" << fourier[i].real << "\t" << fourier[i].imag;
+    }
+}
+
+void printToFile(int size, double sample[], complexDouble fourier[]) {
+    ofstream datafile("fourierdata.txt");
+    int i;
+    for (i = 0; i < size; i++) {
+        datafile << "\n" << i << "\t" << sample[i] << "\t" << fourier[i].real << "\t" << fourier[i].imag;
+    }
 }
 
 #endif
