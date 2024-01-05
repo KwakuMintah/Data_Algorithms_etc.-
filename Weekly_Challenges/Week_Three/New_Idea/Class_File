@@ -14,6 +14,7 @@ public:
 	void addMats(double matone[], double matTwo[], double matSum[]);
 	void subMats(double matOne[], double matTwo[], double matSum[]);
 	void multMats(double matOne[], double matTwo[], double matThree[]);
+	void strassenMult(double matOne[], double matTwo[], double matSum[]);
 	void searchMat(double mat[], int i_que, int j_que);
 	void printMat(double mat[]);
 };
@@ -55,6 +56,23 @@ void oneDMat::multMats(double matOne[], double matTwo[], double matSum[]) {
 			}
 		}
 	}
+}
+
+//Runs but outputs the wrong values.
+void oneDMat::strassenMult(double matOne[], double matTwo[], double matSum[]) {
+	float mOne, mTwo, mThree, mFour, mFive, mSix, mSev;
+	mOne = (matOne[0] + matOne[3]) * (matTwo[0] + matTwo[3]);
+	mTwo = (matOne[1] + matOne[3]) * matTwo[0];
+	mThree = (matTwo[2] - matTwo[3]) * matOne[0];
+	mFour = (matTwo[2] - matTwo[0]) * matOne[3];
+	mFive = (matOne[0] + matOne[2]) * matTwo[3];
+	mSix = (matOne[1] - matOne[0]) * (matTwo[0] + matTwo[2]);
+	mSev = (matOne[2] - matOne[3]) * (matTwo[1] + matTwo[3]);
+
+	matSum[0] = mOne + mFour - mFive + mSev;
+	matSum[1] = mThree + mFive;
+	matSum[2] = mTwo + mFour;
+	matSum[3] = mOne - mTwo + mThree + mSix;
 }
 
 //This seems to search but only find the first value.
