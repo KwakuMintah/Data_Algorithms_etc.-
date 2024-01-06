@@ -10,6 +10,8 @@ double A[20][20] = {};
 double B[3] = {1, -1, 1};
 double x[3] = {};
 
+//Do this with arrays too?
+
 void fillMat(int rows, int cols) {
     int i, j;
     double val;
