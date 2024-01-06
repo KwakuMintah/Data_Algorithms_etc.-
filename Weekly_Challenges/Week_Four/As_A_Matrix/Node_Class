@@ -5,9 +5,12 @@ using namespace std;
 
 //Geeksforgeeks again
 
+//Change coords to index. Might have to alter the whole code?
+
 struct node {
     int row;
     int col;
+    int loc;
     double matData;
     struct node* next;
     struct node* prev;
