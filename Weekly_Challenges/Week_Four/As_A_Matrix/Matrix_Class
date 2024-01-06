@@ -165,6 +165,7 @@ void matrix::find(node* head, int i, int j) {
 	}
 }
 
+//The diagonal's index is the times table of size + 1. E.g. 4x4 diagonal is the 5s.
 void matrix::diagonal(node* head) {
 	node* current = head;
 	while (current != NULL) {
@@ -225,28 +226,10 @@ void matrix::plus(node* node_one, node* node_two, node* head_sum) {
 }
 
 void matrix::minus(node* node_one, node* node_two, node* head_sum) {
-	double sum;
-	int i_val, j_val;
-
-	if (node_one == NULL) {
-		sum = node_two->matData;
-		i_val = node_two->row;
-		j_val = node_two->col;
-
-	}
-	else if (node_two == NULL) {
-		sum = node_one->matData;
-		i_val = node_one->row;
-		j_val = node_one->col;
-	}
-	else {
-		sum = node_one->matData - node_two->matData;
-		i_val = node_one->row;
-		j_val = node_two->col;
-	}
-
+	double sum = node_one->matData - node_two->matData;
+	int i_val = node_one->row;
+	int j_val = node_two->col;
 	node* node_sum = new node(i_val, j_val, sum);
-
 	if (head_sum == NULL) {
 		push(node_sum);
 	}
