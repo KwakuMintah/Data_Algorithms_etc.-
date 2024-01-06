@@ -76,6 +76,7 @@ node* subNodes(node* node_one, node* node_two) {
     return node_sum;
 }
 
+//Use index rather than coordinates. Makes life a whole lot easier and everything is adapted from arrays.
 struct quadnode {
     int i, j;
     double matData;
