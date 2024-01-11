@@ -1,0 +1,137 @@
+// arrayMat.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <chrono>
+#include <fstream>
+#include "oneDMat.hpp"
+using namespace std;
+using namespace std::chrono;
+
+double arrayOne[4] = { 0,2,3,0 }, fArrOne[16] = {0,2,3,4,1,0,3,4,1,2,0,4,1,2,3,0};
+double arrayTwo[4] = { 5,6,7,8 }, fArrTwo[16] = {4,3,2,1,4,3,2,1,4,3,2,1,4,3,2,1};
+double arrayThree[4] = {}, fArrThree[16];
+double arrayFour[4] = {}, fArrFour[16];
+double arrayFive[4] = {}, fArrFive[16];
+double arraySix[4] = {}, fArrSix[16];
+
+oneDMat MatOne(2, 2, arrayOne), FatOne(4,4,fArrOne);
+oneDMat MatTwo(2, 2, arrayTwo), FatTwo(4,4,fArrTwo);
+oneDMat MatThree(2, 2, arrayThree), FatThree(4,4,fArrThree);
+oneDMat MatFour(2, 2, arrayFour), FatFour(4,4,fArrFour);
+oneDMat MatFive(2, 2, arrayFive), FatFive(4,4,fArrFive);
+oneDMat MatSix(2, 2, arraySix), FatSix(4,4,fArrSix);
+
+void testMult(double one[], double two[], double sum[]) {
+    MatThree.multMats(one, two, sum);
+    MatThree.printMat(sum);
+}
+
+void testStrass(double one[], double two[], double sum[]) {
+    MatFour.strassenMult(one, two, sum);
+    MatFour.printMat(sum);
+}
+
+void twoAdd(double one[], double two[], double sum[]) {
+    MatFive.sum(0, one, two, sum);
+    MatFive.printMat(sum);
+}
+
+void twoSub(double one[], double two[], double sum[]) {
+    MatSix.sum(1, one, two, sum);
+    MatSix.printMat(sum);
+}
+
+void fourMult(double one[], double two[], double sum[]) {
+    FatThree.multMats(one, two, sum);
+    FatThree.printMat(sum);
+}
+
+void fourAdd(double one[], double two[], double sum[]) {
+    FatFour.sum(0, one, two, sum);
+    FatFour.printMat(sum);
+}
+
+void fourSub(double one[], double two[], double sum[]) {
+    FatFive.sum(1, one, two, sum);
+    FatFive.printMat(sum);
+}
+
+void time() {
+    ofstream compareTimes("Week_Three_Times.txt");
+
+    auto multStart = high_resolution_clock::now();
+
+    testMult(MatOne.storage, MatTwo.storage, MatThree.storage);
+
+    auto multEnd = high_resolution_clock::now();
+    auto multTime = duration_cast<microseconds>(multEnd - multStart);
+
+    auto strassStart = high_resolution_clock::now();
+
+    testStrass(MatOne.storage, MatTwo.storage, MatFour.storage);
+
+    auto strassEnd = high_resolution_clock::now();
+    auto strassTime = duration_cast<microseconds>(strassEnd - strassStart);
+
+    auto twoAddStart = high_resolution_clock::now();
+
+    twoAdd(MatOne.storage, MatTwo.storage, MatFive.storage);
+
+    auto twoAddEnd = high_resolution_clock::now();
+    auto twoAddTime = duration_cast<microseconds>(twoAddEnd - twoAddStart);
+
+    auto twoSubStart = high_resolution_clock::now();
+
+    twoSub(MatOne.storage, MatTwo.storage, MatSix.storage);
+
+    auto twoSubEnd = high_resolution_clock::now();
+    auto twoSubTime = duration_cast<microseconds>(twoSubEnd - twoSubStart);
+
+    auto fourMultStart = high_resolution_clock::now();
+
+    fourMult(FatOne.storage, FatTwo.storage, FatThree.storage);
+
+    auto fourMultEnd = high_resolution_clock::now();
+    auto fourMultTime = duration_cast<microseconds>(fourMultEnd - fourMultStart);
+
+    auto fourAddStart = high_resolution_clock::now();
+
+    fourAdd(FatOne.storage, FatTwo.storage, FatFour.storage);
+
+    auto fourAddEnd = high_resolution_clock::now();
+    auto fourAddTime = duration_cast<microseconds>(fourAddEnd - fourAddStart);
+
+    auto fourSubStart = high_resolution_clock::now();
+
+    fourSub(FatOne.storage, FatTwo.storage, FatFive.storage);
+
+    auto fourSubEnd = high_resolution_clock::now();
+    auto fourSubTime = duration_cast<microseconds>(fourSubEnd - fourSubStart);
+
+    compareTimes << "\n" << "Naive Time: " << "\t" << multTime.count();
+    compareTimes << "\n" << "Strassen Time: " << "\t" << strassTime.count();
+    compareTimes << "\n" << "Addition Time: " << "\t" << twoAddTime.count();
+    compareTimes << "\n" << "Subtraction Time: " << "\t" << twoSubTime.count();
+    compareTimes << "\n" << "Naive (4x4) Time: " << "\t" << fourMultTime.count();
+    compareTimes << "\n" << "Addition (4x4) Time: " << "\t" << fourAddTime.count();
+    compareTimes << "\n" << "Subtraction (4x4) Time: " << "\t" << fourSubTime.count();
+
+    compareTimes.close();
+}
+
+void test(double matOne[], double matTwo[], double matSum[]) {
+    MatThree.multMats(matOne, matTwo, matSum);
+    MatThree.strassenMult(matOne, matTwo, matSum);
+    MatThree.searchMat(matOne, 1, 2);
+    MatThree.countMat(matOne);
+    MatThree.sum(0, matOne, matTwo, matSum);
+    MatThree.printMat(matSum);
+}
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    test(MatOne.storage,MatTwo.storage,MatThree.storage);
+}
