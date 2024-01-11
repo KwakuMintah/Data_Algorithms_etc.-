@@ -1,0 +1,146 @@
+#include <iostream>
+using namespace std;
+#ifndef ONEDMATHEADERDEF
+#define ONEDMATHEADERDEF
+
+class oneDMat {
+public:
+	int rows;
+	int cols;
+	int size;
+	double* storage;
+	oneDMat(int r, int c, double arr[]);
+	void addMats(double matone[], double matTwo[], double matSum[]);
+	void subMats(double matOne[], double matTwo[], double matSum[]);
+	void multMats(double matOne[], double matTwo[], double matThree[]);
+	void strassenMult(double matOne[], double matTwo[], double matSum[]);
+	void searchMat(double mat[], int i_que, int j_que);
+	void countMat(double mat[]);
+	void sum(int choice, double matOne[], double matTwo[], double matSum[]);
+	void printMat(double mat[]);
+};
+
+oneDMat::oneDMat(int r, int c, double arr[]) {
+	rows = r;
+	cols = c;
+	size = rows * cols;
+	storage = arr;
+}
+
+void oneDMat::addMats(double matOne[], double matTwo[], double matSum[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		matSum[i] = matOne[i] + matTwo[i];
+	}
+}
+
+void oneDMat::subMats(double matOne[], double matTwo[], double matSum[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		matSum[i] = matOne[i] - matTwo[i];
+	}
+}
+
+//This multiplies using the naive approach.
+void oneDMat::multMats(double matOne[], double matTwo[], double matSum[]) {
+	int i, j, k;
+	int rowMOne, rowMTwo, indOne, indTwo, indThree;
+	for (i = 0; i < rows; i++) {
+		for (j = 0; j < rows; j++) {
+			for (k = 0; k < rows; k++) {
+				rowMOne = i * rows;
+				rowMTwo = k * rows;
+				indOne = rowMOne + j;
+				indTwo = rowMOne + k;
+				indThree = rowMTwo + j;
+				matSum[indOne] += matOne[indTwo] * matTwo[indThree];
+			}
+		}
+	}
+}
+
+//This does the same with strassen.
+void oneDMat::strassenMult(double matOne[], double matTwo[], double matSum[]) {
+	double mOne, mTwo, mThree, mFour, mFive, mSix, mSev;
+	mOne = (matOne[0] + matOne[3]) * (matTwo[0] + matTwo[3]);
+	mTwo = (matOne[2] + matOne[3]) * matTwo[0];
+	mThree = (matTwo[1] - matTwo[3]) * matOne[0];
+	mFour = (matTwo[2] - matTwo[0]) * matOne[3];
+	mFive = (matOne[0] + matOne[1]) * matTwo[3];
+	mSix = (matOne[2] - matOne[0]) * (matTwo[0] + matTwo[1]);
+	mSev = (matOne[1] - matOne[3]) * (matTwo[2] + matTwo[3]);
+
+	matSum[0] = mOne + mFour - mFive + mSev;
+	matSum[1] = mThree + mFive;
+	matSum[2] = mTwo + mFour;
+	matSum[3] = mOne - mTwo + mThree + mSix;
+}
+
+void oneDMat::searchMat(double mat[], int i_que, int j_que) {
+	int i_zer = i_que - 1;
+	int j_zer = j_que - 1;
+	int rowMaj = i_zer * rows;
+	int index = j_zer + rowMaj;
+	int i;
+	for (i = 0; i < size; i++) {
+		if (index == i) {
+			cout << "\n" << "This is the value at " << i_que << j_que << " : " << mat[i];
+		}
+	}
+}
+
+//For some reason, this function seems to think the matrix is much bigger than it really is.
+void oneDMat::countMat(double mat[]) {
+	int i = 0, count = 0;
+	int extent = size * 10;
+	while (i < extent) {
+		if (mat[i] != NULL) {
+			count++;
+			i++;
+		}
+		else {
+			if (count > size) {
+				int gap = count - size;
+				cout << "\n" << "There are too many elements inside this matrix. It should hold " << size << " elements. Remove " << gap << " elements.";
+			}
+			else {
+				cout << "\n" << "This is a matrix of " << count << " elements.";
+			}
+			return;
+		}
+	}
+}
+
+void oneDMat::sum(int choice, double matOne[], double matTwo[], double matSum[]) {
+	if (choice == 0) {
+		cout << "\n" << "Adding the Two Matrices..." << "\n";
+		addMats(matOne, matTwo, matSum);
+	}
+	else {
+		cout << "\n" << "Subtracting the Two Matrices..." << "\n";
+		subMats(matOne, matTwo, matSum);
+	}
+}
+
+void oneDMat::printMat(double mat[]) {
+	int i;
+	for (i = 0; i < size; i++) {
+		cout << "\n" << mat[i];
+	}
+}
+
+/*
+void oneDMat::conversion(double arr[], double mat[][]) {
+	int i, j;
+	int index, rowMaj;
+	for (i = 0; i < size; i++) {
+		for (j = 0; j < size; j++) {
+			rowMaj = j * rows;
+			index = i + rowMaj;
+			arr[index] = mat[i][j];
+		}
+	}
+}
+*/
+
+#endif
