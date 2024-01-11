@@ -1,0 +1,151 @@
+// Matrix Multiplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// Matrix initialization from digitalocean.com
+
+#include <iostream>
+#include <chrono>
+#include <fstream>
+using namespace std;
+using namespace std::chrono;
+
+int matThree[4][4] = {
+    {0, 0},
+    {0, 0}
+};
+
+int matOne[2][2] = {
+    {1,2},
+    {3,4}
+};
+
+int matTwo[2][2] = {
+    {5,6},
+    {7,8}
+};
+
+int matA[4][4] = {
+    {1,2,3,4},
+    {3,4,1,2},
+    {2,1,4,3},
+    {4,3,2,1}
+};
+
+int matB[4][4] = {
+    {5,6,7,8},
+    {7,8,5,6},
+    {6,5,8,7},
+    {8,7,6,5}
+};
+
+void naiveMethod() {
+
+    float C11 = (matOne[0][0] * matTwo[0][0]) + (matOne[0][1] * matTwo[1][0]);
+    float C12 = (matOne[0][0] * matTwo[0][1]) + (matOne[0][1] * matTwo[1][1]);
+    float C21 = (matOne[1][0] * matTwo[0][0]) + (matOne[1][1] * matTwo[1][0]);
+    float C22 = (matOne[1][0] * matTwo[0][1]) + (matOne[1][1] * matTwo[1][1]);
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+void strassenAlgorithm() {
+
+    float multOne = (matOne[0][0] + matOne[1][1]) * (matTwo[0][0] + matTwo[1][1]);
+    float multTwo = (matOne[1][0] + matOne[1][1]) * matTwo[0][0];
+    float multThree = (matTwo[0][1] - matTwo[1][1]) * matOne[0][0];
+    float multFour = (matTwo[1][0] - matTwo[0][0]) * matOne[1][1];
+    float multFive = (matOne[0][0] + matOne[0][1]) * matTwo[1][1];
+    float multSix = (matOne[1][0] - matOne[0][0]) * (matTwo[0][0] + matTwo[0][1]);
+    float multSev = (matOne[0][1] - matOne[1][1]) * (matTwo[1][0] + matTwo[1][1]);
+
+    float C11 = multOne + multFour - multFive + multSev;
+    float C12 = multThree + multFive;
+    float C21 = multTwo + multFour;
+    float C22 = multOne - multTwo + multThree + multSix;
+
+    int matThree[2][2] = {
+        {C11, C12},
+        {C21, C22}
+    };
+    int i, j;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            std::cout << matThree[i][j] << "\n";
+        };
+    };
+};
+
+void naiveLoop(int size) {
+
+    int i, j, k;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
+                matThree[i][j] += matOne[i][k] * matTwo[k][j];
+            };
+        };
+    };
+
+    int a, b;
+    for (a = 0; a < size; a++) {
+        for (b = 0; b < size; b++) {
+            std::cout << matThree[a][b] << "\n";
+        };
+    };
+
+};
+
+void time() {
+    ofstream comparingTimes("Week_Two_Time.txt");
+
+    auto startNaive = high_resolution_clock::now();
+
+    naiveMethod();
+
+    auto endNaive = high_resolution_clock::now();
+    auto timeNaive = duration_cast<microseconds>(endNaive - startNaive);
+
+    auto startNLoop = high_resolution_clock::now();
+
+    naiveLoop(2);
+
+    auto endNLoop = high_resolution_clock::now();
+    auto timeNLoop = duration_cast<microseconds>(endNLoop - startNLoop);
+
+    auto startStrass = high_resolution_clock::now();
+
+    strassenAlgorithm();
+
+    auto endStrass = high_resolution_clock::now();
+    auto timeStrass = duration_cast<microseconds>(endStrass - startStrass);
+
+    comparingTimes << "\n" << "Time in Microseconds.";
+    comparingTimes << "\n" << "Naive Method: " << "\t" << timeNaive.count();
+    comparingTimes << "\n" << "Naive as a Loop: " << "\t" << timeNLoop.count();
+    comparingTimes << "\n" << "Strassen Algorithm: " << "\t" << timeStrass.count();
+
+    comparingTimes.close();
+}
+
+void test(int size) {
+    naiveMethod();
+    naiveLoop(size);
+    strassenAlgorithm();
+}
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    //This times each function (Used for the graphs)
+    time();
+    //This tests them
+    test(2);
+}
