@@ -1,0 +1,24 @@
+function f = lossOne(C, x_k, d)
+  f = C * x_k + d;
+end
+
+function h_err = maxError(f,y_k)
+  h_err = f - y_k;
+end
+
+function l_two = lTwoNorm(f,y_k,n)
+  coef = 1/n;
+  for i = n
+    sum += f - y_k;
+  end
+  root_sum = #matlabroot(sum)
+  l_two = coef * root_sum
+end
+
+function l_one = lOneNorm(f,y_k,n)
+  coef = 1/n;
+  for i = n
+    sum += f - y_k;
+  end
+  l_two = coef * sum
+end
