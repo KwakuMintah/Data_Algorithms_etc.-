@@ -1,1 +1,8 @@
-#code on PC at home
+function x = Week_One(A,B)
+    x = mldivide(A,B);
+end
+
+%A is YTest; B is YTrain
+function mse = meansquare(A, B)
+    mse = mean(abs(A - B));
+end
