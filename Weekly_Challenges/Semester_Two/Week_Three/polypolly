@@ -1,0 +1,26 @@
+load("dataset_1.mat");
+
+%This splits the data into Train and Test
+ind = randperm(1000);
+w3XTrainOne = x(ind(1:300),:);
+w3XTestOne = x(ind(301:end),:);
+w3YTrainOne = x(ind(1:300),:);
+w3YTestOne = x(ind(301:end),:);
+
+%This was an attempt at making the polynomial
+D = 10;
+fPolOne = zeros(D,1);
+for i = 1:D
+    xPowOne = w3XTrainOne(i,1) ^ i;
+    cJOne = coeffs(i,1);
+    polValOne = xPowOne * cJOne;
+    fPolOne(i,1) = polValOne;
+end
+
+%funcOneTrain = polyval(coeffs,w3XTrainOne);
+funcOneTrain = (coeffs)*(transpose(w3XTrainOne)) + (coeffs(2))*(transpose(w3XTrainOne)).^2 + (coeffs(3))*(transpose(w3XTrainOne)).^3 + (coeffs(4))*(transpose(w3XTrainOne)).^4 + (coeffs(5))*(transpose(w3XTrainOne)).^5 + (coeffs(6))*(transpose(w3XTrainOne)).^6 + (coeffs(7))*(transpose(w3XTrainOne)).^7 + (coeffs(8))*(transpose(w3XTrainOne)).^8 + (coeffs(9))*(transpose(w3XTrainOne)).^9 + (coeffs(10))*(transpose(w3XTrainOne)).^10
+%funcOneTrain = @(x)100*(x(2) - x(1)^2)^2 + (1 - x(1))^2;
+xStart = [-1,1];
+
+yOne = fminsearch(@funcOneTrain,xStart);
+%This won't work for the actual function I'm trying to do.
