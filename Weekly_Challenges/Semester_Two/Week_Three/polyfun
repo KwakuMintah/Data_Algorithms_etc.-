@@ -1,3 +1,4 @@
+clear all;
 load("dataset_1.mat");
 
 %This splits the data into Train and Test
