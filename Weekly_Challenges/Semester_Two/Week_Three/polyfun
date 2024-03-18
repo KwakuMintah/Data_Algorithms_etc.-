@@ -1,0 +1,37 @@
+load("dataset_1.mat");
+
+%This splits the data into Train and Test
+ind = randperm(1000);
+w3XTrainOne = x(ind(1:300),:);
+w3XTestOne = x(ind(301:end),:);
+w3YTrainOne = x(ind(1:300),:);
+w3YTestOne = x(ind(301:end),:);
+
+D = 10;
+
+coefL0 = fminsearch(@(A) normL0(A,w3XTrainOne,w3YTrainOne),rand(D,1));
+coefL1 = fminsearch(@(A) normL1(A,w3XTrainOne,w3YTrainOne),rand(D,1));
+coefL2 = fminsearch(@(A) normL2(A,w3XTrainOne,w3YTrainOne),rand(D,1));
+
+yHatL0TrainOne = polyval(coefL0, w3XTrainOne);
+yHatL1TrainOne = polyval(coefL1, w3XTrainOne);
+yHatL2TrainOne = polyval(coefL2, w3XTrainOne);
+
+yHatL0TestOne = polyval(coefL0, w3XTestOne);
+yHatL1TestOne = polyval(coefL1, w3XTestOne);
+yHatL2TestOne = polyval(coefL2, w3XTestOne);
+
+function yL0 = normL0(A,x,y)
+    yHatL0 = polyval(A,x);
+    yL0 = max(abs(yHatL0 - y));
+end
+
+function yL1 = normL1(A,x,y)
+    yHatL1 = polyval(A,x);
+    yL1 = mean(abs(yHatL1 - y));
+end
+
+function yL2 = normL2(A,x,y)
+    yHatL2 = polyval(A,x);
+    yL2 = mean(abs(yHatL2 - y).^2);
+end
