@@ -20,7 +20,9 @@ lossfunc = crossentropy(YTestTrans,YTestHat);
 function sigmoid = sigfunc(z)
     den = 1 - exp(-z);
     %Made this mldivide so it could work
-    sigmoid = mldivide(1,den);
+    %sigmoid = mldivide(1,den);
+    %Wondered what change elementwise would make
+    sigmoid = 1 ./ den;
 end
 
 function CELoss = crossentropy(Y,YHat)
