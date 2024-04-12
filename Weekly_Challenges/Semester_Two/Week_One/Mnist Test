@@ -1,8 +1,16 @@
-function x = Week_One(A,B)
-    x = mldivide(A,B);
-end
+clear all;
+load("mnist.mat");
 
-%A is YTest; B is YTrain
-function mse = meansquare(A, B)
-    mse = mean(abs(A - B));
+XTestReshape = reshape(XTest,28,28,10000);
+XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
+XTestReshapeTrans = transpose(XTestReshapeForDiv);
+YTestTrans = transpose(YTest);
+x = mrdivide(XTestReshapeForDiv,YTestTrans);
+
+mse = meanSquare(x,XTestReshapeTrans,YTestTrans);
+
+function mse = meanSquare(x,XTestReshapeTrans,YTestTrans)
+    coeff = (XTestReshapeTrans * x) - YTestTrans;
+    modCoef = abs(coeff);
+    mse = modCoef^2;
 end
