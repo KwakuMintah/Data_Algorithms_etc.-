@@ -1,24 +1,53 @@
-function f = lossOne(C, x_k, d)
-  f = C * x_k + d;
+clear all;
+load("mnist.mat");
+
+%Taken from Week One
+XTestReshape = reshape(XTest,28,28,10000);
+XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
+XTestReshapeTrans = transpose(XTestReshapeForDiv);
+YTestTrans = transpose(YTest);
+C = mrdivide(XTestReshapeForDiv,YTestTrans);
+CTrans = transpose(C);
+%Not so sure about this method to get d. Using point 1,1 causes an error in
+%LossOne func
+%d = YTestTrans(1,1) - (CTrans * XTestReshapeForDiv(1,1));
+d = YTestTrans - (CTrans * XTestReshapeForDiv);
+nFull = size(YTestTrans);
+n = nFull(1,2);
+mse = meanSquare(C,XTestReshapeTrans,YTestTrans);
+y_k = lossOne(CTrans, XTestReshapeForDiv, d);
+%Everything past this point comes out as a list of zeros
+h_err = maxError(y_k,YTestTrans);
+l_two = lTwoNorm(y_k,YTestTrans,n);
+l_one = lOneNorm(y_k,YTestTrans,n);
+
+function mse = meanSquare(C,XTestReshapeTrans,YTestTrans)
+    coeff = (XTestReshapeTrans * C) - YTestTrans;
+    modCoef = abs(coeff);
+    mse = modCoef^2;
 end
 
-function h_err = maxError(f,y_k)
-  h_err = f - y_k;
+function y_k = lossOne(CTrans, XTestReshapeForDiv, d)
+    %Won't add together: "Arrays have incompatible sizes for this
+    %operation."
+    y_k = (CTrans * XTestReshapeForDiv) + d;
 end
 
-function l_two = lTwoNorm(f,y_k,n)
+function h_err = maxError(y_k,YTestTrans)
+  h_err = abs(y_k - YTestTrans);
+end
+
+function l_two = lTwoNorm(y_k,YTestTrans,n)
   coef = 1/n;
-  for i = n
-    sum += f - y_k;
-  end
-  root_sum = #matlabroot(sum)
-  l_two = coef * root_sum
+  sum = abs(y_k - YTestTrans);
+  %This . was necessary to allow it to work
+  sumsq = sum.^2;
+  rootsum = sqrt(sumsq);
+  l_two = coef * rootsum;
 end
 
-function l_one = lOneNorm(f,y_k,n)
+function l_one = lOneNorm(y_k,YTestTrans,n)
   coef = 1/n;
-  for i = n
-    sum += f - y_k;
-  end
-  l_two = coef * sum
+  sum = y_k - YTestTrans;
+  l_one = coef * sum;
 end
