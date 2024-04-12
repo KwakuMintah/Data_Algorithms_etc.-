@@ -1,0 +1,33 @@
+clear all;
+load("mnist.mat");
+
+%Taken from Week One
+XTestReshape = reshape(XTest,28,28,10000);
+XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
+YTestTrans = transpose(YTest);
+%Assuming W to be the coefficients from Ax = B
+WTest = mrdivide(XTestReshapeForDiv,YTestTrans);
+
+w = WTest(1,1);
+%This has a value of zero so has little to no effect on the rest
+WTestTrans = transpose(WTest);
+%Now we take X to be A, z to be B, W to be x, and w is a weight
+z = (WTestTrans * XTestReshapeForDiv) + w;
+YTestHat = sigfunc(z);
+lossfunc = crossentropy(YTestTrans,YTestHat);
+
+%These are steps one and two
+function sigmoid = sigfunc(z)
+    den = 1 - exp(-z);
+    %Made this mldivide so it could work
+    sigmoid = mldivide(1,den);
+end
+
+function CELoss = crossentropy(Y,YHat)
+    bracOne = 1 - Y;
+    bracTwo = 1 - YHat;
+    %Made these element-wise so this could work
+    logOne = Y .* log(YHat);
+    logTwo = bracOne .* log(bracTwo);
+    CELoss = -(logOne + logTwo);
+end
