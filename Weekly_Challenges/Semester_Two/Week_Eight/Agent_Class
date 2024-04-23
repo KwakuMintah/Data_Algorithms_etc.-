@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+#ifndef AGENTHEADERDEF
+#define AGENTHEADERDEF
+
+//Change arrays to oneDMats (from Sem One) to make operations easier
+//Haven't tested yet
+
+struct agent {
+  int designation;
+  int size;
+  double pos;
+  double vel;
+  double p_loc;
+  double p_glob;
+}
+
+agent::agent(int des, int iter, double pos_init, double vel_init) {
+  designation = des;
+  size = iter;
+  //This might not work but let's see
+  pos = new double[size];
+  vel = new double[size];
+  pos[0] = pos_init;
+  vel[0] = vel_init;
+};
