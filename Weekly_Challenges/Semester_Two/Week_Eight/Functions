@@ -1,0 +1,87 @@
+#include <iostream>
+#include "OneDMat.hpp"
+using namespace std;
+#ifndef FUNCTIONSHEADERDEF
+#define FUNCTIONSHEADERDEF
+
+double pi = 3.14;
+double pi_doub = 2 * pi;
+
+double* x(int size) {
+	int i;
+	double* set = new double[size];
+	for (i = 0; i < size; i++) {
+		set[i] = i;
+	}
+	return set;
+}
+
+double* f0(int size, double* set) {
+	int i;
+	double* out = new double[size];
+	double x;
+	for (i = 0; i < size; i++) {
+		x = set[i];
+		out[i] += pow(x, 2);
+	}
+	return out;
+}
+
+double* f1(int size, double* set) {
+	int i, j;
+	double* out = new double[size];
+	double xOne, xTwo, bracOne, bracTwo;
+	for (i = 0; i < size; i++) {
+		j = i + 1;
+		xOne = set[i];
+		double xOne_sq = pow(xOne, 2);
+		xTwo = set[j];
+		bracOne = 100 * (xTwo - xOne_sq);
+		bracTwo = xOne - 1;
+		double bracOne_sq = pow(bracOne, 2);
+		double bracTwo_sq = pow(bracTwo, 2);
+		out[i] += bracOne_sq + bracTwo_sq;
+	}
+	return out;
+}
+
+double* f2(int size, double* set) {
+	int i;
+	double* out = new double[size];
+	double x, coef, cosine;
+	for (i = 0; i < size; i++) {
+		x = set[i];
+		double x_sq = pow(x, 2);
+		coef = pi_doub * x;
+		cosine = 10 * cos(coef);
+		out[i] += x_sq - cosine + 10;
+	}
+	return out;
+}
+
+/*
+double* f3(int size, double* set) {
+	//This one's a problem child
+	int i;
+	double* out = new double[size];
+	double* outOne;
+	double* outTwo;
+	double* outSum;
+	double outCoef;
+	double x, coef, cosine;
+	for (i = 0; i < size; i++) {
+		x = set[i];
+		double x_sq = pow(x, 2);
+		coef = x / sqrt(i);
+		cosine = cos(coef);
+		outOne[i] += x_sq;
+		outTwo[i] *= cosine + 1;
+	}
+	//outSum = outOne - outTwo;
+	outCoef = 1 / 4000;
+	//out = outCoef * outSum;
+	return out;
+}
+*/
+
+#endif
