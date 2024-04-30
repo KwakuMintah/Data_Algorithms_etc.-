@@ -1,0 +1,24 @@
+// Swarms.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include "Agent.hpp"
+#include "Functions.hpp"
+
+int main()
+{
+    std::cout << "Hello World!\n";
+
+    int i;
+    int size = 100;
+    double* xOne = x(size);
+    double* fNought = f0(size, xOne);
+    double* fOne = f1(size, xOne);
+    double* fTwo = f2(size, xOne);
+    
+    for (i = 0; i < size; i++) {
+        ///Everything comes out as 6.whatever to the -6. Don't know why
+        cout << "\n" << xOne[i] << "\t" << fNought[i] << "\t" << fOne[i] << "\t" << fTwo[i];
+    }
+}
+
