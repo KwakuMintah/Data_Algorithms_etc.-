@@ -1,0 +1,34 @@
+#include <iostream>
+#include "Agent.hpp"
+#include "Functions.hpp"
+#include <string>
+using namespace std;
+#ifndef SWARMHEADERDEF
+#define SWARMHEADERDEF
+
+class swarm {
+public:
+	int m;
+	int k;
+	double cOne;
+	double cTwo;
+	double w;
+	swarm(int size, int iter, double vel_init);
+};
+
+swarm::swarm(int size, int iter, double vel_init) {
+	int i;
+	m = size;
+	k = iter;
+	cOne = randDoubOne();
+	cTwo = randDoubOne();
+	w = randDoubOne();
+	for (i = 0; i < m; i++) {
+		//string name = "Agent" + to_string(i);
+		int des = i;
+		int ranLoc = rand() % m;
+		agent* i = new agent(des, k, ranLoc, vel_init);
+	}
+}
+
+#endif
