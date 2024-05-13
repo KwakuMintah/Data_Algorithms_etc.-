@@ -7,54 +7,65 @@ using namespace std;
 double pi = 3.14;
 double pi_doub = 2 * pi;
 
+double randDoubOne() {
+	double val = (double)(rand()) / (double)(RAND_MAX);
+	return val;
+}
+
 double* x(int size) {
 	int i;
-	double* set = new double[size];
+	double* set = new double[size + 1];
 	for (i = 0; i < size; i++) {
 		set[i] = i;
 	}
 	return set;
 }
 
-double* f0(int size, double* set) {
+double* f0(int size) {
 	int i;
-	double* out = new double[size];
-	double x;
+	double* out = new double[size + 1];
+	double x, x_sq;
 	for (i = 0; i < size; i++) {
-		x = set[i];
-		out[i] += pow(x, 2);
+		//Using sets was proving too difficult so I'll base it off iterations
+		x = i;
+		x_sq = pow(x, 2);
+		out[i] += x_sq;
 	}
 	return out;
 }
 
-double* f1(int size, double* set) {
+double* f1(int size) {
 	int i, j;
-	double* out = new double[size];
-	double xOne, xTwo, bracOne, bracTwo;
+	double* out = new double[size + 1];
+	double xOne, xTwo, bracOne, bracTwo, val;
 	for (i = 0; i < size; i++) {
 		j = i + 1;
-		xOne = set[i];
+		xOne = i;
 		double xOne_sq = pow(xOne, 2);
-		xTwo = set[j];
+		xTwo = j;
 		bracOne = 100 * (xTwo - xOne_sq);
 		bracTwo = xOne - 1;
 		double bracOne_sq = pow(bracOne, 2);
 		double bracTwo_sq = pow(bracTwo, 2);
-		out[i] += bracOne_sq + bracTwo_sq;
+		val = bracOne_sq + bracTwo_sq;
+		//Summing seems to be an issue for some reason
+		out[i] = val;
 	}
 	return out;
 }
 
-double* f2(int size, double* set) {
+double* f2(int size) {
 	int i;
-	double* out = new double[size];
-	double x, coef, cosine;
+	double* out = new double[size + 1];
+	double x, coef, cosine, val;
 	for (i = 0; i < size; i++) {
-		x = set[i];
+		x = i;
 		double x_sq = pow(x, 2);
 		coef = pi_doub * x;
 		cosine = 10 * cos(coef);
-		out[i] += x_sq - cosine + 10;
+		val = x_sq - cosine + 10;
+		//Same here
+		out[i] = val;
 	}
 	return out;
 }
