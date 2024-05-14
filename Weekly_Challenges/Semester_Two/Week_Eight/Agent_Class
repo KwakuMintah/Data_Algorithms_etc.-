@@ -17,8 +17,9 @@ public:
 	double* p_loc;
 	double* p_glob;
 	agent(int des, int iter, double pos_init, double vel_init);
-	double newVel(double currVel, double currPos, double globPos, double g_inc);
-	double* positionArr(double g_inc);
+	double newVel(double currVel, double currPos, double locPos, double g_inc);
+	double* positionArr(double g_inc, double* f);
+	double findPLoc(int iter, double* f);
 	//double newVel(double currVel, double currPos, double locPos, double globPos, double cOne, double cTwo, double w);
 	//double newVel(double currVel, double currPos, double globPos)
 };
@@ -37,19 +38,19 @@ agent::agent(int des, int iter, double pos_init, double vel_init) {
 	p_glob[0] = 0;
 }
 
-double agent::newVel(double currVel, double currPos, double globPos, double g_inc) {
+double agent::newVel(double currVel, double currPos, double locPos, double g_inc) {
 	double velVal;
 	double rand = randDoubOne();
 	//This is the original velocity adjustment
-	double direction = rand * g_inc;
+	//double direction = rand * g_inc;
 	//This one is accelerated by distance from the minima
-	//double direction = rand * g_inc * (globPos - currPos);
+	double direction = rand * g_inc * abs(locPos - currPos);
 
-	if (currPos > globPos) {
+	if (currPos > locPos) {
 		velVal = currVel - direction;
 		return velVal;
 	}
-	else if (currPos < globPos) {
+	else if (currPos < locPos) {
 		velVal = currVel + direction;
 		return velVal;
 	}
@@ -59,17 +60,45 @@ double agent::newVel(double currVel, double currPos, double globPos, double g_in
 	}
 }
 
-double* agent::positionArr(double g_inc) {
+double* agent::positionArr(double g_inc, double* f) {
 	int i, j;
 	for (i = 1; i < size; i++) {
 		j = i - 1;
 		pos[i] = pos[j] + vel[j];
-		//Working on the loss function for p_loc and p_glob. Set it to 1 and 100 for Cornfield
-		p_loc[i] = 50;
+		//Working on the loss function for p_glob. Set it to 100 for Cornfield
+		p_loc[i] = findPLoc(i,f);
 		p_glob[i] = 100;
-		vel[i] = newVel(vel[j], pos[j], p_glob[i], g_inc);
+		vel[i] = newVel(vel[j], pos[i], p_loc[i], g_inc);
 	}
 	return pos;
+}
+
+double agent::findPLoc(int iter, double* f) {
+	int i, j;
+	double lossIter, lossPast, diffIter, diffPast, out = pos[iter];
+
+	for (i = 1; i < iter; i++) {
+		j = i - 1;
+		lossIter = lossfunc(i, pos, f);
+		lossPast = lossfunc(j, pos, f);
+		diffIter = 0 + abs(lossIter);
+		diffPast = 0 + abs(lossPast);
+
+		if (diffIter < diffPast) {
+			out = pos[i];
+		}
+		else if (diffIter > diffPast) {
+			out = p_loc[j];
+		}
+		else if (diffIter = diffPast) {
+			out = pos[i];
+		}
+		else {
+			out = pos[i];
+		}
+	}
+	return out;
+	
 }
 
 /*
