@@ -21,12 +21,21 @@ double* x(int size) {
 	return set;
 }
 
+double cornfield(double x) {
+	double brac, brac_sq, root, eval;
+	brac = (x - 100);
+	brac_sq = pow(brac, 2);
+	root = sqrt(brac_sq);
+	eval = root;
+	return eval;
+}
+
 double* f0(int size) {
 	int i;
 	double* out = new double[size + 1];
 	double x, x_sq;
 	for (i = 0; i < size; i++) {
-		//Using sets was proving too difficult so I'll base it off iterations
+		//Using sets was proving too difficult so I'll base it on iterations
 		x = i;
 		x_sq = pow(x, 2);
 		out[i] += x_sq;
