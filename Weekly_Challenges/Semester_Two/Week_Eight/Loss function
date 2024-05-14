@@ -1,0 +1,4 @@
+double lossfunc(int size, double y, double yHat) {
+  double brac = (y[i] - yHat[i]);
+  double bracPow = pow(brac,2);
+   
