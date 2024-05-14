@@ -1,5 +1,6 @@
 #include <iostream>
 #include "OneDMat.hpp"
+#include "Functions.hpp"
 using namespace std;
 #ifndef AGENTHEADERDEF
 #define AGENTHEADERDEF
@@ -13,9 +14,13 @@ public:
 	int size;
 	double* pos;
 	double* vel;
-	double p_loc;
-	double p_glob;
+	double* p_loc;
+	double* p_glob;
 	agent(int des, int iter, double pos_init, double vel_init);
+	double newVel(double currVel, double currPos, double globPos, double g_inc);
+	double* positionArr(double g_inc);
+	//double newVel(double currVel, double currPos, double locPos, double globPos, double cOne, double cTwo, double w);
+	//double newVel(double currVel, double currPos, double globPos)
 };
 
 agent::agent(int des, int iter, double pos_init, double vel_init) {
@@ -26,8 +31,125 @@ agent::agent(int des, int iter, double pos_init, double vel_init) {
 	vel = new double[size];
 	pos[0] = pos_init;
 	vel[0] = vel_init;
-	p_loc = NULL;
-	p_glob = NULL;
+	p_loc = new double[size];
+	p_glob = new double[size];
+	p_loc[0] = 0;
+	p_glob[0] = 0;
 }
+
+double agent::newVel(double currVel, double currPos, double globPos, double g_inc) {
+	double velVal;
+	double rand = randDoubOne();
+	//This is the original velocity adjustment
+	double direction = rand * g_inc;
+	//This one is accelerated by distance from the minima
+	//double direction = rand * g_inc * (globPos - currPos);
+
+	if (currPos > globPos) {
+		velVal = currVel - direction;
+		return velVal;
+	}
+	else if (currPos < globPos) {
+		velVal = currVel + direction;
+		return velVal;
+	}
+	else {
+		velVal = currVel;
+		return velVal;
+	}
+}
+
+double* agent::positionArr(double g_inc) {
+	int i, j;
+	for (i = 1; i < size; i++) {
+		j = i - 1;
+		pos[i] = pos[j] + vel[j];
+		//Working on the loss function for p_loc and p_glob. Set it to 1 and 100 for Cornfield
+		p_loc[i] = 50;
+		p_glob[i] = 100;
+		vel[i] = newVel(vel[j], pos[j], p_glob[i], g_inc);
+	}
+	return pos;
+}
+
+/*
+//This version removes the g increment
+double agent::newVel(double currVel, double currPos, double locPos, double globPos) {
+	double velVal;
+	double rand = randDoubOne();
+	//This one is accelerated by distance from the minima
+	double direction = (2 * rand * (locPos - currPos)) + (2 * rand * (globPos - currPos));
+
+
+	if (currPos > globPos) {
+		velVal = currVel - direction;
+		return velVal;
+	}
+	else if (currPos < globPos) {
+		velVal = currVel + direction;
+		return velVal;
+	}
+	else {
+		velVal = currVel;
+		return velVal;
+	}
+
+	/*
+	//This removes the current Velocity as a factor
+	if (currPos > globPos) {
+		velVal = direction;
+		return velVal;
+	}
+	else if (currPos < globPos) {
+		velVal = direction;
+		return velVal;
+	}
+	else {
+		velVal = currVel;
+		return velVal;
+	}
+	*/
+//}
+
+/*
+//This introduces the c coefficients
+double agent::newVel(double currVel, double currPos, double locPos, double globPos, double cOne, double cTwo) {
+	double velVal;
+	double rand = randDoubOne();
+	//This one is accelerated by distance from the minima
+	double direction = w * (cOne * rand * (locPos - currPos)) + (cTwo * rand * (globPos - currPos));
+
+
+	if (currPos > globPos) {
+		velVal = currVel - direction;
+		return velVal;
+	}
+	else if (currPos < globPos) {
+		velVal = currVel + direction;
+		return velVal;
+	}
+	else {
+		velVal = currVel;
+		return velVal;
+	}
+
+	/*
+	//This removes the current Velocity as a factor
+	if (currPos > globPos) {
+		velVal = direction;
+		return velVal;
+	}
+	else if (currPos < globPos) {
+		velVal = direction;
+		return velVal;
+	}
+	else {
+		velVal = currVel;
+		return velVal;
+	}
+	*/
+//}
+
+
 
 #endif
