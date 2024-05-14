@@ -1,4 +1,10 @@
 double lossfunc(int size, double y, double yHat) {
-  double brac = (y[i] - yHat[i]);
-  double bracPow = pow(brac,2);
-   
+  double coef = 1 / size;
+  for i -> size
+    double brac = (y[i] - yHat[i]);
+    double bracPow = pow(brac,2);
+    sum += bracPow;
+  val = coef * size;
+  return val;
+
+lossAgent = lossFunc(i,pos,func);   
