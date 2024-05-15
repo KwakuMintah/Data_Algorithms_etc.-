@@ -22,6 +22,7 @@ mse = mean(abs(YHatTest - YTest));
 maxError = abs(YHatTest - YTest);
 l_two = lTwoNorm(YHatTest,YTest,n);
 l_one = lOneNorm(YHatTest,YTest,n);
+mnistRidge = ridge(YHatTest,YTest,5);
 
 x0 = C(1,1);
 %fminr = fminsearch(C,x0);
