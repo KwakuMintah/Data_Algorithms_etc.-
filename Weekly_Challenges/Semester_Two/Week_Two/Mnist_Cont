@@ -8,46 +8,53 @@ XTestReshapeTrans = transpose(XTestReshapeForDiv);
 YTestTrans = transpose(YTest);
 C = mrdivide(XTestReshapeForDiv,YTestTrans);
 CTrans = transpose(C);
-%Not so sure about this method to get d. Using point 1,1 causes an error in
-%LossOne func
-%d = YTestTrans(1,1) - (CTrans * XTestReshapeForDiv(1,1));
+YHatTest = (XTestReshapeTrans * C);
+YHatTestTrans = transpose(YHatTest);
+
 d = YTestTrans - (CTrans * XTestReshapeForDiv);
 nFull = size(YTestTrans);
 n = nFull(1,2);
-mse = meanSquare(C,XTestReshapeTrans,YTestTrans);
-y_k = lossOne(CTrans, XTestReshapeForDiv, d);
+
+mse = mean(abs(YHatTest - YTest));
+
+%y_k = (CTrans * XTestReshapeForDiv);
 %Everything past this point comes out as a list of zeros
-h_err = maxError(y_k,YTestTrans);
-l_two = lTwoNorm(y_k,YTestTrans,n);
-l_one = lOneNorm(y_k,YTestTrans,n);
+maxError = abs(YHatTest - YTest);
+l_two = lTwoNorm(YHatTest,YTest,n);
+l_one = lOneNorm(YHatTest,YTest,n);
 
-function mse = meanSquare(C,XTestReshapeTrans,YTestTrans)
-    coeff = (XTestReshapeTrans * C) - YTestTrans;
-    modCoef = abs(coeff);
-    mse = modCoef^2;
-end
+x0 = C(1,1);
+%fminr = fminsearch(C,x0);
 
-function y_k = lossOne(CTrans, XTestReshapeForDiv, d)
-    %Won't add together: "Arrays have incompatible sizes for this
-    %operation."
-    y_k = (CTrans * XTestReshapeForDiv) + d;
-end
+%One Hot Encode
+digits = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
+digits = categorical(digits);
+categories(digits);
+digits = onehotencode(digits,1);
+XTestReshapeOHE = reshape(XTestReshape, [], 10);
+XTestReshapeOHETrans = transpose(XTestReshapeOHE);
+cOHE = mrdivide(XTestReshapeOHE,digits);
+YHatOHE = (XTestReshapeOHETrans * cOHE);
 
-function h_err = maxError(y_k,YTestTrans)
-  h_err = abs(y_k - YTestTrans);
-end
+nFullOHE = size(digits);
+nOHE = nFullOHE(1,2);
+mseOHE = mean(abs(YHatOHE - digits));
+maxErrorOHE = abs(YHatOHE - digits);
+l_twoOHE = lTwoNorm(YHatOHE,digits,nOHE);
+l_oneOHE = lOneNorm(YHatOHE,digits,nOHE);
 
 function l_two = lTwoNorm(y_k,YTestTrans,n)
   coef = 1/n;
-  sum = abs(y_k - YTestTrans);
-  %This . was necessary to allow it to work
-  sumsq = sum.^2;
-  rootsum = sqrt(sumsq);
+  brac = abs(y_k - YTestTrans);
+  bracsq = brac.^2;
+  bracsum = sum(bracsq,"all");
+  rootsum = sqrt(bracsum);
   l_two = coef * rootsum;
 end
 
 function l_one = lOneNorm(y_k,YTestTrans,n)
   coef = 1/n;
-  sum = y_k - YTestTrans;
-  l_one = coef * sum;
+  brac = y_k - YTestTrans;
+  bracsum = sum(brac,"all");
+  l_one = coef * bracsum;
 end
