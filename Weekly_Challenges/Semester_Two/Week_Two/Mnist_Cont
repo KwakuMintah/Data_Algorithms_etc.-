@@ -34,8 +34,10 @@ categories(digits);
 digits = onehotencode(digits,1);
 XTestReshapeOHE = reshape(XTestReshape, [], 10);
 XTestReshapeOHETrans = transpose(XTestReshapeOHE);
+digitsVec = reshape(digits,[],1);
 cOHE = mrdivide(XTestReshapeOHE,digits);
 YHatOHE = (XTestReshapeOHETrans * cOHE);
+YHatOHEVec = reshape(YHatOHE,[],1);
 
 nFullOHE = size(digits);
 nOHE = nFullOHE(1,2);
@@ -43,6 +45,7 @@ mseOHE = mean(abs(YHatOHE - digits));
 maxErrorOHE = abs(YHatOHE - digits);
 l_twoOHE = lTwoNorm(YHatOHE,digits,nOHE);
 l_oneOHE = lOneNorm(YHatOHE,digits,nOHE);
+mnistRidgeOHE = ridge(YHatOHEVec,digitsVec,5);
 
 function l_two = lTwoNorm(y_k,YTestTrans,n)
   coef = 1/n;
