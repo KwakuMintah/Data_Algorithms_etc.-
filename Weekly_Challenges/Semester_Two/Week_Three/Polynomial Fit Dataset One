@@ -3,45 +3,54 @@ load("dataset_1.mat");
 
 %This splits the data into Train and Test
 ind = randperm(1000);
-w3XTrainOne = x(ind(1:300),:);
-w3XTestOne = x(ind(301:end),:);
-w3YTrainOne = x(ind(1:300),:);
-w3YTestOne = x(ind(301:end),:);
+w3XTestOne = x(ind(1:300),:);
+w3XTrainOne = x(ind(301:end),:);
+w3YTestOne = y(ind(1:300),:);
+w3YTrainOne = y(ind(301:end),:);
 
 D_siz = size(coeffs);
 D = D_siz(1);
+%Started off with 5 as this was in the docs
+k = 5;
 
-coefL0 = fminsearch(@(A) normL0(A,w3XTrainOne,w3YTrainOne),rand(D,1));
-coefL1 = fminsearch(@(A) normL1(A,w3XTrainOne,w3YTrainOne),rand(D,1));
-coefL2 = fminsearch(@(A) normL2(A,w3XTrainOne,w3YTrainOne),rand(D,1));
+coefL0 = fminsearch(@(A) normL0(A,w3XTestOne,w3YTestOne),rand(D,1));
+coefL1 = fminsearch(@(A) normL1(A,w3XTestOne,w3YTestOne),rand(D,1));
+coefL2 = fminsearch(@(A) normL2(A,w3XTestOne,w3YTestOne),rand(D,1));
+%coefLasso = fminsearch(@(A) lasso(w3XTestOne,w3YTestOne),rand(D,1));
+%Ridge works very well. Lasso not as much.
+coefRidge = fminsearch(@(A) ridge(w3YTestOne,w3XTestOne,k),rand(D,1));
 
 %Check fminsearch for every point in D (It changes after every reset so may
 %be a pattern.
 
-yHatL0TrainOne = polyval(coefL0, w3XTrainOne);
-yHatL1TrainOne = polyval(coefL1, w3XTrainOne);
-yHatL2TrainOne = polyval(coefL2, w3XTrainOne);
-
 yHatL0TestOne = polyval(coefL0, w3XTestOne);
 yHatL1TestOne = polyval(coefL1, w3XTestOne);
 yHatL2TestOne = polyval(coefL2, w3XTestOne);
+yHatRidgeTestOne = polyval(coefRidge, w3XTestOne);
+
+yHatL0TrainOne = polyval(coefL0, w3XTrainOne);
+yHatL1TrainOne = polyval(coefL1, w3XTrainOne);
+yHatL2TrainOne = polyval(coefL2, w3XTrainOne);
+yHatRidgeTrainOne = polyval(coefRidge, w3XTrainOne);
 
 %Try Vandermonde?
+VanderXTestOne = vander(w3XTestOne);
 
+%Plot seperately and save the images
 subplot(3,2,1);
-plot(w3XTrainOne,w3YTrainOne,'x');
+plot(w3XTestOne,w3YTestOne,'x');
 hold all;
-plot(w3XTrainOne,yHatL0TrainOne,'o');
+plot(w3XTestOne,yHatL0TestOne,'o');
 
 subplot(3,2,3);
-plot(w3XTrainOne,w3YTrainOne,'x');
+plot(w3XTestOne,w3YTestOne,'x');
 hold all;
-plot(w3XTrainOne,yHatL1TrainOne,'o');
+plot(w3XTestOne,yHatL1TestOne,'o');
 
 subplot(3,2,5);
-plot(w3XTrainOne,w3YTrainOne,'x');
+plot(w3XTestOne,w3YTestOne,'x');
 hold all;
-plot(w3XTrainOne,yHatL2TrainOne,'o');
+plot(w3XTestOne,yHatL2TestOne,'o');
 
 subplot(3,2,2);
 plot(coeffs,'-');
