@@ -2,40 +2,40 @@ clear all;
 load("dataset_2.mat");
 
 ind = randperm(1000);
-w3XTrainTwo = x(ind(1:300),:);
-w3XTestTwo = x(ind(301:end),:);
-w3YTrainTwo = x(ind(1:300),:);
-w3YTestTwo = x(ind(301:end),:);
+w3XTestTwo = x(ind(1:300),:);
+w3XTrainTwo = x(ind(301:end),:);
+w3YTestTwo = y(ind(1:300),:);
+w3YTrainTwo = y(ind(301:end),:);
 
 D_siz = size(coeffs);
 D = D_siz(1);
 
-coefL0 = fminsearch(@(A) normL0(A,w3XTrainTwo,w3YTrainTwo),rand(D,1));
-coefL1 = fminsearch(@(A) normL1(A,w3XTrainTwo,w3YTrainTwo),rand(D,1));
-coefL2 = fminsearch(@(A) normL2(A,w3XTrainTwo,w3YTrainTwo),rand(D,1));
+coefL0 = fminsearch(@(A) normL0(A,w3XTestTwo,w3YTestTwo),rand(D,1));
+coefL1 = fminsearch(@(A) normL1(A,w3XTestTwo,w3YTestTwo),rand(D,1));
+coefL2 = fminsearch(@(A) normL2(A,w3XTestTwo,w3YTestTwo),rand(D,1));
 
-yHatL0TrainTwo = polyval(coefL0, w3XTrainTwo);
-yHatL1TrainTwo = polyval(coefL1, w3XTrainTwo);
-yHatL2TrainTwo = polyval(coefL2, w3XTrainTwo);
+yHatL0TrainTwo = polyval(coefL0, w3XTestTwo);
+yHatL1TrainTwo = polyval(coefL1, w3XTestTwo);
+yHatL2TrainTwo = polyval(coefL2, w3XTestTwo);
 
-yHatL0TestTwo = polyval(coefL0, w3XTestTwo);
-yHatL1TestTwo = polyval(coefL1, w3XTestTwo);
-yHatL2TestTwo = polyval(coefL2, w3XTestTwo);
+yHatL0TestTwo = polyval(coefL0, w3XTrainTwo);
+yHatL1TestTwo = polyval(coefL1, w3XTrainTwo);
+yHatL2TestTwo = polyval(coefL2, w3XTrainTwo);
 
 subplot(3,2,1);
-plot(w3XTrainTwo,w3YTrainTwo,'x');
+plot(w3XTestTwo,w3YTestTwo,'x');
 hold all;
-plot(w3XTrainTwo,yHatL0TrainTwo,'o');
+plot(w3XTestTwo,yHatL0TrainTwo,'o');
 
 subplot(3,2,3);
-plot(w3XTrainTwo,w3YTrainTwo,'x');
+plot(w3XTestTwo,w3YTestTwo,'x');
 hold all;
-plot(w3XTrainTwo,yHatL1TrainTwo,'o');
+plot(w3XTestTwo,yHatL1TrainTwo,'o');
 
 subplot(3,2,5);
-plot(w3XTrainTwo,w3YTrainTwo,'x');
+plot(w3XTestTwo,w3YTestTwo,'x');
 hold all;
-plot(w3XTrainTwo,yHatL2TrainTwo,'o');
+plot(w3XTestTwo,yHatL2TrainTwo,'o');
 
 subplot(3,2,2);
 plot(coeffs,'-');
