@@ -1,0 +1,68 @@
+clear all;
+load("dataset_4.mat");
+
+ind = randperm(1000);
+w3XTestFour = x(ind(1:300),:);
+w3XTrainFour = x(ind(301:end),:);
+w3YTestFour = y(ind(1:300),:);
+w3YTrainFour = y(ind(301:end),:);
+
+D = 10;
+coeffs = D * rand(D,1);
+
+coefL0 = fminsearch(@(A) normL0(A,w3XTestFour,w3YTestFour),rand(D,1));
+coefL1 = fminsearch(@(A) normL1(A,w3XTestFour,w3YTestFour),rand(D,1));
+coefL2 = fminsearch(@(A) normL2(A,w3XTestFour,w3YTestFour),rand(D,1));
+
+yHatL0TrainTwo = polyval(coefL0, w3XTestFour);
+yHatL1TrainTwo = polyval(coefL1, w3XTestFour);
+yHatL2TrainTwo = polyval(coefL2, w3XTestFour);
+
+yHatL0TestTwo = polyval(coefL0, w3XTrainFour);
+yHatL1TestTwo = polyval(coefL1, w3XTrainFour);
+yHatL2TestTwo = polyval(coefL2, w3XTrainFour);
+
+subplot(3,2,1);
+plot(w3XTestFour,w3YTestFour,'x');
+hold all;
+plot(w3XTestFour,yHatL0TrainTwo,'o');
+
+subplot(3,2,3);
+plot(w3XTestFour,w3YTestFour,'x');
+hold all;
+plot(w3XTestFour,yHatL1TrainTwo,'o');
+
+subplot(3,2,5);
+plot(w3XTestFour,w3YTestFour,'x');
+hold all;
+plot(w3XTestFour,yHatL2TrainTwo,'o');
+
+subplot(3,2,2);
+plot(coeffs,'-');
+hold all;
+plot(coefL0,'-');
+
+subplot(3,2,4);
+plot(coeffs,'-');
+hold all;
+plot(coefL1,'-');
+
+subplot(3,2,6);
+plot(coeffs,'-');
+hold all;
+plot(coefL2,'-');
+
+function yL0 = normL0(A,x,y)
+    yHatL0 = polyval(A,x);
+    yL0 = max(abs(yHatL0 - y));
+end
+
+function yL1 = normL1(A,x,y)
+    yHatL1 = polyval(A,x);
+    yL1 = mean(abs(yHatL1 - y));
+end
+
+function yL2 = normL2(A,x,y)
+    yHatL2 = polyval(A,x);
+    yL2 = mean(abs(yHatL2 - y).^2);
+end
