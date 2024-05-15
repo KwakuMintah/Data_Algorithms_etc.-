@@ -4,17 +4,27 @@ load("mnist.mat");
 %Taken from Week One
 XTestReshape = reshape(XTest,28,28,10000);
 XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
+XTestTrans = transpose(XTestReshapeForDiv);
 YTestTrans = transpose(YTest);
 %Assuming W to be the coefficients from Ax = B
 WTest = mrdivide(XTestReshapeForDiv,YTestTrans);
 
-w = WTest(1,1);
-%This has a value of zero so has little to no effect on the rest
+WTestSize = size(WTest);
+WTestLength = WTestSize(1);
+randval = randi(WTestLength);
+
+%Testing what happens if w_0 is a random element
+w = WTest(randval,1);
+%w_0 has a value of zero so has little to no effect on the rest
 WTestTrans = transpose(WTest);
 %Now we take X to be A, z to be B, W to be x, and w is a weight
 z = (WTestTrans * XTestReshapeForDiv) + w;
 YTestHat = sigfunc(z);
-lossfunc = crossentropy(YTestTrans,YTestHat);
+YTestHatTrans = transpose(YTestHat);
+wRidge = ridge(YTest,YTestHatTrans,5);
+%wLasso = lasso(YTestHat,YTest);
+lossfunc = crossentropy(YTest,YTestHat);
+deltaW = gradDescent(YTestTrans,XTestTrans,WTest,w,5);
 
 %These are steps one and two
 function sigmoid = sigfunc(z)
@@ -28,8 +38,30 @@ end
 function CELoss = crossentropy(Y,YHat)
     bracOne = 1 - Y;
     bracTwo = 1 - YHat;
-    %Made these element-wise so this could work
-    logOne = Y .* log(YHat);
-    logTwo = bracOne .* log(bracTwo);
+    logOne = Y * log(YHat);
+    logTwo = bracOne * log(bracTwo);
     CELoss = -(logOne + logTwo);
 end
+
+function deltaW = gradDescent(Y,x,W,b,a)
+% dL/dW derived using a derivative calculator
+    eCoefPos = (x * W) + b;
+    eCoefNeg = -(x * W) - b;
+    ePos = exp(eCoefPos);
+    eNeg = exp(eCoefNeg);
+    Ymin = Y - 1;
+    den = (Y * x * ePos) * ((Ymin * ePos) + Y);
+    num = (ePos + 1) * (((Ymin * ePos) + Y - 1) * log(1 - (1/eNeg) + 1) - ePos);
+    deriv = den / num;
+    deltaW = W + (a * deriv);
+end
+
+
+
+
+
+
+
+
+
+
