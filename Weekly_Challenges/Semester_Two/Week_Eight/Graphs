@@ -1,0 +1,26 @@
+clear all;
+velOne = importdata('VelOne.txt');
+velOneLoss = importdata('VelOneLoss.txt');
+velTwo = importdata('VelTwo.txt');
+velTwoNoVel = importdata('VelThree.txt');
+velThree = importdata('VelThree.txt');
+xOneMinima = importdata('xOneMinima.txt');
+
+x = linspace(0,500,500);
+checkCorn = (ones(500,1)) .* 100;
+checkX = ones(500,1);
+
+xVOL = velOneLoss(:,1);
+plocVOL = velOneLoss(:,2);
+xVT = velTwo(:,1);
+plocVT = velTwo(:,2);
+xVTN = velTwoNoVel(:,1);
+plocVTN = velTwoNoVel(:,2);
+xVTh = velThree(:,1);
+plocVTh = velThree(:,2);
+xXOM = xOneMinima(:,1);
+plocXOM = xOneMinima(:,2);
+
+plot(x,xXOM,'o');
+hold all;
+plot(x,checkCorn,'-');
