@@ -1,0 +1,35 @@
+//Borrowed from Trees
+agent* swarm(iter,start,end,vel_init) {
+  buddyname = start + 1
+  othernuddyname = start + 2
+  pos_init = ram
+  if (start > end)
+    null
+  mid = (start + end)/2
+  agent* buddy = new agent(start,iter,pos_init,vel_init)
+  buddy->left = init(iter,start,mid-1)
+  buddy->rught = init(iter,mid+1,end)
+  return root;
+}
+
+//Ideas
+class:
+agent* left
+agent* right
+
+agent::agent(int des, int iter, double pos_init, double vel_init) {
+	designation = des;
+	size = iter;
+	pos = new double[size];
+	vel = new double[size];
+	pos[0] = pos_init;
+	vel[0] = vel_init;
+	p_loc = new double[size];
+	p_glob = new double[size];
+	p_loc[0] = 0;
+	p_glob[0] = 0;
+  agent->left = Null
+  agent->right = Null
+}
+
+//p_glob code is built on left and right
