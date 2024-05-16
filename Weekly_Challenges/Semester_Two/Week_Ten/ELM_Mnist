@@ -1,0 +1,68 @@
+clear all;
+load("mnist.mat");
+size = 600;
+
+%Taken from Week One
+XTrainReshape = reshape(XTrain,28,28,60000);
+XTrainReshapeForDiv = reshape(XTrainReshape, [], 60000);
+XTrainReshapeTrans = transpose(XTrainReshapeForDiv);
+YTrainTrans = transpose(YTrain);
+xOne = mrdivide(XTrainReshapeForDiv,YTrainTrans);
+xOneTrans = transpose(xOne);
+YHatTrain = (XTrainReshapeTrans * xOne);
+YHatTrainTrans = transpose(YHatTrain);
+
+%Network Time
+inputdim = 28;
+inputSize = 28 * 28;
+output_size = 2;
+
+hiddenSize = 70000;
+hiddenSizeTrain = int32((hiddenSize/70000)*60000);
+hiddenSizeTest = int32((hiddenSize/70000)*10000);
+
+wTrainIn = rand(inputSize,hiddenSizeTrain);
+%It says the array bTrain creates is too large for MatLab :(
+%bTrain = rand(hiddenSizeTrain);
+
+%gTrain = dot(XTrainReshapeForDiv,wTrainIn) + bTrain;
+%hTrain = max(gTrain,[],1);
+%wTrainOut = dot(pinv(hTrain),yTrain);
+
+%Now the test
+wTestIn = rand(inputSize,hiddenSizeTest);
+bTest = rand(hiddenSizeTest);
+
+gTest = dot(xTest,wTestIn) + bTest;
+hTest = max(gTest,[],1);
+wTestOut = dot(pinv(hTest),yTest);
+predictionTest = dot(hTest,wTestIn);
+
+check = model(predictionTest,yTest);
+
+%In the tutorial he says he improved it by adding more hidden nodes but
+%that makes it all fall apart :(
+
+function accuracy = model(prediction,real)
+    correct = 0;
+    [~, max_indP] = max(prediction);
+    argmaxP = prediction(max_indP);
+    [~, max_indR] = max(real);
+    argmaxR = real(max_indR);
+    dim = size(argmaxR);
+    count = dim(1,1);
+    for i = count
+        if argmaxP(i) == argmaxR(i)
+            correct = correct + 1;
+        else
+            correct = correct + 0;
+        end
+    end
+    accuracy = correct / count;
+end
+
+
+
+
+
+
