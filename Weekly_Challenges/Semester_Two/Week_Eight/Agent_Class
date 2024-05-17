@@ -5,14 +5,15 @@ using namespace std;
 #ifndef AGENTHEADERDEF
 #define AGENTHEADERDEF
 
-class agent {
-public:
+struct agent {
 	int designation;
 	int size;
 	double* pos;
 	double* vel;
 	double* p_loc;
 	double* p_glob;
+	struct agent* left;
+	struct agent* right;
 	agent(int des, int iter, double pos_init, double vel_init);
 	double velOne(double currVel, double currPos, double locPos, double g_inc);
 	double* positionArr(double g_inc, double* f);
@@ -32,7 +33,21 @@ agent::agent(int des, int iter, double pos_init, double vel_init) {
 	p_glob = new double[size];
 	p_loc[0] = 0;
 	p_glob[0] = 0;
+	left = NULL;
+	right = NULL;
 }
+
+/*
+agent* swarm(int iter, int start, int end, int sizeFunc, double vel_init) {
+	int mid;
+	double desLeft, desRight, pos_init;
+	mid = (start + end) / 2;
+	desLeft = mid - 1;
+	desRight = mid + 1;
+	pos_init = 0 + (rand() % (sizeFunc - 0 + 1));
+	//Had to leave halfway for driving lesson
+}
+*/
 
 double agent::velOne(double currVel, double currPos, double locPos, double g_inc) {
 	double velVal;
