@@ -10,27 +10,33 @@
 int main()
 {
     std::cout << "Hello World!\n";
-    ofstream output("xOneMinima.txt");
+    ofstream output("SwarmTest.txt");
 
     
-    int i;
+    int i, j;
     int size = 500;
     double* xOne = xSet(size);
     double* cornField = cornfield(size);
 
+    //Just found out my random number generator doesn't work properly
     //double randy = randDoubOne();
     //cout << randy;
 
-    //swarm SwarmOne = swarm(10, 10, 20);
-    agent agentTest = agent(1, size, 4, 2);
-    double* posTest = agentTest.positionArr(0.01, xOne);
+    //agent agentTest = agent(1, size, 4, 2);
+    //double* posTest = agentTest.positionArr(0.01, cornField);
+
+    agent* swarmTest = populate(size, 0, 10, size, 0.01);
+    swarm swarmClassTest = swarm(10, size, 0.01);
+    double* test = swarmClassTest.positionArr(swarmTest, 0.01, cornField);
+
+
     
     for (i = 0; i < size; i++) {
-        output << "\n" << posTest[i] << "\t" << agentTest.p_loc[i];
+        output << "\n" << test[i] << "\t" << swarmTest->p_loc[i];
     }
     
-    for (i = 0; i < size; i++) {
-        cout << "\n" << xOne[i] << "\t" << cornField[i];
+    for (j = 0; j < size; j++) {
+       //cout << "\n" << xOne[j] << "\t" << cornField[j];
     }
 
 }
