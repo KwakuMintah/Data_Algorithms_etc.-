@@ -1,0 +1,31 @@
+clear all;
+
+popSize = 500;
+pop = rand(popSize,popSize);
+
+pOne = rand(1);
+pTwo = rand(1);
+mateMat = randi([0 1],popSize,popSize);
+
+gaussRanCoef = 1/sqrt(2)*(rand(popSize, popSize) +1i*rand(popSize,popSize));
+A = real(gaussRanCoef);
+B = imag(gaussRanCoef);
+
+P = rand(popSize,1);
+eInput = exp(2 * pi * 1i * P);
+transMat = (A + B)/(popSize);
+eOutput = transMat * eInput;
+opticalIntens = abs(eOutput).^2;
+
+pattMat = patterns(20,popSize);
+
+pOffspring = (mateMat * pOne) + ((1 - mateMat)*pTwo);
+%mutRate = 
+
+function allP = patterns(gen,popSize)
+    allP = zeros(popSize,popSize);
+    for i = gen
+        P = rand(popSize,1);
+        allP(i,:) = P;
+    end
+end
