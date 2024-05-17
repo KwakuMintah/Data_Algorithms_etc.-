@@ -14,6 +14,7 @@ public:
 	double cTwo;
 	double w;
 	swarm(int size, int iter, double vel_init);
+	double* positionArr(agent* bird, double g_inc, double* f);
 };
 
 swarm::swarm(int size, int iter, double vel_init) {
@@ -30,5 +31,26 @@ swarm::swarm(int size, int iter, double vel_init) {
 		agent* i = new agent(des, k, ranLoc, vel_init);
 	}
 }
+
+double* swarm::positionArr(agent* bird, double g_inc, double* f) {
+	int i, j;
+	double cOne, cTwo, w;
+	cOne = randDoubOne();
+	cTwo = randDoubOne();
+	w = randDoubOne();
+	for (i = 1; i < bird->size; i++) {
+		j = i - 1;
+		bird->pos[i] = bird->pos[j] + bird->vel[j];
+		//Working on the loss function for p_glob. Set it to 100 for Cornfield
+		bird->p_loc[i] = bird->findPLoc(i, f);
+		bird->p_glob[i] = 100;
+		//vel[i] = velOne(vel[j], pos[i], p_loc[i], g_inc);
+		//vel[i] = velTwo(vel[j], pos[i], p_loc[i], p_glob[i]);
+		bird->vel[i] = bird->velThree(bird->vel[j], bird->pos[i], bird->p_loc[i], bird->p_glob[i], cOne, cTwo, w);
+	}
+	return bird->pos;
+}
+
+
 
 #endif
