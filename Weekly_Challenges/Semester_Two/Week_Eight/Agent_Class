@@ -18,6 +18,7 @@ struct agent {
 	double velOne(double currVel, double currPos, double locPos, double g_inc);
 	double* positionArr(double g_inc, double* f);
 	double findPLoc(int iter, double* f);
+	double pGlobCheck(int iter, double* f);
 	double velTwo(double currVel, double currPos, double locPos, double globPos);
 	double velThree(double currVel, double currPos, double locPos, double globPos, double cOne, double cTwo, double w);
 };
@@ -37,17 +38,23 @@ agent::agent(int des, int iter, double pos_init, double vel_init) {
 	right = NULL;
 }
 
-/*
-agent* swarm(int iter, int start, int end, int sizeFunc, double vel_init) {
+
+agent* populate(int iter, int start, int end, int sizeFunc, double vel_init) {
 	int mid;
 	double desLeft, desRight, pos_init;
 	mid = (start + end) / 2;
 	desLeft = mid - 1;
 	desRight = mid + 1;
-	pos_init = 0 + (rand() % (sizeFunc - 0 + 1));
-	//Had to leave halfway for driving lesson
+	pos_init = randDoubRange(sizeFunc);
+	if (start > end) {
+		return NULL;
+	}
+	agent* head = new agent(start, iter, pos_init, vel_init);
+	head->left = populate(iter, start, mid - 1, sizeFunc,vel_init);
+	head->right = populate(iter, mid + 1, end, sizeFunc, vel_init);
+	return head;
 }
-*/
+
 
 double agent::velOne(double currVel, double currPos, double locPos, double g_inc) {
 	double velVal;
@@ -116,6 +123,19 @@ double agent::findPLoc(int iter, double* f) {
 	}
 	return out;
 	
+}
+
+double agent::pGlobCheck(int iter, double* f) {
+	double* p_left;
+	double* p_right;
+	double locCheck, leftCheck, rightCheck;
+
+	p_left = this->left->p_loc;
+	p_right = this->right->p_loc;
+
+	locCheck = lossfunc(iter, p_loc, f);
+	leftCheck = lossfunc(iter, p_left, f);
+	rightCheck = lossfunc(iter, p_right, f);
 }
 
 double agent::velTwo(double currVel, double currPos, double locPos, double globPos) {
