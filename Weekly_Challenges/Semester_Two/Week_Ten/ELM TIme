@@ -7,9 +7,10 @@ x = transpose(xTrans);
 y = (sin(pi .* x))/pi .* x;
 
 %Splitting the sets
-ind = randperm(600);
-xTrain = x(ind(1:500),:);
-xTest = x(ind(501:end),:);
+ind = randperm(size);
+split = (size/600)*500;
+xTrain = x(ind(1:split),:);
+xTest = x(ind((split+1):end),:);
 yTrain = (sin(pi .* xTrain))/pi .* xTrain;
 yTest = (sin(pi .* xTest))/pi .* xTest;
 
@@ -24,7 +25,7 @@ hiddenSizeTest = int32((hiddenSize/600)*100);
 wTrainIn = rand(inputSize,hiddenSizeTrain);
 bTrain = rand(hiddenSizeTrain);
 
-gTrain = dot(xTrain,wTrainIn) + bTrain;
+gTrain = (xTrain * wTrainIn) + bTrain;
 hTrain = max(gTrain,[],1);
 wTrainOut = dot(pinv(hTrain),yTrain);
 
@@ -32,17 +33,17 @@ wTrainOut = dot(pinv(hTrain),yTrain);
 wTestIn = rand(inputSize,hiddenSizeTest);
 bTest = rand(hiddenSizeTest);
 
-gTest = dot(xTest,wTestIn) + bTest;
+gTest = (xTest * wTestIn) + bTest;
 hTest = max(gTest,[],1);
 wTestOut = dot(pinv(hTest),yTest);
 predictionTest = dot(hTest,wTestIn);
 
-check = model(predictionTest,yTest);
+[acc, acc_as_loss] = model(predictionTest,yTest);
 
 %In the tutorial he says he improved it by adding more hidden nodes but
 %that makes it all fall apart :(
 
-function accuracy = model(prediction,real)
+function [accuracy, loss] = model(prediction,real)
     correct = 0;
     [~, max_indP] = max(prediction);
     argmaxP = prediction(max_indP);
@@ -58,10 +59,14 @@ function accuracy = model(prediction,real)
         end
     end
     accuracy = correct / count;
+    loss = lTwoNorm(argmaxP,argmaxR,count);
 end
 
-
-
-
-
-
+function l_two = lTwoNorm(y_k,YTestTrans,n)
+  coef = 1/n;
+  brac = abs(y_k - YTestTrans);
+  bracsq = brac.^2;
+  bracsum = sum(bracsq,"all");
+  rootsum = sqrt(bracsum);
+  l_two = coef * rootsum;
+end
