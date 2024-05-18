@@ -2,6 +2,7 @@ clear all;
 load("mnist.mat");
 
 %Taken from Week One
+%Swap Test and Train
 XTestReshape = reshape(XTest,28,28,10000);
 XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
 XTestReshapeTrans = transpose(XTestReshapeForDiv);
@@ -23,9 +24,16 @@ maxError = abs(YHatTest - YTest);
 l_two = lTwoNorm(YHatTest,YTest,n);
 l_one = lOneNorm(YHatTest,YTest,n);
 mnistRidge = ridge(YHatTest,YTest,5);
+mnistLasso = lasso(YHatTest,YTest);
+L = genLoss(C,d,YTest,YHatTest,n,1,2);
 
-x0 = C(1,1);
-%fminr = fminsearch(C,x0);
+x0 = [1,1];
+fminGL = fminsearch(@(YHatTest) genLoss(C,d,YTest,YHatTest,n,1,2),x0);
+fminLT = fminsearch(@(YHatTest) lOneNorm(YHatTest,YTest,n),x0);
+fminLO = fminsearch(@(YHatTest) lTwoNorm(YHatTest,YTest,n),x0);
+
+
+
 
 %One Hot Encode
 digits = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
@@ -62,3 +70,11 @@ function l_one = lOneNorm(y_k,YTestTrans,n)
   bracsum = sum(brac,"all");
   l_one = coef * bracsum;
 end
+
+function L = genLoss(x,d,Y,YHat,n,lambdaOne,lambdaTwo)
+    problemLTwo = lTwoNorm(YHat,Y,n);
+    lOne = lOneNorm(d,x,n);
+    lTwo = lTwoNorm(d,x,n);
+    L = problemLTwo + (lambdaOne * lOne) + (lambdaTwo * lTwo);
+end
+
