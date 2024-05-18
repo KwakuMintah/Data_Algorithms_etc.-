@@ -1,0 +1,11 @@
+%First let's try this
+
+x0 = [1,1];
+fminLT = fminsearch(@(y_k) lTwoNorm(YHatTest,YTest,n),x0);
+
+%or
+
+fminLT = fminsearch(@lTwoNorm(YHatTest,YTest,n),x0);
+
+lTwo = @(YHat,Y,n)((YHat - Y)^2)/n
+lOne = @(YHat,Y,n)(YHat - Y)/n
