@@ -24,15 +24,25 @@ YTestHatTrans = transpose(YTestHat);
 wRidge = ridge(YTest,YTestHatTrans,5);
 %wLasso = lasso(YTestHat,YTest);
 lossfunc = crossentropy(YTest,YTestHat);
-deltaW = gradDescent(YTestTrans,XTestTrans,WTest,w,5);
+
+XSize = size(XTestReshapeForDiv);
+XLen = XSize(2);
+
+dW = deltaW(XLen,XTestReshapeForDiv,YTestHat,YTest);
+db = deltaB(XLen,YTestHat,YTest);
+
+optim = optimize(WTest,w,XTestReshapeForDiv,YTest,50,0.8);
+YTestPrediction = predict(XLen,YTestHat);
+
+TestAccuracy = 100 - mean(abs(YTestPrediction-YTest)*100);
 
 %These are steps one and two
 function sigmoid = sigfunc(z)
     den = 1 - exp(-z);
     %Made this mldivide so it could work
-    %sigmoid = mldivide(1,den);
+    sigmoid = mldivide(1,den);
     %Wondered what change elementwise would make
-    sigmoid = 1 ./ den;
+    %sigmoid = 1 ./ den;
 end
 
 function CELoss = crossentropy(Y,YHat)
@@ -43,25 +53,52 @@ function CELoss = crossentropy(Y,YHat)
     CELoss = -(logOne + logTwo);
 end
 
-function deltaW = gradDescent(Y,x,W,b,a)
-% dL/dW derived using a derivative calculator
-    eCoefPos = (x * W) + b;
-    eCoefNeg = -(x * W) - b;
-    ePos = exp(eCoefPos);
-    eNeg = exp(eCoefNeg);
-    Ymin = Y - 1;
-    den = (Y * x * ePos) * ((Ymin * ePos) + Y);
-    num = (ePos + 1) * (((Ymin * ePos) + Y - 1) * log(1 - (1/eNeg) + 1) - ePos);
-    deriv = den / num;
-    deltaW = W + (a * deriv);
+function dW = deltaW(m,X,YHat,Y)
+    prob = YHat - Y;
+    probTrans = transpose(prob);
+    den = m * (X * probTrans);
+    dW = mldivide(1,den);
+    %dW = 1 ./ den;
 end
 
+function dB = deltaB(m,YHat,Y)
+    den = m * sum(YHat - Y);
+    dB = mldivide(1,den);
+    %dB = 1 ./ den;
+end
 
+function optim = optimize(W,w,X,Y,iter,lr)
+    WTrans = transpose(W);
+    mn = size(X);
+    m = mn(2);
+    costs = {};
+    for i = iter
+        z = (WTrans * X) + w;
+        YHat = sigfunc(z);
+        lossfunc = crossentropy(Y,YHat);
+        cost = squeeze(lossfunc);
+        dW = deltaW(m,X,YHat,Y);
+        dB = deltaB(m,YHat,Y);
 
+        W = W - (lr * dW);
+        w = w - (lr * dB);
+        if rem(100,i) == 0 
+            costs = [costs;cost];
+        end
+    end
+    optim = costs;
+end
 
-
-
-
-
-
+function prediction = predict(m,A)
+    prediction = zeros(1,m);
+    ASize = size(A);
+    ALen = ASize(2);
+    for i = ALen
+        if A(:,i) > 0.5
+            prediction(:,i) = 1;
+        elseif A(:,1) <= 0.5
+            prediction(:,i) = 0;
+        end
+    end
+end
 
