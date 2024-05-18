@@ -21,6 +21,7 @@ struct agent {
 	double pGlobCheck(int iter, double* f);
 	double velTwo(double currVel, double currPos, double locPos, double globPos);
 	double velThree(double currVel, double currPos, double locPos, double globPos, double cOne, double cTwo, double w);
+	void assignBuddies(agent* l, agent* r);
 };
 
 agent::agent(int des, int iter, double pos_init, double vel_init) {
@@ -49,7 +50,7 @@ agent* populate(int iter, int start, int end, int sizeFunc, double vel_init) {
 	if (start > end) {
 		return NULL;
 	}
-	agent* head = new agent(start, iter, pos_init, vel_init);
+	agent* head = new agent(mid, iter, pos_init, vel_init);
 	head->left = populate(iter, start, mid - 1, sizeFunc,vel_init);
 	head->right = populate(iter, mid + 1, end, sizeFunc, vel_init);
 	return head;
@@ -87,9 +88,8 @@ double* agent::positionArr(double g_inc, double* f) {
 	for (i = 1; i < size; i++) {
 		j = i - 1;
 		pos[i] = pos[j] + vel[j];
-		//Working on the loss function for p_glob. Set it to 100 for Cornfield
 		p_loc[i] = findPLoc(i,f);
-		p_glob[i] = 100;
+		p_glob[i] = pGlobCheck(j,f);
 		//vel[i] = velOne(vel[j], pos[i], p_loc[i], g_inc);
 		//vel[i] = velTwo(vel[j], pos[i], p_loc[i], p_glob[i]);
 		vel[i] = velThree(vel[j], pos[i], p_loc[i], p_glob[i], cOne, cTwo, w);
@@ -126,16 +126,88 @@ double agent::findPLoc(int iter, double* f) {
 }
 
 double agent::pGlobCheck(int iter, double* f) {
+	int i, j;
 	double* p_left;
 	double* p_right;
-	double locCheck, leftCheck, rightCheck;
+	double locCheck, leftCheck, rightCheck, diffLoc, diffLeft, diffRight;
+	double lossIter, lossPast, diffIter, diffPast, out = p_loc[iter];
 
-	p_left = this->left->p_loc;
-	p_right = this->right->p_loc;
+	if (left == NULL) {
+		p_left == NULL;
+	}
+	else if (right == NULL) {
+		p_right == NULL;
+	}
+	else if ((left == NULL) && (right == NULL)) {
+		p_left = NULL;
+		p_right = NULL;
+	}
+	else {
+		p_left = left->p_loc;
+		p_right = right->p_loc;
 
-	locCheck = lossfunc(iter, p_loc, f);
-	leftCheck = lossfunc(iter, p_left, f);
-	rightCheck = lossfunc(iter, p_right, f);
+		locCheck = lossfunc(iter, p_loc, f);
+		leftCheck = lossfunc(iter, p_left, f);
+		rightCheck = lossfunc(iter, p_right, f);
+
+		diffLoc = 0 + abs(locCheck);
+		diffLeft = 0 + abs(leftCheck);
+		diffRight = 0 + abs(rightCheck);
+
+		if ((diffLeft < diffLoc) && (diffLoc < diffRight)) {
+			return left->p_loc[iter];
+		}
+		else if ((diffLoc < diffRight) && (diffRight < diffLeft)) {
+			return p_loc[iter];
+		}
+		else if ((diffRight < diffLeft) && (diffLeft < diffLoc)) {
+			return right->p_loc[iter];
+		}
+		else if ((diffRight < diffLoc) && (diffLoc < diffLeft)) {
+			return right->p_loc[iter];
+		}
+		else if ((diffLeft < diffRight) && (diffRight < diffLoc)) {
+			return left->p_loc[iter];
+		}
+		else if ((diffLoc < diffLeft) && (diffLeft < diffRight)) {
+			return p_loc[iter];
+		}
+		else if (left == NULL) {
+			if (diffLoc < diffRight) {
+				return p_loc[iter];
+			}
+			else if (diffRight < diffLoc) {
+				return right->p_loc[iter];
+			}
+			else {
+				return p_loc[iter];
+			}
+
+		}
+		else if (right == NULL) {
+			if (diffLoc < diffLeft) {
+				return p_loc[iter];
+			}
+			else if (diffLeft < diffLoc) {
+				return left->p_loc[iter];
+			}
+			else {
+				return p_loc[iter];
+			}
+		}
+		else if ((left == NULL) && (right == NULL)) {
+			return p_loc[iter];
+		}
+		else {
+			return p_loc[iter];
+		}
+	}
+
+	
+
+	
+
+	
 }
 
 double agent::velTwo(double currVel, double currPos, double locPos, double globPos) {
@@ -157,6 +229,9 @@ double agent::velThree(double currVel, double currPos, double locPos, double glo
 	return velVal;
 }
 
-
+void agent::assignBuddies(agent* l, agent* r) {
+	left = l;
+	right = r;
+}
 
 #endif
