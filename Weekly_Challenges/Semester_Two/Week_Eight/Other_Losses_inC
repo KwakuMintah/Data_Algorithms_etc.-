@@ -1,0 +1,49 @@
+//They might all be abs
+
+//Original used in code (MSE)
+double lossfunc(int size, double* y, double* yHat) {
+	int i;
+	double brac, bracPow, val;
+	double sum = 0.0;
+	double coef = 1.0 / size;
+
+	for (i = 0; i < size; i++) {
+		brac = (y[i] - yHat[i]);
+		bracPow = pow(brac, 2);
+		sum += bracPow;
+	}
+	val = coef * sum;
+	return val;
+}
+
+//lOneNorm from WOne
+double lOne(int size, double* y, double* yHat) {
+  int i;
+  double coef, brac, sum, val;
+  double sum = 0.0;
+  double coef = 1.0 / size;
+
+	for (i = 0; i < size; i++) {
+		brac = (y[i] - yHat[i]);
+		sum += brac;
+	}
+	val = coef * sum;
+	return val;
+}
+
+#include <alorithm>
+//lZero from WThree
+double lZero(int size, double* y, double* yHat) {
+  int i;
+  double coef, brac, sum, val;
+  double sum = 0.0;
+  double coef = 1.0 / size;
+
+	for (i = 0; i < size; i++) {
+		brac = (y[i] - yHat[i]);
+		sum += brac;
+	}
+	val = max(sum);
+	return val;
+}
+
