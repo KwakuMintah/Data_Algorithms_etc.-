@@ -1,0 +1,5 @@
+vec = ones(10000);
+C = polyval(fmin,vec);
+d = polyval(fmin,vec);
+y_k = (C * x_k) + d;
+%This should work
