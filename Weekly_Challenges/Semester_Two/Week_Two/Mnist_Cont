@@ -32,8 +32,26 @@ fminGL = fminsearch(@(YHatTest) genLoss(C,d,YTest,YHatTest,n,1,2),x0);
 fminLT = fminsearch(@(YHatTest) lOneNorm(YHatTest,YTest,n),x0);
 fminLO = fminsearch(@(YHatTest) lTwoNorm(YHatTest,YTest,n),x0);
 
+vecMat = ones(784,1);
+vecTrain = ones(60000,1);
+vecTest = ones(10000,1);
 
+CTestGL = polyval(fminGL,vecMat);
+dTestGL = polyval(fminGL,vecTest);
+%Wouldn't work till I moved it the other way round
+ykGL = (XTestReshapeTrans * CTestGL) + dTestGL;
+CTestLT = polyval(fminLT,vecMat);
+dTestLT = polyval(fminLT,vecTest);
+ykLT = (XTestReshapeTrans * CTestLT) + dTestLT;
+CTestLO = polyval(fminLO,vecMat);
+dTestLO = polyval(fminLO,vecTest);
+ykO = (XTestReshapeTrans * CTestLO) + dTestLO;
 
+yCheck = ones(10000,3);
+yCheck(:,1) = ykGL;
+yCheck(:,2) = ykLT;
+yCheck(:,3) = ykO;
+imagesc(yCheck);
 
 %One Hot Encode
 digits = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
@@ -77,4 +95,3 @@ function L = genLoss(x,d,Y,YHat,n,lambdaOne,lambdaTwo)
     lTwo = lTwoNorm(d,x,n);
     L = problemLTwo + (lambdaOne * lOne) + (lambdaTwo * lTwo);
 end
-
