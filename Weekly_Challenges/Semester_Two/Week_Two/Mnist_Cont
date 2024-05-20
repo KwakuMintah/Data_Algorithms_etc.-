@@ -3,51 +3,51 @@ load("mnist.mat");
 
 %Taken from Week One
 %Swap Test and Train
-XTestReshape = reshape(XTest,28,28,10000);
-XTestReshapeForDiv = reshape(XTestReshape, [], 10000);
-XTestReshapeTrans = transpose(XTestReshapeForDiv);
-YTestTrans = transpose(YTest);
-C = mrdivide(XTestReshapeForDiv,YTestTrans);
+XTrainReshape = reshape(XTrain,28,28,60000);
+XTrainReshapeForDiv = reshape(XTrainReshape, [], 60000);
+XTrainReshapeTrans = transpose(XTrainReshapeForDiv);
+YTrainTrans = transpose(YTrain);
+C = mrdivide(XTrainReshapeForDiv,YTrainTrans);
 CTrans = transpose(C);
-YHatTest = (XTestReshapeTrans * C);
-YHatTestTrans = transpose(YHatTest);
+YHatTrain = (XTrainReshapeTrans * C);
+YHatTrainTrans = transpose(YHatTrain);
 
-d = YTestTrans - (CTrans * XTestReshapeForDiv);
-nFull = size(YTestTrans);
+d = YTrainTrans - (CTrans * XTrainReshapeForDiv);
+nFull = size(YTrainTrans);
 n = nFull(1,2);
 
-mse = mean(abs(YHatTest - YTest));
+mse = mean(abs(YHatTrain - YTrain));
 
 %y_k = (CTrans * XTestReshapeForDiv);
 %Everything past this point comes out as a list of zeros
-maxError = abs(YHatTest - YTest);
-l_two = lTwoNorm(YHatTest,YTest,n);
-l_one = lOneNorm(YHatTest,YTest,n);
-mnistRidge = ridge(YHatTest,YTest,5);
-mnistLasso = lasso(YHatTest,YTest);
-L = genLoss(C,d,YTest,YHatTest,n,1,2);
+maxError = abs(YHatTrain - YTrain);
+l_two = lTwoNorm(YHatTrain,YTrain,n);
+l_one = lOneNorm(YHatTrain,YTrain,n);
+mnistRidge = ridge(YHatTrain,YTrain,5);
+mnistLasso = lasso(YHatTrain,YTrain);
+L = genLoss(C,d,YTrain,YHatTrain,n,1,2);
 
 x0 = [1,1];
-fminGL = fminsearch(@(YHatTest) genLoss(C,d,YTest,YHatTest,n,1,2),x0);
-fminLT = fminsearch(@(YHatTest) lOneNorm(YHatTest,YTest,n),x0);
-fminLO = fminsearch(@(YHatTest) lTwoNorm(YHatTest,YTest,n),x0);
+fminGL = fminsearch(@(YHatTrain) genLoss(C,d,YTrain,YHatTrain,n,1,2),x0);
+fminLT = fminsearch(@(YHatTrain) lOneNorm(YHatTrain,YTrain,n),x0);
+fminLO = fminsearch(@(YHatTrain) lTwoNorm(YHatTrain,YTrain,n),x0);
 
 vecMat = ones(784,1);
 vecTrain = ones(60000,1);
 vecTest = ones(10000,1);
 
-CTestGL = polyval(fminGL,vecMat);
-dTestGL = polyval(fminGL,vecTest);
+CTrainGL = polyval(fminGL,vecMat);
+dTrainGL = polyval(fminGL,vecTrain);
 %Wouldn't work till I moved it the other way round
-ykGL = (XTestReshapeTrans * CTestGL) + dTestGL;
-CTestLT = polyval(fminLT,vecMat);
-dTestLT = polyval(fminLT,vecTest);
-ykLT = (XTestReshapeTrans * CTestLT) + dTestLT;
-CTestLO = polyval(fminLO,vecMat);
-dTestLO = polyval(fminLO,vecTest);
-ykO = (XTestReshapeTrans * CTestLO) + dTestLO;
+ykGL = (XTrainReshapeTrans * CTrainGL) + dTrainGL;
+CTrainLT = polyval(fminLT,vecMat);
+dTrainLT = polyval(fminLT,vecTrain);
+ykLT = (XTrainReshapeTrans * CTrainLT) + dTrainLT;
+CTrainLO = polyval(fminLO,vecMat);
+dTrainLO = polyval(fminLO,vecTrain);
+ykO = (XTrainReshapeTrans * CTrainLO) + dTrainLO;
 
-yCheck = ones(10000,3);
+yCheck = ones(60000,3);
 yCheck(:,1) = ykGL;
 yCheck(:,2) = ykLT;
 yCheck(:,3) = ykO;
@@ -58,7 +58,7 @@ digits = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
 digits = categorical(digits);
 categories(digits);
 digits = onehotencode(digits,1);
-XTestReshapeOHE = reshape(XTestReshape, [], 10);
+XTestReshapeOHE = reshape(XTrainReshape, [], 10);
 XTestReshapeOHETrans = transpose(XTestReshapeOHE);
 digitsVec = reshape(digits,[],1);
 cOHE = mrdivide(XTestReshapeOHE,digits);
