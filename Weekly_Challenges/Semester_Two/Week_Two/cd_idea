@@ -3,3 +3,7 @@ C = polyval(fmin,vec);
 d = polyval(fmin,vec);
 y_k = (C * x_k) + d;
 %This should work
+
+%Try this instead
+C = (fmin(1,1) * vec);
+d = (fmin(1,2) * vec);
